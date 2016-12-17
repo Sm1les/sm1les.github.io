@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Sm1les&#39;s blog</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://www.sm1les.com/"/>
+  <updated>2016-12-17T14:30:54.429Z</updated>
+  <id>http://www.sm1les.com/</id>
+  
+  <author>
+    <name>Sm1les</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://www.sm1les.com/2016/10/01/hello-world/"/>
+    <id>http://www.sm1les.com/2016/10/01/hello-world/</id>
+    <published>2016-10-01T12:07:36.144Z</published>
+    <updated>2016-12-17T14:30:54.429Z</updated>
+    
+    <content type="html"><![CDATA[<p>loading…</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;loading…&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
