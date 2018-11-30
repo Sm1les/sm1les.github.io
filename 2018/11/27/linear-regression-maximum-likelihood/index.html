@@ -67,7 +67,7 @@
   <h1 class="post-title">线性回归——最（极）大似然估计和最小二乘法推导</h1>
   <section class="post-content article-entry">
     <h3 id="最（极）大似然估计推导"><a href="#最（极）大似然估计推导" class="headerlink" title="最（极）大似然估计推导"></a>最（极）大似然估计推导</h3><p>对于线性回归模型：</p>
-<script type="math/tex; mode=display">y=\boldsymbol{w}^T\boldsymbol{x}+b+\epsilon</script><p>如果随机误差$\epsilon$可以看成许多微小量的叠加，则根据中心极限定理，随机误差$\epsilon$可以看做服从正态分布$\epsilon \sim N(0,\sigma^2)$，接下来便可以用最（极）大似然估计法来估计$\boldsymbol{w}$和b的值。似然函数为：</p>
+<script type="math/tex; mode=display">y=\boldsymbol{w}^T\boldsymbol{x}+b+\epsilon</script><p>随机误差$\epsilon$可以看成是由许多观察不到的、可加的微小误差叠加而成的，则根据中心极限定理，随机误差$\epsilon$服从正态分布$\epsilon \sim N(0,\sigma^2)$，接下来便可以用最（极）大似然估计法来估计$\boldsymbol{w}$和b的值。似然函数为：</p>
 <script type="math/tex; mode=display">L(\boldsymbol{w},b)=L(\boldsymbol{x}_1,\cdots,\boldsymbol{x}_m;\boldsymbol{w},b)=\prod_{i=1}^{m}p(\epsilon_i)=\prod_{i=1}^{m}p(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)</script><p>又$p(\epsilon_i)=\cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{\epsilon_i^2}{2\sigma^2}\right)$，所以：</p>
 <script type="math/tex; mode=display">L(\boldsymbol{w},b)=\prod_{i=1}^{m}\cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2}{2\sigma^2}\right)</script><p>两边同时取对数得对数似然函数：</p>
 <script type="math/tex; mode=display">
