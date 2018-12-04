@@ -8,7 +8,7 @@
         <link rel="shortcut icon" href="/styles/images/logo.jpg"/>
         <link rel="alternate" type="application/rss+xml" title="Sm1les" href="/atom.xml">
 
-        <title>Tag: 线性回归 | Sm1les&#39;s blog</title>
+        <title>逻辑回归——三种似然项构造 | Sm1les&#39;s blog</title>
         <meta name="description" content="{{meta_description}}">
 
         <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
 
     </head>
     
-		<body class="home-template">
+		<body class="post-template">
 	
 
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><header id="header">
@@ -51,33 +51,69 @@
 
         <main id="content">
         
-	<h1 class="post-title">线性回归</h1> 
 
-
-<section id="{{id}}" class="{{post_class}}">
-  <h3 class="post-title">
-  <a href="/2018/11/27/linear-regression-maximum-likelihood/">线性回归——最（极）大似然估计和最小二乘法推导</a>
+<article class="post">
   
-  <span class="separator"> &middot; </span>
-  
-  十一月 27, 2018
-  
+  十二月 4, 2018
   
     <span class="taglist">  &middot; 
     
     
-      <a href='/tags/线性回归/'>线性回归</a> 
+      <a href='/tags/逻辑回归/'>逻辑回归</a> 
     
-    </saan>
+    </span>
   
-  </h3>
-</section>
+
+  <h1 class="post-title">逻辑回归——三种似然项构造</h1>
+  <section class="post-content article-entry">
+    <p>设</p>
+<script type="math/tex; mode=display">p_1(\boldsymbol{x_i};\boldsymbol w)=\cfrac{e^{\boldsymbol w^T\boldsymbol x_i}}{1+e^{\boldsymbol w^T\boldsymbol x_i}},p_0(\boldsymbol{x_i};\boldsymbol w)=1-p_1(\boldsymbol{x_i};\boldsymbol w)=\cfrac{1}{1+e^{\boldsymbol w^T\boldsymbol x_i}}</script><h3 id="y-i-0-1-时（两种）"><a href="#y-i-0-1-时（两种）" class="headerlink" title="$y_i=0,1$时（两种）:"></a>$y_i=0,1$时（两种）:</h3><script type="math/tex; mode=display">p(y_i|\boldsymbol x_i;\boldsymbol w)=[p_1(\boldsymbol{x_i};\boldsymbol w)]^{y_i}[p_0(\boldsymbol{x_i};\boldsymbol w)]^{1-y_i}</script><script type="math/tex; mode=display">p(y_i|\boldsymbol x_i;\boldsymbol w)=y_ip_1(\boldsymbol{x_i};\boldsymbol w)+(1-y_i)p_0(\boldsymbol{x_i};\boldsymbol w)</script><p>对数似然函数为：</p>
+<script type="math/tex; mode=display">l(\boldsymbol w)=\sum_{i=1}^{m}(y_i\boldsymbol w^T\boldsymbol x_i-\ln(1+e^{\boldsymbol w^T\boldsymbol x_i}))</script><h3 id="y-i-pm-1-时（一种）"><a href="#y-i-pm-1-时（一种）" class="headerlink" title="$y_i=\pm 1$时（一种）:"></a>$y_i=\pm 1$时（一种）:</h3><script type="math/tex; mode=display">p(y_i|\boldsymbol x_i;\boldsymbol w)=\cfrac{1}{1+e^{-y_i\boldsymbol w^T\boldsymbol x_i}}</script><p>对数似然函数为：</p>
+<script type="math/tex; mode=display">l(\boldsymbol w)=-\sum_{i=1}^{m}\ln(1+e^{-y_i\boldsymbol w^T\boldsymbol x_i})</script>
+  </section>
+  <footer class="post-footer">
+    <!--
+    <section class="author">
+      <h4>Sm1les</h4>
+      <p></p>
+    </section>
+    -->
+  </footer>
+</article>
 
 <nav class="pagination" role="pagination">
-  
-  <span class="page-number">Page 1 of 1</span>
-  
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/11/27/linear-regression-maximum-likelihood/">
+        <!--线性回归——最（极）大似然估计和最小二乘法推导--> next →
+    </a>
+    
 </nav>
+
+<!-- Begin Comments Code -->
+
+  <div id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-logistic-regression-three-likelihood" data-title="逻辑回归——三种似然项构造" data-url="http://www.sm1les.com/2018/12/04/logistic-regression-three-likelihood/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'sm1les'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+<!-- End Comments Code -->
+
 
         </main>
         <footer id="footer">
