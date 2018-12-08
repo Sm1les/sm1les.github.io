@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2018-12-08T10:14:04.505Z</updated>
+  <updated>2018-12-08T10:30:37.570Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/"/>
     <id>http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/</id>
     <published>2018-12-08T09:03:27.000Z</published>
-    <updated>2018-12-08T10:14:04.505Z</updated>
+    <updated>2018-12-08T10:30:37.570Z</updated>
     
     <content type="html"><![CDATA[<p>对于带不等式约束的优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
