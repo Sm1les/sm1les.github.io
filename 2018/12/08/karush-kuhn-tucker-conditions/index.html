@@ -8,7 +8,7 @@
         <link rel="shortcut icon" href="/styles/images/logo.jpg"/>
         <link rel="alternate" type="application/rss+xml" title="Sm1les" href="/atom.xml">
 
-        <title>线性回归——最（极）大似然估计和最小二乘法推导 | Sm1les&#39;s blog</title>
+        <title>Karush–Kuhn–Tucker（简称KKT）条件 | Sm1les&#39;s blog</title>
         <meta name="description" content="{{meta_description}}">
 
         <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
@@ -54,37 +54,39 @@
 
 <article class="post">
   
-  十一月 27, 2018
+  十二月 8, 2018
   
     <span class="taglist">  &middot; 
     
     
-      <a href='/tags/线性回归/'>线性回归</a> 
+      <a href='/tags/KKT条件/'>KKT条件</a> 
     
     </span>
   
 
-  <h1 class="post-title">线性回归——最（极）大似然估计和最小二乘法推导</h1>
+  <h1 class="post-title">Karush–Kuhn–Tucker（简称KKT）条件</h1>
   <section class="post-content article-entry">
-    <h3 id="最（极）大似然估计推导"><a href="#最（极）大似然估计推导" class="headerlink" title="最（极）大似然估计推导"></a>最（极）大似然估计推导</h3><p>对于线性回归模型：</p>
-<script type="math/tex; mode=display">y=\boldsymbol{w}^T\boldsymbol{x}+b+\epsilon</script><p>随机误差$\epsilon$可以看成是由许多观察不到的、可加的微小误差叠加而成的，则根据中心极限定理，随机误差$\epsilon$服从正态分布$\epsilon \sim N(0,\sigma^2)$，接下来便可以用最（极）大似然估计法来估计$\boldsymbol{w}$和b的值。似然函数为：</p>
-<script type="math/tex; mode=display">L(\boldsymbol{w},b)=L(\boldsymbol{x}_1,\cdots,\boldsymbol{x}_m;\boldsymbol{w},b)=\prod_{i=1}^{m}p(\epsilon_i)=\prod_{i=1}^{m}p(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)</script><p>又$p(\epsilon_i)=\cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{\epsilon_i^2}{2\sigma^2}\right)$，所以：</p>
-<script type="math/tex; mode=display">L(\boldsymbol{w},b)=\prod_{i=1}^{m}\cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2}{2\sigma^2}\right)</script><p>两边同时取对数得对数似然函数：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}     
-     \ln L(\boldsymbol{w},b) & = \sum_{i=1}^{m}\ln \cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2}{2\sigma^2}\right) \\
-
-     & = \sum_{i=1}^{m}\ln \cfrac{1}{\sqrt{2\pi}\sigma}+\sum_{i=1}^{m}\ln \mathrm{exp}\left(-\cfrac{(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2}{2\sigma^2}\right) \\
-
-     & = m\ln \cfrac{1}{\sqrt{2\pi}\sigma}-\cfrac{1}{2\sigma^2}\sum_{i=1}^{m}(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2
-\end{aligned}</script><p>其中$m$，$\sigma$均为常数，所以最大化$\ln L(\boldsymbol{w},b)$等价于最小化$\sum_{i=1}^{m}(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2$，也即：</p>
-<script type="math/tex; mode=display">(\boldsymbol{w}',b')=\mathop{\arg\max}_{(\boldsymbol{w},b)} \ln L(\boldsymbol{w},b)=\mathop{\arg\min}_{(\boldsymbol{w},b)} \sum_{i=1}^{m}(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2</script><p>其中$\boldsymbol{w}’$和$b’$为$\boldsymbol{w}$和$b$的解.</p>
-<h3 id="最小二乘法推导"><a href="#最小二乘法推导" class="headerlink" title="最小二乘法推导"></a>最小二乘法推导</h3><p>最小二乘法是基于均方误差最小化来对模型进行参数估计的，用公式表示为：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}    
-    (\boldsymbol{w}',b') & = \mathop{\arg\min}_{(\boldsymbol{w},b)} \sum_{i=1}^{m}(y_i-(\boldsymbol{w}^T\boldsymbol{x_i}+b))^2 \\
-    & = \mathop{\arg\min}_{(\boldsymbol{w},b)} \sum_{i=1}^{m}(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2
-\end{aligned}</script><p>显然与最（极）大似然估计的推导结果一致。</p>
+    <p>对于带不等式约束的优化问题：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+\min \limits_{\boldsymbol x} \quad f(\boldsymbol x) \\
+s.t.  \quad g_i(\boldsymbol x) &\leq 0 \quad (i=1,...,n)
+\end{aligned}</script><p>其拉格朗日函数为：</p>
+<script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu)=f(\boldsymbol  x)+\sum_{i=1}^{n}\mu_ig_i(\boldsymbol x)</script><p>其中$\boldsymbol \mu=(\mu_1,\mu_2,…,\mu_n)^T$，设拉格朗日函数$L(\boldsymbol x,\boldsymbol \mu)$在$\boldsymbol x^*$处取得极小值，则$\nabla L(\boldsymbol x^*,\boldsymbol \mu)= \nabla f(\boldsymbol x^*)+\sum_{i=1}^{n}\mu_i \nabla g_i(\boldsymbol x^*)=0$，此时$\boldsymbol x^*$和$\mu_i$一定满足以下条件：</p>
+<script type="math/tex; mode=display">\left\{
+\begin{aligned}
+& g_i(\boldsymbol x^*) \leq 0 &(1) \\
+& \mu_i \geq 0 &(2)\\
+& \mu_ig_i(\boldsymbol x^*)=0 &(3)
+\end{aligned}
+\right.</script><p>以上即为KKT条件，其中条件(1)为约束条件显然成立，条件(2)和条件(3)成立的证明如下：</p>
+<p><center>
+<img src="./Inequality_constraint_diagram.png" width="70%" height="70%">
+</center><br>由约束条件：$g_i(\boldsymbol x) \leq 0$可知，$\boldsymbol x^*$一定满足$g_i(\boldsymbol x^*) \lt 0$或者$g_i(\boldsymbol x^*) = 0$（也即条件(1)），对这两种情形进行讨论：</p>
+<ul>
+<li><strong>当$g_i(\boldsymbol x^*) \lt 0$时（如上左图）：</strong><br>此时极小值点在$g_i(\boldsymbol x) \lt 0$这个区域内，等价于<strong>无约束条件</strong>的最优化问题，拉格朗日函数$L(\boldsymbol x,\boldsymbol \mu)=f(\boldsymbol  x)+\sum_{i=1}^{n}\mu_ig_i(\boldsymbol x)=f(\boldsymbol  x)$，所以$\boldsymbol \mu=\boldsymbol 0$，也即$\mu_i = 0$。</li>
+<li><strong>当$g_i(\boldsymbol x^*) = 0$时（如上右图）：</strong><br>此时极小值点在$g_i(\boldsymbol x) = 0$这个边界上，等价于<strong>带等式约束条件</strong>的最优化问题，所以根据拉格朗日乘子法的原理可知，此时$f(\boldsymbol  x)$和$ g_i(\boldsymbol  x)$在极小值点处相切，且梯度（正梯度）平行，也即$\nabla f(\boldsymbol  x^*)+\mu_i \nabla g_i(\boldsymbol  x^*)=0 \quad (\mu_i∈\boldsymbol R)$。易知$g_i(\boldsymbol x) \leq 0$边界上的梯度都是向外的，且$f(\boldsymbol x)$在极小值点上的梯度必然和$g_i(\boldsymbol x)$的梯度方向相反（如果不相反的话极小值点就不会在边界上取到而是在$g_i(\boldsymbol x) \lt 0$内取），所以$\nabla f(\boldsymbol  x^*)$和$\nabla g_i(\boldsymbol  x^*)$异号，也即$\mu_i \gt 0$。</li>
+</ul>
+<p>综上，条件(2)：$\mu_i \geq 0$恒成立，且当$g_i(\boldsymbol x^*) \lt 0$时$\mu_i = 0$， 当$g_i(\boldsymbol x^*) = 0$时$\mu_i \gt 0$，所以条件(3)：$\mu_ig_i(\boldsymbol x^*)=0$也恒成立。<br>【注】：KKT条件是拉格朗日函数取得极小值的<strong>必要条件</strong>；</p>
 
   </section>
   <footer class="post-footer">
@@ -99,11 +101,11 @@
 
 <nav class="pagination" role="pagination">
     
-    <a class="newer-posts" href="/2018/12/04/logistic-regression-three-likelihood/">
-        ← prev <!--逻辑回归——三种似然项构造-->
-    </a>
-    
     <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/12/04/logistic-regression-three-likelihood/">
+        <!--逻辑回归——三种似然项构造--> next →
+    </a>
     
 </nav>
 
@@ -111,7 +113,7 @@
 
   <div id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="post-linear-regression-maximum-likelihood" data-title="线性回归——最（极）大似然估计和最小二乘法推导" data-url="http://www.sm1les.com/2018/11/27/linear-regression-maximum-likelihood/"></div>
+    <div class="ds-thread" data-thread-key="post-karush-kuhn-tucker-conditions" data-title="Karush–Kuhn–Tucker（简称KKT）条件" data-url="http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
