@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2018-12-08T10:30:37.570Z</updated>
+  <updated>2018-12-09T03:32:53.430Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/"/>
     <id>http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/</id>
     <published>2018-12-08T09:03:27.000Z</published>
-    <updated>2018-12-08T10:30:37.570Z</updated>
+    <updated>2018-12-09T03:32:53.430Z</updated>
     
     <content type="html"><![CDATA[<p>对于带不等式约束的优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
@@ -36,7 +36,7 @@ s.t.  \quad g_i(\boldsymbol x) &\leq 0 \quad (i=1,...,n)
 \end{aligned}
 \right.</script><p>以上即为KKT条件，其中条件(1)为约束条件显然成立，条件(2)和条件(3)成立的证明如下：</p>
 <p><center>
-<img src="./Inequality_constraint_diagram.png" width="70%" height="70%">
+<img src="./Inequality_constraint_diagram.png" width="60%" height="60%">
 </center><br>由约束条件：$g_i(\boldsymbol x) \leq 0$可知，$\boldsymbol x^*$一定满足$g_i(\boldsymbol x^*) \lt 0$或者$g_i(\boldsymbol x^*) = 0$（也即条件(1)），对这两种情形进行讨论：</p>
 <ul>
 <li><strong>当$g_i(\boldsymbol x^*) \lt 0$时（如上左图）：</strong><br>此时极小值点在$g_i(\boldsymbol x) \lt 0$这个区域内，等价于<strong>无约束条件</strong>的最优化问题，拉格朗日函数$L(\boldsymbol x,\boldsymbol \mu)=f(\boldsymbol  x)+\sum_{i=1}^{n}\mu_ig_i(\boldsymbol x)=f(\boldsymbol  x)$，所以$\boldsymbol \mu=\boldsymbol 0$，也即$\mu_i = 0$。</li>
