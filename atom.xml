@@ -75,11 +75,11 @@ s.t.  \qu
     <link href="http://www.sm1les.com/2018/12/04/logistic-regression-three-likelihood/"/>
     <id>http://www.sm1les.com/2018/12/04/logistic-regression-three-likelihood/</id>
     <published>2018-12-04T08:34:06.000Z</published>
-    <updated>2018-12-04T09:06:07.156Z</updated>
+    <updated>2018-12-11T05:45:43.365Z</updated>
     
     <content type="html"><![CDATA[<p>设</p>
-<script type="math/tex; mode=display">p_1(\boldsymbol{x_i};\boldsymbol w)=\cfrac{e^{\boldsymbol w^T\boldsymbol x_i}}{1+e^{\boldsymbol w^T\boldsymbol x_i}},p_0(\boldsymbol{x_i};\boldsymbol w)=1-p_1(\boldsymbol{x_i};\boldsymbol w)=\cfrac{1}{1+e^{\boldsymbol w^T\boldsymbol x_i}}</script><h3 id="y-i-0-1-时（两种）"><a href="#y-i-0-1-时（两种）" class="headerlink" title="$y_i=0,1$时（两种）:"></a>$y_i=0,1$时（两种）:</h3><script type="math/tex; mode=display">p(y_i|\boldsymbol x_i;\boldsymbol w)=[p_1(\boldsymbol{x_i};\boldsymbol w)]^{y_i}[p_0(\boldsymbol{x_i};\boldsymbol w)]^{1-y_i}</script><script type="math/tex; mode=display">p(y_i|\boldsymbol x_i;\boldsymbol w)=y_ip_1(\boldsymbol{x_i};\boldsymbol w)+(1-y_i)p_0(\boldsymbol{x_i};\boldsymbol w)</script><p>对数似然函数为：</p>
-<script type="math/tex; mode=display">l(\boldsymbol w)=\sum_{i=1}^{m}(y_i\boldsymbol w^T\boldsymbol x_i-\ln(1+e^{\boldsymbol w^T\boldsymbol x_i}))</script><h3 id="y-i-pm-1-时（一种）"><a href="#y-i-pm-1-时（一种）" class="headerlink" title="$y_i=\pm 1$时（一种）:"></a>$y_i=\pm 1$时（一种）:</h3><script type="math/tex; mode=display">p(y_i|\boldsymbol x_i;\boldsymbol w)=\cfrac{1}{1+e^{-y_i\boldsymbol w^T\boldsymbol x_i}}</script><p>对数似然函数为：</p>
+<script type="math/tex; mode=display">p_1(\boldsymbol{x_i};\boldsymbol w)=\cfrac{e^{\boldsymbol w^T\boldsymbol x_i}}{1+e^{\boldsymbol w^T\boldsymbol x_i}},p_0(\boldsymbol{x_i};\boldsymbol w)=1-p_1(\boldsymbol{x_i};\boldsymbol w)=\cfrac{1}{1+e^{\boldsymbol w^T\boldsymbol x_i}}</script><h3 id="y-i-0-1-时（两种）"><a href="#y-i-0-1-时（两种）" class="headerlink" title="$y_i=0,1$时（两种）:"></a>$y_i=0,1$时（两种）:</h3><script type="math/tex; mode=display">p(y_i|\boldsymbol x_i;\boldsymbol w)=[p_1(\boldsymbol{x_i};\boldsymbol w)]^{y_i}[p_0(\boldsymbol{x_i};\boldsymbol w)]^{1-y_i}</script><script type="math/tex; mode=display">p(y_i|\boldsymbol x_i;\boldsymbol w)=y_ip_1(\boldsymbol{x_i};\boldsymbol w)+(1-y_i)p_0(\boldsymbol{x_i};\boldsymbol w)</script><p>对数似然函数的化简形式为：</p>
+<script type="math/tex; mode=display">l(\boldsymbol w)=\sum_{i=1}^{m}(y_i\boldsymbol w^T\boldsymbol x_i-\ln(1+e^{\boldsymbol w^T\boldsymbol x_i}))</script><h3 id="y-i-pm-1-时（一种）"><a href="#y-i-pm-1-时（一种）" class="headerlink" title="$y_i=\pm 1$时（一种）:"></a>$y_i=\pm 1$时（一种）:</h3><script type="math/tex; mode=display">p(y_i|\boldsymbol x_i;\boldsymbol w)=\cfrac{1}{1+e^{-y_i\boldsymbol w^T\boldsymbol x_i}}</script><p>对数似然函数的化简形式为：</p>
 <script type="math/tex; mode=display">l(\boldsymbol w)=-\sum_{i=1}^{m}\ln(1+e^{-y_i\boldsymbol w^T\boldsymbol x_i})</script>]]></content>
     
     <summary type="html">
