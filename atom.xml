@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2018-12-11T05:27:41.518Z</updated>
+  <updated>2018-12-11T05:30:03.757Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,9 +20,9 @@
     <link href="http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/"/>
     <id>http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/</id>
     <published>2018-12-08T09:03:27.000Z</published>
-    <updated>2018-12-11T05:27:41.518Z</updated>
+    <updated>2018-12-11T05:30:03.757Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Karush–Kuhn–Tucker（简称KKT）条件"><a href="#Karush–Kuhn–Tucker（简称KKT）条件" class="headerlink" title="Karush–Kuhn–Tucker（简称KKT）条件"></a>Karush–Kuhn–Tucker（简称KKT）条件</h1><p>对于带不等式约束的优化问题：</p>
+    <content type="html"><![CDATA[<p>对于带不等式约束的优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 \min \limits_{\boldsymbol x} \quad f(\boldsymbol x) \\
 s.t.  \quad g_i(\boldsymbol x) &\leq 0 \quad (i=1,...,n) \\
@@ -30,11 +30,11 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 \end{aligned}</script><p>设$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$具有连续的一阶偏导数，若$\boldsymbol x^*$是优化问题的局部可行解（此时为极小值解），并且在$\boldsymbol x^*$处约束限制条件成立（即$LD^*=FD^*$），则存在$\boldsymbol \mu^*=(\mu_1^*,\mu_2^*,…,\mu_n^*)^T,\boldsymbol \lambda^*=(\lambda_1^*,\lambda_2^*,…,\lambda_m^*)^T,$使得：</p>
 <script type="math/tex; mode=display">\left\{
 \begin{aligned}
-& L(\boldsymbol x^\*,\boldsymbol \mu^\*,\boldsymbol \lambda^\*)=\nabla f(\boldsymbol  x^\*)+\sum_{i=1}^{n}\mu_i^\* \nabla g_i(\boldsymbol x^\*)+\sum_{j=1}^{m}\lambda_j^\* \nabla h_j(\boldsymbol x^\*) &(1) \\
-& h_j(\boldsymbol x^\*)=0 &(2) \\
-& g_i(\boldsymbol x^\*) \leq 0 &(3) \\
-& \mu_i^\* \geq 0 &(4)\\
-& \mu_i^\* g_i(\boldsymbol x^\*)=0 &(5)
+& L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )=\nabla f(\boldsymbol  x^* )+\sum_{i=1}^{n}\mu_i^* \nabla g_i(\boldsymbol x^* )+\sum_{j=1}^{m}\lambda_j^* \nabla h_j(\boldsymbol x^*) &(1) \\
+& h_j(\boldsymbol x^*)=0 &(2) \\
+& g_i(\boldsymbol x^*) \leq 0 &(3) \\
+& \mu_i^* \geq 0 &(4)\\
+& \mu_i^* g_i(\boldsymbol x^*)=0 &(5)
 \end{aligned}
 \right.</script><p>其中$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$为拉格朗日函数：</p>
 <script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x)</script><p>以上即5条为KKT条件，其中条件(2)和(3)为约束条件显然成立，条件(1)、(4)、(5)成立的简单证明如下：</p>
@@ -42,21 +42,24 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 <img src="./Inequality_constraint_diagram.png" width="60%" height="60%">
 </center><br>由约束条件：$g_i(\boldsymbol x) \leq 0$可知，$\boldsymbol x^*$一定满足$g_i(\boldsymbol x^*) \lt 0$或者$g_i(\boldsymbol x^*) = 0$（也即条件(3)），对这两种情形进行讨论：</p>
 <ul>
-<li>**当$g_i(\boldsymbol x^*) \lt 0$时（如上左图）：**<br>此时极小值点在$g_i(\boldsymbol x) \lt 0$这个区域内，等价于**无不等式约束条件**的最优化问题，所以$\mu_i^* = 0$。</li>
-<li>**当$g_i(\boldsymbol x^*) = 0$时（如上右图）：**<br>此时极小值点在$g_i(\boldsymbol x) = 0$这个边界上，等价于**仅含等式约束条件**的最优化问题，所以根据拉格朗日乘子法的原理可知，此时$f(\boldsymbol  x)$和$ g_i(\boldsymbol  x)=0$在极小值点处相切，梯度（正梯度）平行，即$\nabla f(\boldsymbol  x^*)+\mu_i^* \nabla g_i(\boldsymbol  x^*)=0 \quad (\mu_i^*∈\boldsymbol R)$。易知$g_i(\boldsymbol x)=0$这个边界上的梯度都是向外的，所以$\nabla f(\boldsymbol x^*)$必然和$\nabla g_i(\boldsymbol x^*)$的方向相反（如果不相反的话极小值点就不会在边界上取到而是在$g_i(\boldsymbol x) \lt 0$内取），所以$\nabla f(\boldsymbol  x^*)$和$\nabla g_i(\boldsymbol  x^*)$异号，也即$\mu_i^* \gt 0$。</li>
+<li><strong>当$g_i(\boldsymbol x^*) \lt 0$时（如上左图）：</strong><br>此时极小值点在$g_i(\boldsymbol x) \lt 0$这个区域内，等价于<strong>无不等式约束条件</strong>的最优化问题，所以$\mu_i^* = 0$。</li>
+<li><strong>当$g_i(\boldsymbol x^*) = 0$时（如上右图）：</strong><br>此时极小值点在$g_i(\boldsymbol x) = 0$这个边界上，等价于<strong>仅含等式约束条件</strong>的最优化问题，所以根据拉格朗日乘子法的原理可知，此时$f(\boldsymbol  x)$和$ g_i(\boldsymbol  x)=0$在极小值点处相切，梯度（正梯度）平行，即$\nabla f(\boldsymbol  x^*)+\mu_i^* \nabla g_i(\boldsymbol  x^*)=0 \quad (\mu_i^*∈\boldsymbol R)$。易知$g_i(\boldsymbol x)=0$这个边界上的梯度都是向外的，所以$\nabla f(\boldsymbol x^*)$必然和$\nabla g_i(\boldsymbol x^*)$的方向相反（如果不相反的话极小值点就不会在边界上取到而是在$g_i(\boldsymbol x) \lt 0$内取），所以$\nabla f(\boldsymbol  x^*)$和$\nabla g_i(\boldsymbol  x^*)$异号，也即$\mu_i^* \gt 0$。</li>
 </ul>
 <p>综上，条件(4)：$\mu_i^* \geq 0$恒成立；当$g_i(\boldsymbol x^*) \lt 0$时$\mu_i^* = 0$， $g_i(\boldsymbol x^*) = 0$时$\mu_i^* \gt 0$，所以条件(5)：$\mu_i^* g_i(\boldsymbol x^*)=0$恒成立；$\lambda_j$为拉格朗日乘子，由拉格朗日乘子法的原理可知，$\lambda_j$取值无要求，所以总存在$\lambda_j^*$使得条件(1)恒成立。<br>【注】：</p>
 <ul>
-<li>若局部可行解$\boldsymbol x^*$不满足约束限制条件：$LD^*=FD^*$，则**不一定**满足KKT条件；</li>
-<li>KKT条件是局部可行解$\boldsymbol x^*$的一个**必要条件**；</li>
-<li>对于带不等式约束的优化问题，若目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，则称该优化问题为**凸优化**，此时KKT条件也是一个**充分条件**；</li>
+<li>若局部可行解$\boldsymbol x^*$不满足约束限制条件：$LD^*=FD^*$，则<strong>不一定</strong>满足KKT条件；</li>
+<li>KKT条件是局部可行解$\boldsymbol x^*$的一个<strong>必要条件</strong>；</li>
+<li>对于带不等式约束的优化问题，若目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，则称该优化问题为<strong>凸优化</strong>，此时KKT条件也是一个<strong>充分条件</strong>；</li>
 <li>以上所有论述的严格数学证明参见《最优化基础理论与方法-王燕军》§ 4.2</li>
 </ul>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Karush–Kuhn–Tucker（简称KKT）条件&quot;&gt;&lt;a href=&quot;#Karush–Kuhn–Tucker（简称KKT）条件&quot; class=&quot;headerlink&quot; title=&quot;Karush–Kuhn–Tucker（简称KKT）条件&quot;&gt;&lt;/a&gt;Karus
+      &lt;p&gt;对于带不等式约束的优化问题：&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{aligned}
+\min \limits_{\boldsymbol x} \quad f(\boldsymbol x) \\
+s.t.  \qu
     
     </summary>
     
