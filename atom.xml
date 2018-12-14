@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2018-12-13T13:55:52.258Z</updated>
+  <updated>2018-12-14T07:35:20.139Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.sm1les.com/2018/12/11/lagrange-duality/"/>
     <id>http://www.sm1les.com/2018/12/11/lagrange-duality/</id>
     <published>2018-12-11T07:36:48.000Z</published>
-    <updated>2018-12-13T13:55:52.258Z</updated>
+    <updated>2018-12-14T07:35:20.139Z</updated>
     
     <content type="html"><![CDATA[<p>对于带不等式约束的优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
@@ -31,11 +31,11 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 <script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x)</script><p>其中$\boldsymbol \mu=(\mu_1,\mu_2,…,\mu_n)^T,\boldsymbol \lambda=(\lambda_1,\lambda_2,…,\lambda_m)^T$<br>定义$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$的<strong>对偶函数</strong>为：</p>
 <script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D}L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D} \left ( f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x) \right)</script><p>其中$D=\boldsymbol{dom}  f \cap \bigcap\limits_{i=1}^{m}\boldsymbol{dom}  g_i \cap \bigcap\limits_{j=1}^{n}\boldsymbol{dom}  h_j $<br>设$\tilde{\boldsymbol x}$为可行域中的点（即$g_i(\tilde{\boldsymbol x}) \leq 0$且$h_j(\tilde{\boldsymbol x}) = 0$），当$\boldsymbol \mu \succeq 0$时：</p>
 <script type="math/tex; mode=display">\sum_{i=1}^{n}\mu_i g_i(\tilde{\boldsymbol x})+\sum_{j=1}^{m}\lambda_j h_j(\tilde{\boldsymbol x}) \leq 0</script><p>则</p>
-<script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D}L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda) \leq L(\tilde{\boldsymbol x},\boldsymbol \mu,\boldsymbol \lambda) \leq f(\tilde{\boldsymbol x})</script><script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda) \leq f(\tilde{\boldsymbol x})</script><p>这意味着当$\boldsymbol \mu \succeq 0$时，可行域中每个点$\tilde{\boldsymbol x}$均满足$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)\leq f(\tilde{\boldsymbol x})$，设主问题的最优值为$p^*$（即$\min f(\tilde{\boldsymbol x})$），则当$\boldsymbol \mu \succeq 0$时，$\Gamma (\boldsymbol \mu,\boldsymbol \lambda) \leq p^*$恒成立，此时对偶函数构成了最优值$p^*$的下界。于是可以考虑求最优下界，也就是求对偶函数<strong>在$\boldsymbol \mu \succeq 0$约束下</strong>的最大值：</p>
+<script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D}L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda) \leq L(\tilde{\boldsymbol x},\boldsymbol \mu,\boldsymbol \lambda) \leq f(\tilde{\boldsymbol x})</script><script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda) \leq f(\tilde{\boldsymbol x})</script><p>这意味着当$\boldsymbol \mu \succeq 0$时，可行域中每个点$\tilde{\boldsymbol x}$均满足$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)\leq f(\tilde{\boldsymbol x})$，设主问题的最优值为$p^*$（即$\min f(\tilde{\boldsymbol x})$），则当$\boldsymbol \mu \succeq 0$时，$\Gamma (\boldsymbol \mu,\boldsymbol \lambda) \leq p^*$恒成立，此时对偶函数构成了最优值$p^*$的下界。于是可以考虑求最优下界来逼近$p^*$，也就是求对偶函数<strong>在$\boldsymbol \mu \succeq 0$约束下</strong>的最大值：</p>
 <script type="math/tex; mode=display">\max \Gamma (\boldsymbol \mu,\boldsymbol \lambda) \quad  s.t. \ \boldsymbol \mu \succeq 0</script><p>此时求对偶函数最大值的问题便是主问题的<strong>“对偶问题”</strong>。设对偶问题的最优值为$d^*$，显然$d^* \leq p^*$，此时称为“弱对偶性”成立，若$d^* = p^*$，则称为“强对偶性”成立，此时对偶问题的最优值便是主问题的最优值。<br>【注】：</p>
 <ul>
 <li>对偶问题恒为凸优化问题，因为对偶函数$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$是一族关于$(\boldsymbol \mu,\boldsymbol \lambda)$的仿射函数的逐点下确界，恒为<strong>凹函数</strong>（加个负号即可转为凸函数），约束条件$\boldsymbol \mu \succeq 0$为凸集，且与主问题的凹凸性无关。这也就是为什么不直接求解主问题转而去求解对偶问题的主要原因；</li>
-<li>若主问题为凸优化问题，即目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，且可行域中至少有一点使得不等式约束<strong>严格成立</strong>（即$\exists  g_i(\tilde{\boldsymbol x}) &lt; 0$），则此时强对偶性成立（这称为<a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank" rel="external">Slater条件</a>，仅是众多强对偶性成立的充分条件之一）；</li>
+<li>若主问题为凸优化问题，即目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，且可行域中至少有一点使得<strong>所有</strong>不等式约束<strong>严格成立</strong>（即$\exists  g_i(\tilde{\boldsymbol x}) &lt; 0$），则此时强对偶性成立（这称为<a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank" rel="external">Slater条件</a>，仅是众多强对偶性成立的充分条件之一）；</li>
 <li>若拉格朗日函数$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$是<strong>关于$\boldsymbol x$</strong>的凸函数，则其对偶函数的表达式求解过程如下：先对$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$关于$\boldsymbol x$求导并令导数等于0，得到一个$\boldsymbol x$关于$\boldsymbol \mu$和$\boldsymbol \lambda$的表达式$\boldsymbol x=\Phi (\boldsymbol \mu,\boldsymbol \lambda)$，然后将其带回到$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$中即可得仅含$\boldsymbol \mu$和$\boldsymbol \lambda$的对偶函数$L \left ( \Phi (\boldsymbol \mu,\boldsymbol \lambda),\boldsymbol \mu,\boldsymbol \lambda \right ) =\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$</li>
 </ul>
 ]]></content>
@@ -63,14 +63,14 @@ s.t.  \quad g_i(\boldsymbol x) &amp;\
     <link href="http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/"/>
     <id>http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/</id>
     <published>2018-12-08T09:03:27.000Z</published>
-    <updated>2018-12-13T07:50:37.811Z</updated>
+    <updated>2018-12-14T07:48:07.573Z</updated>
     
     <content type="html"><![CDATA[<p>对于带不等式约束的优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
-\min \limits_{\boldsymbol x} \quad f(\boldsymbol x) \\
+\min \quad f(\boldsymbol x) \\
 s.t.  \quad g_i(\boldsymbol x) &\leq 0 \quad (i=1,...,n) \\
 h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
-\end{aligned}</script><p>若$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$具有连续的一阶偏导数，$\boldsymbol x^*$是优化问题的局部可行解（此时为极小值解），并且在$\boldsymbol x^*$处约束限制条件<sup><a href="#ref1">[1]</a></sup>成立，则存在$\boldsymbol \mu^*=(\mu_1^*,\mu_2^*,…,\mu_n^*)^T,\boldsymbol \lambda^*=(\lambda_1^*,\lambda_2^*,…,\lambda_m^*)^T,$使得：</p>
+\end{aligned}</script><p>若$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$在$\boldsymbol x^*$处<strong>一阶可微</strong>，$\boldsymbol x^*$是优化问题的局部可行解（此时为极小值解），并且在$\boldsymbol x^*$处<strong>约束限制条件（constraint qualifications）</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref2">[2]</a></sup>成立，则存在$\boldsymbol \mu^*=(\mu_1^*,\mu_2^*,…,\mu_n^*)^T,\boldsymbol \lambda^*=(\lambda_1^*,\lambda_2^*,…,\lambda_m^*)^T,$使得：</p>
 <script type="math/tex; mode=display">\left\{
 \begin{aligned}
 & \nabla L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )=\nabla f(\boldsymbol  x^* )+\sum_{i=1}^{n}\mu_i^* \nabla g_i(\boldsymbol x^* )+\sum_{j=1}^{m}\lambda_j^* \nabla h_j(\boldsymbol x^*) &(1) \\
@@ -90,20 +90,20 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 </ul>
 <p>综上，条件(4)：$\mu_i^* \geq 0$恒成立；当$g_i(\boldsymbol x^*) \lt 0$时$\mu_i^* = 0$， $g_i(\boldsymbol x^*) = 0$时$\mu_i^* \gt 0$，所以条件(5)：$\mu_i^* g_i(\boldsymbol x^*)=0$恒成立；$\lambda_j$为拉格朗日乘子，由拉格朗日乘子法的原理可知，$\lambda_j$取值无要求，所以总存在$\lambda_j^*$使得条件(1)恒成立。<br>【注】：</p>
 <ul>
-<li>若局部可行解$\boldsymbol x^*$不满足约束限制条件：$LD^*=FD^*$，则<strong>不一定</strong>满足KKT条件；</li>
+<li>若局部可行解$\boldsymbol x^*$不满足<strong>约束限制条件（constraint qualifications）</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref2">[2]</a></sup>，则<strong>不一定</strong>满足KKT条件，也就是说约束限制条件仅是充分条件，而不是充要条件，例如上述优化问题强对偶性成立时（不一定通过Slater条件得到），$\boldsymbol x^*$也满足KKT条件；</li>
 <li>KKT条件是局部可行解$\boldsymbol x^*$的一个<strong>必要条件</strong>；</li>
-<li>对于带不等式约束的优化问题，若目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，则称该优化问题为<strong>凸优化</strong>，此时KKT条件升级为<strong>充要条件</strong>，$\boldsymbol x^*$升级为<strong>全局可行解</strong>；</li>
-<li>以上所有论述的严格数学证明参见<a href="#ref1">[1]</a> § 4.2</li>
+<li>对于上述优化问题，若目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，则称该优化问题为<strong>凸优化</strong>，此时KKT条件升级为<strong>充要条件</strong>，$\boldsymbol x^*$升级为<strong>全局可行解</strong>；</li>
+<li>以上部分论述的严格数学证明参见<a href="#ref1">[1]</a> § 4.2</li>
 </ul>
-<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王燕军. 《最优化基础理论与方法》</span></p>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王燕军. 《最优化基础理论与方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions#Regularity_conditions_(or_constraint_qualifications)" target="_blank" rel="external">Karush–Kuhn–Tucker conditions</a></span></p>
 ]]></content>
     
     <summary type="html">
     
       &lt;p&gt;对于带不等式约束的优化问题：&lt;/p&gt;
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{aligned}
-\min \limits_{\boldsymbol x} \quad f(\boldsymbol x) \\
-s.t.  \qu
+\min \quad f(\boldsymbol x) \\
+s.t.  \quad g_i(\boldsymbol x) &amp;\
     
     </summary>
     

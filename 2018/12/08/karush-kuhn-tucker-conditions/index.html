@@ -68,10 +68,10 @@
   <section class="post-content article-entry">
     <p>对于带不等式约束的优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
-\min \limits_{\boldsymbol x} \quad f(\boldsymbol x) \\
+\min \quad f(\boldsymbol x) \\
 s.t.  \quad g_i(\boldsymbol x) &\leq 0 \quad (i=1,...,n) \\
 h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
-\end{aligned}</script><p>若$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$具有连续的一阶偏导数，$\boldsymbol x^*$是优化问题的局部可行解（此时为极小值解），并且在$\boldsymbol x^*$处约束限制条件<sup><a href="#ref1">[1]</a></sup>成立，则存在$\boldsymbol \mu^*=(\mu_1^*,\mu_2^*,…,\mu_n^*)^T,\boldsymbol \lambda^*=(\lambda_1^*,\lambda_2^*,…,\lambda_m^*)^T,$使得：</p>
+\end{aligned}</script><p>若$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$在$\boldsymbol x^*$处<strong>一阶可微</strong>，$\boldsymbol x^*$是优化问题的局部可行解（此时为极小值解），并且在$\boldsymbol x^*$处<strong>约束限制条件（constraint qualifications）</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref2">[2]</a></sup>成立，则存在$\boldsymbol \mu^*=(\mu_1^*,\mu_2^*,…,\mu_n^*)^T,\boldsymbol \lambda^*=(\lambda_1^*,\lambda_2^*,…,\lambda_m^*)^T,$使得：</p>
 <script type="math/tex; mode=display">\left\{
 \begin{aligned}
 & \nabla L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )=\nabla f(\boldsymbol  x^* )+\sum_{i=1}^{n}\mu_i^* \nabla g_i(\boldsymbol x^* )+\sum_{j=1}^{m}\lambda_j^* \nabla h_j(\boldsymbol x^*) &(1) \\
@@ -91,12 +91,12 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 </ul>
 <p>综上，条件(4)：$\mu_i^* \geq 0$恒成立；当$g_i(\boldsymbol x^*) \lt 0$时$\mu_i^* = 0$， $g_i(\boldsymbol x^*) = 0$时$\mu_i^* \gt 0$，所以条件(5)：$\mu_i^* g_i(\boldsymbol x^*)=0$恒成立；$\lambda_j$为拉格朗日乘子，由拉格朗日乘子法的原理可知，$\lambda_j$取值无要求，所以总存在$\lambda_j^*$使得条件(1)恒成立。<br>【注】：</p>
 <ul>
-<li>若局部可行解$\boldsymbol x^*$不满足约束限制条件：$LD^*=FD^*$，则<strong>不一定</strong>满足KKT条件；</li>
+<li>若局部可行解$\boldsymbol x^*$不满足<strong>约束限制条件（constraint qualifications）</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref2">[2]</a></sup>，则<strong>不一定</strong>满足KKT条件，也就是说约束限制条件仅是充分条件，而不是充要条件，例如上述优化问题强对偶性成立时（不一定通过Slater条件得到），$\boldsymbol x^*$也满足KKT条件；</li>
 <li>KKT条件是局部可行解$\boldsymbol x^*$的一个<strong>必要条件</strong>；</li>
-<li>对于带不等式约束的优化问题，若目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，则称该优化问题为<strong>凸优化</strong>，此时KKT条件升级为<strong>充要条件</strong>，$\boldsymbol x^*$升级为<strong>全局可行解</strong>；</li>
-<li>以上所有论述的严格数学证明参见<a href="#ref1">[1]</a> § 4.2</li>
+<li>对于上述优化问题，若目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，则称该优化问题为<strong>凸优化</strong>，此时KKT条件升级为<strong>充要条件</strong>，$\boldsymbol x^*$升级为<strong>全局可行解</strong>；</li>
+<li>以上部分论述的严格数学证明参见<a href="#ref1">[1]</a> § 4.2</li>
 </ul>
-<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王燕军. 《最优化基础理论与方法》</span></p>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王燕军. 《最优化基础理论与方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions#Regularity_conditions_(or_constraint_qualifications)" target="_blank" rel="external">Karush–Kuhn–Tucker conditions</a></span></p>
 
   </section>
   <footer class="post-footer">
