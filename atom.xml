@@ -148,33 +148,32 @@ s.t.  \quad g_i(\boldsymbol x) &amp;\
     <link href="http://www.sm1les.com/2018/11/27/linear-regression-maximum-likelihood/"/>
     <id>http://www.sm1les.com/2018/11/27/linear-regression-maximum-likelihood/</id>
     <published>2018-11-27T07:20:01.000Z</published>
-    <updated>2018-12-03T09:57:23.598Z</updated>
+    <updated>2018-12-18T08:36:24.757Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="最（极）大似然估计推导"><a href="#最（极）大似然估计推导" class="headerlink" title="最（极）大似然估计推导"></a>最（极）大似然估计推导</h3><p>对于线性回归模型：</p>
-<script type="math/tex; mode=display">y=\boldsymbol{w}^T\boldsymbol{x}+b+\epsilon</script><p>随机误差$\epsilon$可以看成是由许多观察不到的、可加的微小误差叠加而成的，则根据中心极限定理，随机误差$\epsilon$服从正态分布$\epsilon \sim N(0,\sigma^2)$，接下来便可以用最（极）大似然估计法来估计$\boldsymbol{w}$和b的值。似然函数为：</p>
-<script type="math/tex; mode=display">L(\boldsymbol{w},b)=L(\boldsymbol{x}_1,\cdots,\boldsymbol{x}_m;\boldsymbol{w},b)=\prod_{i=1}^{m}p(\epsilon_i)=\prod_{i=1}^{m}p(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)</script><p>又$p(\epsilon_i)=\cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{\epsilon_i^2}{2\sigma^2}\right)$，所以：</p>
-<script type="math/tex; mode=display">L(\boldsymbol{w},b)=\prod_{i=1}^{m}\cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2}{2\sigma^2}\right)</script><p>两边同时取对数得对数似然函数：</p>
+    <content type="html"><![CDATA[<h3 id="最（极）大似然估计推导"><a href="#最（极）大似然估计推导" class="headerlink" title="最（极）大似然估计推导"></a>最（极）大似然估计推导</h3><p>对于线性回归模型：</p>
+<script type="math/tex; mode=display">y=\boldsymbol{w}^T\boldsymbol{x}+b+\epsilon</script><p>随机误差$\epsilon$可以看成是由许多观察不到的、可加的微小误差叠加而成的，则根据<strong>中心极限定理</strong>，随机误差$\epsilon$服从正态分布，其分布为：$\epsilon \sim N(\mu,\sigma^2)$，为了方便后续计算可以将其去均值，令$\epsilon:=\epsilon-\mu$，则此时的分布为：$\epsilon \sim N(0,\sigma^2)$，分布律为：</p>
+<script type="math/tex; mode=display">p(\epsilon)=\cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{\epsilon^2}{2\sigma^2}\right)</script><p>若将其中的$\epsilon$用$\epsilon=y-\boldsymbol{w}^T\boldsymbol{x}-b$等价替换可得：</p>
+<script type="math/tex; mode=display">p(y)=\cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{(y-\boldsymbol{w}^T\boldsymbol{x}-b)^2}{2\sigma^2}\right)</script><p>上式显然可以看做$y \sim N(\boldsymbol{w}^T\boldsymbol{x}+b,\sigma^2)$的分布律，接下来便可以用最（极）大似然估计法来估计$\boldsymbol{w}$和b的值。似然函数为：</p>
+<script type="math/tex; mode=display">L(\boldsymbol{w},b)=\prod_{i=1}^{m}p(y_i)=\prod_{i=1}^{m}\cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2}{2\sigma^2}\right)</script><p>两边同时取对数得对数似然函数：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}     
-     \ln L(\boldsymbol{w},b) & = \sum_{i=1}^{m}\ln \cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2}{2\sigma^2}\right) \\
-
-     & = \sum_{i=1}^{m}\ln \cfrac{1}{\sqrt{2\pi}\sigma}+\sum_{i=1}^{m}\ln \mathrm{exp}\left(-\cfrac{(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2}{2\sigma^2}\right) \\
-
-     & = m\ln \cfrac{1}{\sqrt{2\pi}\sigma}-\cfrac{1}{2\sigma^2}\sum_{i=1}^{m}(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2
+\ln L(\boldsymbol{w},b) & = \sum_{i=1}^{m}\ln \cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2}{2\sigma^2}\right) \\
+& = \sum_{i=1}^{m}\ln \cfrac{1}{\sqrt{2\pi}\sigma}+\sum_{i=1}^{m}\ln \mathrm{exp}\left(-\cfrac{(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2}{2\sigma^2}\right) \\
+& = m\ln \cfrac{1}{\sqrt{2\pi}\sigma}-\cfrac{1}{2\sigma^2}\sum_{i=1}^{m}(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2
 \end{aligned}</script><p>其中$m$，$\sigma$均为常数，所以最大化$\ln L(\boldsymbol{w},b)$等价于最小化$\sum_{i=1}^{m}(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2$，也即：</p>
 <script type="math/tex; mode=display">(\boldsymbol{w}',b')=\mathop{\arg\max}_{(\boldsymbol{w},b)} \ln L(\boldsymbol{w},b)=\mathop{\arg\min}_{(\boldsymbol{w},b)} \sum_{i=1}^{m}(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2</script><p>其中$\boldsymbol{w}’$和$b’$为$\boldsymbol{w}$和$b$的解.</p>
-<h3 id="最小二乘法推导"><a href="#最小二乘法推导" class="headerlink" title="最小二乘法推导"></a>最小二乘法推导</h3><p>最小二乘法是基于均方误差最小化来对模型进行参数估计的，用公式表示为：</p>
+<h3 id="最小二乘法推导"><a href="#最小二乘法推导" class="headerlink" title="最小二乘法推导"></a>最小二乘法推导</h3><p>最小二乘法是基于均方误差最小化来对模型进行参数估计的，用公式表示为：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}    
     (\boldsymbol{w}',b') & = \mathop{\arg\min}_{(\boldsymbol{w},b)} \sum_{i=1}^{m}(y_i-(\boldsymbol{w}^T\boldsymbol{x_i}+b))^2 \\
     & = \mathop{\arg\min}_{(\boldsymbol{w},b)} \sum_{i=1}^{m}(y_i-\boldsymbol{w}^T\boldsymbol{x_i}-b)^2
-\end{aligned}</script><p>显然与最（极）大似然估计的推导结果一致。</p>
+\end{aligned}</script><p>显然与最（极）大似然估计的推导结果一致。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;最（极）大似然估计推导&quot;&gt;&lt;a href=&quot;#最（极）大似然估计推导&quot; class=&quot;headerlink&quot; title=&quot;最（极）大似然估计推导&quot;&gt;&lt;/a&gt;最（极）大似然估计推导&lt;/h3&gt;&lt;p&gt;对于线性回归模型：&lt;/p&gt;
-&lt;script type=&quot;ma
+      &lt;h3 id=&quot;最（极）大似然估计推导&quot;&gt;&lt;a href=&quot;#最（极）大似然估计推导&quot; class=&quot;headerlink&quot; title=&quot;最（极）大似然估计推导&quot;&gt;&lt;/a&gt;最（极）大似然估计推导&lt;/h3&gt;&lt;p&gt;对于线性回归模型：&lt;/p&gt;
+&lt;script type=&quot;math/t
     
     </summary>
     
