@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2018-12-15T05:55:56.266Z</updated>
+  <updated>2018-12-19T12:09:03.270Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -14,6 +14,65 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Logistic回归——sigmoid函数的由来</title>
+    <link href="http://www.sm1les.com/2018/12/19/logistic-regression-the-origin-of-sigmoid/"/>
+    <id>http://www.sm1les.com/2018/12/19/logistic-regression-the-origin-of-sigmoid/</id>
+    <published>2018-12-19T11:14:37.000Z</published>
+    <updated>2018-12-19T12:09:03.270Z</updated>
+    
+    <content type="html"><![CDATA[<p>Logistic回归是一种广义线性模型（Generalized Linear Models），在学习广义线性模型之前需要先学习一下指数族分布（Exponential Family Distributions）。</p>
+<h3 id="指数族分布"><a href="#指数族分布" class="headerlink" title="指数族分布"></a>指数族分布</h3><p>顾名思义，指数族分布是某一类分布的总称，其分布律（概率密度）的一般表达形式如下：</p>
+<script type="math/tex; mode=display">p(y;\eta) = b(y) \exp(\eta^T T(y) − a(\eta)) \label{1} \qquad (A.1)</script><p>其中$\eta$为natural parameter (也称canonical parameter)；$T(y)$为sufficient statistic（通常取$T(y)=y$）；$a(\eta)$是用来保证分布律的累加和$\sum p(y;\eta)=1$或者概率密度的积分值$\int p(y;\eta)=1$；$b(y)$为一个关于$y$的函数。<strong>伯努利分布</strong>和<strong>高斯分布</strong>均属于指数族分布，推导过程如下：</p>
+<h5 id="伯努利分布："><a href="#伯努利分布：" class="headerlink" title="伯努利分布："></a>伯努利分布：</h5><script type="math/tex; mode=display">p(y)=\phi^y (1-\phi)^{1-y}</script><p>其中$y=0,1$，$\phi$为$p(y=1)$的概率。对其进行恒等变形可得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}    
+p(y) &= \phi^y (1-\phi)^{1-y} \\
+&= \exp(y \ln \phi+(1−y) \ln(1−\phi)) \\
+&= \exp \left((\ln(\cfrac{\phi}{1-\phi}))y+\ln(1-\phi) \right)
+\end{aligned}</script><p>对照式(A.1)可知，伯努利分布的指数族分布参数为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}    
+\eta &= \ln(\cfrac{\phi}{1-\phi}) &(B.1)\\
+T(y) &= y &(B.2)\\
+a(\eta) &= -\ln(1-\phi) &(B.3)\\
+b(y) &= 1 &(B.4)
+\end{aligned}</script><h5 id="高斯分布："><a href="#高斯分布：" class="headerlink" title="高斯分布："></a>高斯分布：</h5><p>参见<a href="#ref1">[1]</a></p>
+<h3 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h3><p>由以下三条假设构建出的模型即为广义线性模型：</p>
+<ol>
+<li>给定$\boldsymbol x$和$\theta$，$y$服从参数为$\eta$的指数族分布，即$y | \boldsymbol x; \theta \sim ExponentialFamily(\eta)$；</li>
+<li>在给定$\boldsymbol x$的前提下，模型的目标是求出用$\boldsymbol x$表示的$T(y)$的<strong>期望值</strong>表达式，即$h_{\theta}(\boldsymbol x)=E(T(y)|\boldsymbol x;\theta)$；</li>
+<li>参数$\eta$和$\boldsymbol x$呈线性关系，即$\eta = \theta^T \boldsymbol x$.</li>
+</ol>
+<p>在对二分类任务进行建模的时候，类别$y ∈ \{0,1\}$，所以我们很自然地选择伯努利分布来对$y$进行建模，即假设$y$服从伯努利分布，接下来便可以用上述三条假设和伯努利分布的指数族分布参数来构建一个广义线性模型：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}    
+h(\boldsymbol x) &= E(T(y)|\boldsymbol x;\theta) \\
+&= E(y|\boldsymbol x;\theta) \\
+&= \phi \\
+&= \cfrac{1}{1+e^{(-\eta)}} \\
+&= \cfrac{1}{1+e^{(-\theta^T\boldsymbol x)}}
+\end{aligned}</script><p>第1个等式即为假设2；第2个等式由式(B.2)导出；第3个等式是因为伯努利分布的期望为$E(y|\boldsymbol x;\theta)=1· \phi + 0 · (1-\phi)=\phi$；第4个等式是由式(B.1)导出；第5个等式则是由假设3导出。此广义线性模型即为Logistic回归模型，在给定$\boldsymbol x$和$\theta$时，$y=1$的概率$p(y=1|\boldsymbol x;\theta)=\phi=\cfrac{1}{1+e^{(-\theta^T\boldsymbol x)}}$即为sigmoid函数。<br>【注】：</p>
+<ul>
+<li>上述三条假设是一种固定的广义线性模型构建方法，在问题建模的过程中我们唯一要做的就是假设$y$服从何种<strong>指数族分布</strong>，例如在做二分类问题时通常假设$y$服从伯努利分布，在做回归问题时通常假设$y$服从高斯分布，在做网站访问量预测时通常假设$y$服从泊松分布。在确定$y$的分布后，只需按照上述三条假设即可构建出一个广义线性模型；</li>
+<li>线性回归也属于广义线性模型，推导过程参见<a href="#ref1">[1]</a>。<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><span id="ref1">[1] cs229-notes1</span></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Logistic回归是一种广义线性模型（Generalized Linear Models），在学习广义线性模型之前需要先学习一下指数族分布（Exponential Family Distributions）。&lt;/p&gt;
+&lt;h3 id=&quot;指数族分布&quot;&gt;&lt;a href=&quot;#指数
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://www.sm1les.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="Logistic回归" scheme="http://www.sm1les.com/tags/Logistic%E5%9B%9E%E5%BD%92/"/>
+    
+  </entry>
   
   <entry>
     <title>拉格朗日对偶性</title>
@@ -118,11 +177,11 @@ s.t.  \quad g_i(\boldsymbol x) &amp;\
   </entry>
   
   <entry>
-    <title>逻辑回归——三种似然项构造</title>
+    <title>Logistic回归——三种似然项构造</title>
     <link href="http://www.sm1les.com/2018/12/04/logistic-regression-three-likelihood/"/>
     <id>http://www.sm1les.com/2018/12/04/logistic-regression-three-likelihood/</id>
     <published>2018-12-04T08:34:06.000Z</published>
-    <updated>2018-12-11T05:45:43.365Z</updated>
+    <updated>2018-12-18T13:50:33.956Z</updated>
     
     <content type="html"><![CDATA[<p>设</p>
 <script type="math/tex; mode=display">p_1(\boldsymbol{x_i};\boldsymbol w)=\cfrac{e^{\boldsymbol w^T\boldsymbol x_i}}{1+e^{\boldsymbol w^T\boldsymbol x_i}},p_0(\boldsymbol{x_i};\boldsymbol w)=1-p_1(\boldsymbol{x_i};\boldsymbol w)=\cfrac{1}{1+e^{\boldsymbol w^T\boldsymbol x_i}}</script><h3 id="y-i-0-1-时（两种）"><a href="#y-i-0-1-时（两种）" class="headerlink" title="$y_i=0,1$时（两种）:"></a>$y_i=0,1$时（两种）:</h3><script type="math/tex; mode=display">p(y_i|\boldsymbol x_i;\boldsymbol w)=[p_1(\boldsymbol{x_i};\boldsymbol w)]^{y_i}[p_0(\boldsymbol{x_i};\boldsymbol w)]^{1-y_i}</script><script type="math/tex; mode=display">p(y_i|\boldsymbol x_i;\boldsymbol w)=y_ip_1(\boldsymbol{x_i};\boldsymbol w)+(1-y_i)p_0(\boldsymbol{x_i};\boldsymbol w)</script><p>对数似然函数的化简形式为：</p>
@@ -139,7 +198,7 @@ s.t.  \quad g_i(\boldsymbol x) &amp;\
       <category term="机器学习" scheme="http://www.sm1les.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="逻辑回归" scheme="http://www.sm1les.com/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"/>
+      <category term="Logistic回归" scheme="http://www.sm1les.com/tags/Logistic%E5%9B%9E%E5%BD%92/"/>
     
   </entry>
   
