@@ -69,7 +69,7 @@
     <p>Logistic回归是一种广义线性模型（Generalized Linear Models），在学习广义线性模型之前需要先学习一下指数族分布（Exponential Family Distributions）。</p>
 <h3 id="指数族分布"><a href="#指数族分布" class="headerlink" title="指数族分布"></a>指数族分布</h3><p>顾名思义，指数族分布是某一类分布的总称，其分布律（概率密度）的一般表达形式如下：</p>
 <script type="math/tex; mode=display">p(y;\eta) = b(y) \exp(\eta^T T(y) − a(\eta)) \label{1} \qquad (A.1)</script><p>其中$\eta$为natural parameter (也称canonical parameter)；$T(y)$为sufficient statistic（通常取$T(y)=y$）；$a(\eta)$是用来保证分布律的累加和$\sum p(y;\eta)=1$或者概率密度的积分值$\int p(y;\eta)=1$；$b(y)$为一个关于$y$的函数。<strong>伯努利分布</strong>和<strong>高斯分布</strong>均属于指数族分布，推导过程如下：</p>
-<h5 id="伯努利分布："><a href="#伯努利分布：" class="headerlink" title="伯努利分布："></a>伯努利分布：</h5><script type="math/tex; mode=display">p(y)=\phi^y (1-\phi)^{1-y}</script><p>其中$y=0,1$，$\phi$为$p(y=1)$的概率。对其进行恒等变形可得：</p>
+<h5 id="伯努利分布："><a href="#伯努利分布：" class="headerlink" title="伯努利分布："></a>伯努利分布：</h5><script type="math/tex; mode=display">p(y)=\phi^y (1-\phi)^{1-y}</script><p>其中$y=0,1$，$\phi$为$y=1$的概率$p(y=1)$。对其进行恒等变形可得：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}    
 p(y) &= \phi^y (1-\phi)^{1-y} \\
