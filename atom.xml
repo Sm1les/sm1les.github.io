@@ -79,7 +79,7 @@ h(\boldsymbol x) &= E(T(y)|\boldsymbol x;\theta) \\
     <link href="http://www.sm1les.com/2018/12/11/lagrange-duality/"/>
     <id>http://www.sm1les.com/2018/12/11/lagrange-duality/</id>
     <published>2018-12-11T07:36:48.000Z</published>
-    <updated>2018-12-15T05:55:56.266Z</updated>
+    <updated>2018-12-20T02:55:28.812Z</updated>
     
     <content type="html"><![CDATA[<p>对于带不等式约束的优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
@@ -94,7 +94,8 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 <script type="math/tex; mode=display">\max \Gamma (\boldsymbol \mu,\boldsymbol \lambda) \quad  s.t. \ \boldsymbol \mu \succeq 0</script><p>此时求对偶函数最大值的问题便是主问题的<strong>“对偶问题”</strong>。设对偶问题的最优值为$d^*$，显然$d^* \leq p^*$，此时称为“弱对偶性”成立，若$d^* = p^*$，则称为“强对偶性”成立，此时对偶问题的最优值便是主问题的最优值。<br>【注】：</p>
 <ul>
 <li>对偶问题恒为<strong>凸优化问题</strong>，因为对偶函数$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$是一族关于$(\boldsymbol \mu,\boldsymbol \lambda)$的仿射函数的逐点下确界，恒为<strong>凹函数</strong>（加个负号即可转为凸函数）（证明参见<a href="#ref1">[1]</a> § 3.2.3），约束条件$\boldsymbol \mu \succeq 0$为凸集，且与主问题的凹凸性无关。这也就是为什么不直接求解主问题转而去求解对偶问题的主要原因；</li>
-<li>若主问题为<strong>凸优化问题</strong>（即目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数），且可行域中至少有一点使得<strong>所有</strong>不等式约束<strong>严格成立</strong>（即$\exists  g_i(\tilde{\boldsymbol x}) &lt; 0$），则此时强对偶性成立（这称为Slater条件<sup><a href="#ref2">[2]</a></sup>，仅是众多强对偶性成立的充分条件之一，而且它也是<a href="https://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions">KKT条件</a>中的约束限制条件之一）；</li>
+<li>当主问题为<strong>凸优化问题</strong>（即目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数）时，若满足某些<strong>约束限制条件（constraint qualification）</strong>则强对偶性成立。常见的约束限制条件为<strong>Slater条件</strong><sup><a href="#ref2">[2]</a></sup>：“当可行域中存在一点在使得等式约束成立的同时也使得<strong>所有</strong>不等式约束<strong>严格成立</strong>（即$\exists  h_j(\tilde{\boldsymbol x}_a) = 0,g_i(\tilde{\boldsymbol x}_a) &lt; 0$）时，强对偶性成立。”Slater条件仅是众多使得凸优化问题强对偶性成立的约束限制条件之一，而且它也是<a href="https://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions">KKT条件</a>中的约束限制条件之一；</li>
+<li>改进版的Slater条件：若前k个不等式约束为<strong>仿射函数</strong>，当$\exists  h_j(\tilde{\boldsymbol x}_a) = 0, g_i(\tilde{\boldsymbol x}_a) \leq 0  (i=1,…k),g_i(\tilde{\boldsymbol x}_a) &lt; 0  (i=k+1,…m)$时，凸优化问题强对偶性成立。也就是说当不等式约束中有仿射函数时，不要求可行域中存在一点使得这些仿射不等式严格成立；</li>
 <li>设$\boldsymbol x^*$是可行域中的最优解（即$f(\boldsymbol x^*)=p^*$），若$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$<strong>一阶可微</strong>，且强对偶性成立（不一定通过Slater条件得到），则$\boldsymbol x^*$一定满足KKT条件（证明参见<a href="#ref1">[1]</a> § 5.5.2-§ 5.5.3，其中§ 5.5.2里“$L(\boldsymbol x,\boldsymbol \mu^*,\boldsymbol \lambda^*)$关于$\boldsymbol x$求极小时在$\boldsymbol x^*$处取得最小值”的原因是主问题的最小值点必是拉格朗日函数的极值点之一）；</li>
 <li>若主问题为<strong>凸优化问题</strong>，且$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$<strong>一阶可微</strong>，存在$\boldsymbol x^*,\boldsymbol \mu^*,\boldsymbol \lambda^*$满足KKT条件（即$\boldsymbol x^*$满足约束限制条件），那么$\boldsymbol x^*$和$(\boldsymbol \mu^*,\boldsymbol \lambda^*)$即为主问题和对偶问题的最优解，且强对偶性成立（即$p^*=f(\boldsymbol x^*)=\Gamma (\boldsymbol \mu^*,\boldsymbol \lambda^*)=d^*$）（证明参见<a href="#ref1">[1]</a> § 5.5.3），显然此时KKT条件为最优解的充要条件，完全可以通过直接求满足KKT条件的点来求解最优解；</li>
 <li>KKT条件成立和强对偶性成立没有必然的联系，也就是说当KKT条件成立时<strong>不一定</strong>能推出强对偶性成立，通常强对偶性成立的条件更为苛刻。</li>
