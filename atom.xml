@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2018-12-19T12:17:33.566Z</updated>
+  <updated>2018-12-21T12:59:30.057Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.sm1les.com/2018/12/19/logistic-regression-the-origin-of-sigmoid/"/>
     <id>http://www.sm1les.com/2018/12/19/logistic-regression-the-origin-of-sigmoid/</id>
     <published>2018-12-19T11:14:37.000Z</published>
-    <updated>2018-12-19T12:17:33.566Z</updated>
+    <updated>2018-12-21T12:59:30.057Z</updated>
     
     <content type="html"><![CDATA[<p>Logistic回归是一种广义线性模型（Generalized Linear Models），在学习广义线性模型之前需要先学习一下指数族分布（Exponential Family Distributions）。</p>
 <h3 id="指数族分布"><a href="#指数族分布" class="headerlink" title="指数族分布"></a>指数族分布</h3><p>顾名思义，指数族分布是某一类分布的总称，其分布律（概率密度）的一般表达形式如下：</p>
@@ -56,8 +56,9 @@ h(\boldsymbol x) &= E(T(y)|\boldsymbol x;\theta) \\
 \end{aligned}</script><p>第1个等式即为假设2；第2个等式由式(B.2)导出；第3个等式是因为伯努利分布的期望为$E(y|\boldsymbol x;\theta)=1· \phi + 0 · (1-\phi)=\phi$；第4个等式是由式(B.1)导出；第5个等式则是由假设3导出。此广义线性模型即为Logistic回归模型，在给定$\boldsymbol x$和$\theta$时，$y=1$的概率$p(y=1|\boldsymbol x;\theta)=\phi=\cfrac{1}{1+e^{(-\theta^T\boldsymbol x)}}$即为sigmoid函数。<br>【注】：</p>
 <ul>
 <li>上述三条假设是一种固定的广义线性模型构建方法，在问题建模的过程中我们唯一要做的就是假设$y$服从何种<strong>指数族分布</strong>，例如在做二分类问题时通常假设$y$服从伯努利分布，在做回归问题时通常假设$y$服从高斯分布，在做网站访问量预测时通常假设$y$服从泊松分布。在确定$y$的分布后，只需按照上述三条假设即可构建出一个广义线性模型；</li>
-<li>线性回归也属于广义线性模型，推导过程参见<a href="#ref1">[1]</a>。<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><span id="ref1">[1] cs229-notes1</span></li>
+<li>线性回归也属于广义线性模型，推导过程参见<a href="#ref1">[1]</a>。</li>
 </ul>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] cs229-notes1</span></p>
 ]]></content>
     
     <summary type="html">
@@ -79,7 +80,7 @@ h(\boldsymbol x) &= E(T(y)|\boldsymbol x;\theta) \\
     <link href="http://www.sm1les.com/2018/12/11/lagrange-duality/"/>
     <id>http://www.sm1les.com/2018/12/11/lagrange-duality/</id>
     <published>2018-12-11T07:36:48.000Z</published>
-    <updated>2018-12-21T07:08:59.429Z</updated>
+    <updated>2018-12-21T12:59:11.496Z</updated>
     
     <content type="html"><![CDATA[<p>对于带不等式约束的优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
@@ -99,8 +100,9 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 <li>设$\boldsymbol x^*$是可行域中的最优解（即$f(\boldsymbol x^*)=p^*$），若$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$<strong>一阶可微</strong>，且强对偶性成立（不一定通过Slater条件得到），则$\boldsymbol x^*$一定满足KKT条件（证明参见<a href="#ref1">[1]</a> § 5.5.2-§ 5.5.3，其中§ 5.5.2里“$L(\boldsymbol x,\boldsymbol \mu^*,\boldsymbol \lambda^*)$关于$\boldsymbol x$求极小时在$\boldsymbol x^*$处取得最小值”的原因是主问题的最小值点必是拉格朗日函数的极值点之一）；</li>
 <li>若主问题为<strong>凸优化问题</strong>，且$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$<strong>一阶可微</strong>，存在$\boldsymbol x^*,\boldsymbol \mu^*,\boldsymbol \lambda^*$满足KKT条件（即$\boldsymbol x^*$满足约束限制条件），那么$\boldsymbol x^*$和$(\boldsymbol \mu^*,\boldsymbol \lambda^*)$即为主问题和对偶问题的最优解，强对偶性成立（即$p^*=f(\boldsymbol x^*)=\Gamma (\boldsymbol \mu^*,\boldsymbol \lambda^*)=d^*$）（证明参见<a href="#ref1">[1]</a> § 5.5.3），显然此时KKT条件为最优解的充要条件，完全可以通过直接求满足KKT条件的点来求解最优解；</li>
 <li>KKT条件成立和强对偶性成立没有必然的联系，也就是说当KKT条件成立时<strong>不一定</strong>能推出强对偶性成立，通常强对偶性成立的条件更为苛刻。</li>
-<li>若拉格朗日函数$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$是<strong>关于$\boldsymbol x$的一阶可微凸函数</strong>，则其对偶函数的表达式求解过程如下：先对$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$关于$\boldsymbol x$求导并令导数等于0，得到一个$\boldsymbol x$关于$\boldsymbol \mu$和$\boldsymbol \lambda$的表达式$\boldsymbol x=\Phi (\boldsymbol \mu,\boldsymbol \lambda)$，然后将其带回到$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$中即可得仅含$\boldsymbol \mu$和$\boldsymbol \lambda$的对偶函数$L \left ( \Phi (\boldsymbol \mu,\boldsymbol \lambda),\boldsymbol \mu,\boldsymbol \lambda \right ) =\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$，例<a href="#ref1">[1]</a> § 5.2.4和SVM的对偶函数求解。<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><span id="ref1">[1] 王书宁 译.《凸优化》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank" rel="external">Slater’s condition</a></span></li>
+<li>若拉格朗日函数$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$是<strong>关于$\boldsymbol x$的一阶可微凸函数</strong>，则其对偶函数的表达式求解过程如下：先对$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$关于$\boldsymbol x$求导并令导数等于0，得到一个$\boldsymbol x$关于$\boldsymbol \mu$和$\boldsymbol \lambda$的表达式$\boldsymbol x=\Phi (\boldsymbol \mu,\boldsymbol \lambda)$，然后将其带回到$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$中即可得仅含$\boldsymbol \mu$和$\boldsymbol \lambda$的对偶函数$L \left ( \Phi (\boldsymbol \mu,\boldsymbol \lambda),\boldsymbol \mu,\boldsymbol \lambda \right ) =\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$，例<a href="#ref1">[1]</a> § 5.2.4和SVM的对偶函数求解。</li>
 </ul>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王书宁 译.《凸优化》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank" rel="external">Slater’s condition</a></span></p>
 ]]></content>
     
     <summary type="html">

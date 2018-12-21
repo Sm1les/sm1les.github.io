@@ -100,8 +100,9 @@ h(\boldsymbol x) &= E(T(y)|\boldsymbol x;\theta) \\
 \end{aligned}</script><p>第1个等式即为假设2；第2个等式由式(B.2)导出；第3个等式是因为伯努利分布的期望为$E(y|\boldsymbol x;\theta)=1· \phi + 0 · (1-\phi)=\phi$；第4个等式是由式(B.1)导出；第5个等式则是由假设3导出。此广义线性模型即为Logistic回归模型，在给定$\boldsymbol x$和$\theta$时，$y=1$的概率$p(y=1|\boldsymbol x;\theta)=\phi=\cfrac{1}{1+e^{(-\theta^T\boldsymbol x)}}$即为sigmoid函数。<br>【注】：</p>
 <ul>
 <li>上述三条假设是一种固定的广义线性模型构建方法，在问题建模的过程中我们唯一要做的就是假设$y$服从何种<strong>指数族分布</strong>，例如在做二分类问题时通常假设$y$服从伯努利分布，在做回归问题时通常假设$y$服从高斯分布，在做网站访问量预测时通常假设$y$服从泊松分布。在确定$y$的分布后，只需按照上述三条假设即可构建出一个广义线性模型；</li>
-<li>线性回归也属于广义线性模型，推导过程参见<a href="#ref1">[1]</a>。<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><span id="ref1">[1] cs229-notes1</span></li>
+<li>线性回归也属于广义线性模型，推导过程参见<a href="#ref1">[1]</a>。</li>
 </ul>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] cs229-notes1</span></p>
 
   </section>
   <footer class="post-footer">
