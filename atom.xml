@@ -124,7 +124,7 @@ h(\boldsymbol x) &= E(T(y)|\boldsymbol x;\theta) \\
     <link href="http://www.sm1les.com/2018/12/11/lagrange-duality/"/>
     <id>http://www.sm1les.com/2018/12/11/lagrange-duality/</id>
     <published>2018-12-11T07:36:48.000Z</published>
-    <updated>2018-12-21T12:59:11.496Z</updated>
+    <updated>2019-01-05T10:43:43.769Z</updated>
     
     <content type="html"><![CDATA[<p>对于带不等式约束的优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
@@ -172,7 +172,7 @@ s.t.  \quad g_i(\boldsymbol x) &amp;\
     <link href="http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/"/>
     <id>http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/</id>
     <published>2018-12-08T09:03:27.000Z</published>
-    <updated>2018-12-14T07:48:07.573Z</updated>
+    <updated>2019-01-05T10:44:02.046Z</updated>
     
     <content type="html"><![CDATA[<p>对于带不等式约束的优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
