@@ -66,10 +66,10 @@
 
   <h1 class="post-title">L1正则化和L2正则化</h1>
   <section class="post-content article-entry">
-    <p>正则化是结构风险最小化策略的实现，是在经验风险上加一个正则化项或罚项，正则化项一般是模型复杂度的单调递增函数，模型越复杂，正则化值就越大。例如模型参数向量的范数，正则化的一般形式如下：</p>
+    <p>正则化是结构风险最小化策略的实现，是在经验风险上加一个正则化项或罚项，正则化项一般是模型复杂度的单调递增函数，模型越复杂，正则化值就越大。例如模型参数向量的范数，正则化的一般形式如下<sup><a href="#ref1">[1]</a></sup>：</p>
 <script type="math/tex; mode=display">\min \limits_{f\in\mathcal{F}} \left( \cfrac{1}{N} \sum_{N}^{i=1} L(y_i,f(x_i))+\lambda J(f) \right) \qquad (A.1)</script><p>其中，第1项是经验风险，第2项是正则化项，$\lambda$为调整两者之间关系的系数。常用的正则化项是模型参数向量的$L_1$范数和$L_2$范数，分别称作L1正则化和L2正则化。以线性回归为例，其L1正则化的损失函数为：</p>
 <script type="math/tex; mode=display">J(\boldsymbol w)=\cfrac{1}{N} \sum_{N}^{i=1} (f(\boldsymbol x_i;\boldsymbol w)-y_i)^2+\lambda \Vert\boldsymbol w \Vert_1</script><p>其中$\Vert\boldsymbol w \Vert_1$为$\boldsymbol w$的$L_1$范数，同理可得L2正则化的损失函数为：</p>
-<script type="math/tex; mode=display">J(\boldsymbol w)=\cfrac{1}{N} \sum_{N}^{i=1} (f(\boldsymbol x_i;\boldsymbol w)-y_i)^2+\lambda \Vert\boldsymbol w \Vert_2^2</script><p>其中$\Vert\boldsymbol w \Vert_2$为$\boldsymbol w$的$L_2$范数。<br>L1正则化和L2正则化最主要的不同之处在于前者更易得稀疏解，解释如下：</p>
+<script type="math/tex; mode=display">J(\boldsymbol w)=\cfrac{1}{N} \sum_{N}^{i=1} (f(\boldsymbol x_i;\boldsymbol w)-y_i)^2+\lambda \Vert\boldsymbol w \Vert_2^2</script><p>其中$\Vert\boldsymbol w \Vert_2$为$\boldsymbol w$的$L_2$范数。<br>L1正则化和L2正则化最主要的不同之处在于前者更易得稀疏解，解释如下<sup><a href="#ref2">[2]</a></sup>：</p>
 <h5 id="从优化问题的角度："><a href="#从优化问题的角度：" class="headerlink" title="从优化问题的角度："></a>从优化问题的角度：</h5><p>式(A.1)可以看作如下优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 & \min\limits_{\boldsymbol w} \quad E_{emp}(\boldsymbol w) \\
@@ -84,12 +84,12 @@
 <script type="math/tex; mode=display">\cfrac{\partial J(\boldsymbol w)}{\partial w_i}=\cfrac{\partial L(\boldsymbol w)}{\partial w_i}+\lambda sign (w_i)</script><p>对式(B.2)关于$\boldsymbol w$某个维度$w_i$求偏导可得：</p>
 <script type="math/tex; mode=display">\cfrac{\partial J(\boldsymbol w)}{\partial w_i}=\cfrac{\partial L(\boldsymbol w)}{\partial w_i}+2\lambda w_i</script><p>当使用梯度下降法等此类根据$\boldsymbol w$的梯度来调整$\boldsymbol w$的算法时，若用L1正则化，$\boldsymbol w$的某个维度$w_i$的更新公式为：</p>
 <script type="math/tex; mode=display">w_i:=w_i-\eta\cfrac{\partial J(\boldsymbol w)}{\partial w_i}=w_i-\eta\cfrac{\partial L(\boldsymbol w)}{\partial w_i}-\eta\lambda sign (w_i)</script><p>其中$\eta$为自行设定的学习率，从上式可以看出，$\eta\lambda sign (w_i)$的取值恒为$\pm\eta\lambda$，与$w_i$的大小无关，所以这就会导致即使$w_i$已经很小了但仍然以较高的梯度在变化，从而容易使得$w_i$取到0；若用L2正则化，则更新公式为：</p>
-<script type="math/tex; mode=display">w_i:=w_i-\eta\cfrac{\partial J(\boldsymbol w)}{\partial w_i}=w_i-\eta\cfrac{\partial L(\boldsymbol w)}{\partial w_i}-2\eta\lambda w_i</script><p>显然此式中的$2\eta\lambda w_i$的大小与$w_i$相关，所以当$w_i$很小时变化的梯度也很小，不容易取到0，也就不容易得到稀疏解。<br><br>L1正则化和L2正则化还有如下不同之处：</p>
+<script type="math/tex; mode=display">w_i:=w_i-\eta\cfrac{\partial J(\boldsymbol w)}{\partial w_i}=w_i-\eta\cfrac{\partial L(\boldsymbol w)}{\partial w_i}-2\eta\lambda w_i</script><p>显然此式中的$2\eta\lambda w_i$的大小与$w_i$相关，所以当$w_i$很小时变化的梯度也很小，不容易取到0，也就不容易得到稀疏解。<br>L1正则化和L2正则化还有如下不同之处：</p>
 <ul>
 <li>L1正则化自带特征选择的功能，这是由于L1正则化易得稀疏解导致的，因为稀疏解$\boldsymbol w^*$的某些维度$w_i=0$，从而达到了特征选择的功能；</li>
 <li>L1正则化的解不稳定，也即可能会有多个解，这是因为L1正则化的红色等高线容易与经验风险的蓝色等高线产生多个切点，例如上图中的蓝色等高线若不为圆形曲线，而是直线时，此时极有可能与L1正则化的红色等高线重合，从而产生多个解；</li>
 <li>L1正则化不易求解，这是因为绝对值函数通常都不好求解；</li>
-<li>L1正则化相对于L2正则化对异常值敏感度低，这是因为当$\vert w_i \vert&gt;1$时，$\sum\vert w_i \vert &lt; \sum(w_i)^2$，从而对异常值敏感度低。</li>
+<li>L1正则化相对于L2正则化对异常值敏感度低，这是因为当$\vert w_i \vert&gt;1$时，$\sum\vert w_i \vert &lt; \sum(w_i)^2$，从而对异常值敏感度低。<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><span id="ref1">[1] 李航.《统计学习方法》</span><br><span id="ref2">[2] <a href="https://www.zhihu.com/question/37096933" target="_blank" rel="external">l1 相比于 l2 为什么容易获得稀疏解？</a></span></li>
 </ul>
 
   </section>
