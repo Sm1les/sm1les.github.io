@@ -85,8 +85,9 @@ p_0(\boldsymbol{x};\boldsymbol w) &= 1-p_1(\boldsymbol{x};\boldsymbol w)=\cfrac{
 p(y|\boldsymbol x;\boldsymbol w) &= [p_1(\boldsymbol{x};\boldsymbol w)]^{y}[p_0(\boldsymbol{x};\boldsymbol w)]^{1-y} \\
 p(y|\boldsymbol x;\boldsymbol w) &= yp_1(\boldsymbol{x};\boldsymbol w)+(1-y)p_0(\boldsymbol{x};\boldsymbol w)
 \end{aligned}</script></li>
-<li>$y\in\{1,-1\}$时一种似然项构造：<script type="math/tex; mode=display">p(y|\boldsymbol x;\boldsymbol w)=\cfrac{1}{1+e^{-y\boldsymbol w^T\boldsymbol x}}</script>其相应的对数似然函数为：<script type="math/tex; mode=display">\ln L(\boldsymbol w)=-\sum_{i=1}^{m}\ln(1+e^{-y_i\boldsymbol w^T\boldsymbol x_i})</script><h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><span id="ref1">[1] <a href="https://www.zhihu.com/question/65350200" target="_blank" rel="external">逻辑回归损失函数为什么使用最大似然估计而不用最小二乘法？</a></span></li>
+<li>$y\in\{1,-1\}$时一种似然项构造：<script type="math/tex; mode=display">p(y|\boldsymbol x;\boldsymbol w)=\cfrac{1}{1+e^{-y\boldsymbol w^T\boldsymbol x}}</script>其相应的对数似然函数为：<script type="math/tex; mode=display">\ln L(\boldsymbol w)=-\sum_{i=1}^{m}\ln(1+e^{-y_i\boldsymbol w^T\boldsymbol x_i})</script></li>
 </ul>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] <a href="https://www.zhihu.com/question/65350200" target="_blank" rel="external">逻辑回归损失函数为什么使用最大似然估计而不用最小二乘法？</a></span></p>
 
   </section>
   <footer class="post-footer">
