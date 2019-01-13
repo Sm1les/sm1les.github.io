@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2019-01-13T07:57:50.731Z</updated>
+  <updated>2019-01-13T10:27:54.227Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,52 +20,80 @@
     <link href="http://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy/"/>
     <id>http://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy/</id>
     <published>2019-01-13T07:55:30.000Z</published>
-    <updated>2019-01-13T07:57:50.731Z</updated>
+    <updated>2019-01-13T10:27:54.227Z</updated>
     
     <content type="html"><![CDATA[<h3 id="最大熵原理"><a href="#最大熵原理" class="headerlink" title="最大熵原理"></a>最大熵原理</h3><p>最大熵原理是概率模型学习的一个准则，最大熵原理认为：学习概率模型时，在所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以，最大熵原理也可以表述为在满足约束条件的模型集合中选取熵最大的模型<sup><a href="#ref1">[1]</a></sup>。此处所说的“熵”为信息论中的信息熵，信息熵定义如下：</p>
 <ul>
 <li>信息量：<script type="math/tex; mode=display">I(X) = -log_bp(X)</script>其中，$b=2$时单位为bit，$b=e$时单位为nat，$b=10$时单位为ban.</li>
-<li>信息熵是信息量的期望，即：<script type="math/tex; mode=display">H(X)=E[I(X)]=E[-log_bp(X)]</script>当$X$为离散型时：<script type="math/tex; mode=display">H(X)=-\sum_x p(x)log_bp(x)</script>当$X$为连续型时：<script type="math/tex; mode=display">H(X)=-\int_{-\infty}^{+\infty}p(x)log_bp(x)dx</script>其中$p(x)=p(X=x)$，当$X$为连续型时信息熵也称为微分熵，熵只依赖于$X$的分布，而与$X$的取值无关。<h3 id="指数分布族"><a href="#指数分布族" class="headerlink" title="指数分布族"></a>指数分布族</h3>指数分布族（Exponential family）<sup><a href="#ref2">[2]</a></sup>是一类分布的总称，该类分布的分布律（概率密度）的一般形式如下：<script type="math/tex; mode=display">\begin{aligned}    
+<li>信息熵是信息量的期望，即：<script type="math/tex; mode=display">H(X)=E[I(X)]=E[-log_bp(X)]</script>当$X$为离散型时：<script type="math/tex; mode=display">H(X)=-\sum_x p(x)log_bp(x)</script>当$X$为连续型时：<script type="math/tex; mode=display">H(X)=-\int_{-\infty}^{+\infty}p(x)log_bp(x)dx</script>其中$p(x)=p(X=x)$，当$X$为连续型时信息熵也称为微分熵，熵只依赖于$X$的分布，而与$X$的取值无关。</li>
+</ul>
+<h3 id="指数分布族"><a href="#指数分布族" class="headerlink" title="指数分布族"></a>指数分布族</h3><p>指数分布族（Exponential family）<sup><a href="#ref2">[2]</a></sup>是一类分布的总称，该类分布的分布律（概率密度）的一般形式如下：</p>
+<script type="math/tex; mode=display">\begin{aligned}    
 p(x|\boldsymbol\theta) &= \cfrac{1}{Z(\boldsymbol\theta)} h(x) \exp\left(\eta(\boldsymbol\theta)^T T(x) \right) \\
 &= h(x) \exp\left(\eta(\boldsymbol\theta)^T T(x) − A(\boldsymbol\theta)\right)
-\end{aligned}</script>其中，$\eta(\boldsymbol\theta)$为natural parameter (也称canonical parameter)，是关于$\boldsymbol\theta$的函数，$T(x)$为sufficient statistic，$Z(\boldsymbol\theta)=\exp(-A(\boldsymbol\theta))$为partition function，是用来保证分布律的累加和$\sum\limits_x p(x|\boldsymbol\theta)=1$或者概率密度的积分值$\int_{-\infty}^{+\infty}p(x|\boldsymbol\theta)=1$，$b(x)$为一个关于$x$的函数，常见的伯努利分布和正态分布均属于指数分布族，所有指数分布族以及每个分布的各项参数值参见<a href="#ref2">[2]</a>里的表格。指数分布族有个很重要的性质：在给定的约束条件下，指数分布族是信息熵（微分熵）最大的分布。例如：在已知$X\in\{0,1\}$且期望$E[X]=\mu$时，伯努利分布是熵最大的分布；在已知$X$的均值为$\mu$，方差为$\sigma^2$时，正态分布是熵最大的分布，其他最大熵分布参见<a href="#ref3">[3]</a>里的表格。<h5 id="指数族分布的最大熵推导："><a href="#指数族分布的最大熵推导：" class="headerlink" title="指数族分布的最大熵推导："></a>指数族分布的最大熵推导：</h5><strong>当$X$为离散型时</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref4">[4]</a></sup>：<br>若已知$X$满足如下约束条件：<script type="math/tex; mode=display">\sum_{k=1}^{n}\sum_{i=1}^{\vert X \vert} f_k(x_i)p(x_i) = F_k \qquad (A.1)</script>其中，$\vert X \vert$为$X$的可能取值个数，$n$为约束个数，$f_k(x_i)$为任意函数，$F_k$为已知常数，此时求$X$的最大熵分布等价于求解如下优化问题：<script type="math/tex; mode=display">\begin{aligned}    
+\end{aligned}</script><p>其中，$\eta(\boldsymbol\theta)$为natural parameter (也称canonical parameter)，是关于$\boldsymbol\theta$的函数，$T(x)$为sufficient statistic，$Z(\boldsymbol\theta)=\exp(-A(\boldsymbol\theta))$为partition function，是用来保证分布律的累加和$\sum\limits_x p(x|\boldsymbol\theta)=1$或者概率密度的积分值$\int_{-\infty}^{+\infty}p(x|\boldsymbol\theta)=1$，$b(x)$为一个关于$x$的函数，常见的伯努利分布和正态分布均属于指数分布族，所有指数分布族以及每个分布的各项参数值参见<a href="#ref2">[2]</a>里的表格。指数分布族有个很重要的性质：在给定的约束条件下，指数分布族是信息熵（微分熵）最大的分布。例如：在已知$X\in\{0,1\}$且期望$E[X]=\mu$时，伯努利分布是熵最大的分布；在已知$X$的均值为$\mu$，方差为$\sigma^2$时，正态分布是熵最大的分布，其他最大熵分布参见<a href="#ref3">[3]</a>里的表格。</p>
+<h5 id="指数族分布的最大熵推导："><a href="#指数族分布的最大熵推导：" class="headerlink" title="指数族分布的最大熵推导："></a>指数族分布的最大熵推导：</h5><p><strong>当$X$为离散型时</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref4">[4]</a></sup>：<br>若已知$X$满足如下约束条件：</p>
+<script type="math/tex; mode=display">\sum_{k=1}^{n}\sum_{i=1}^{\vert X \vert} f_k(x_i)p(x_i) = F_k \qquad (A.1)</script><p>其中，$\vert X \vert$为$X$的可能取值个数，$n$为约束个数，$f_k(x_i)$为任意函数，$F_k$为已知常数，此时求$X$的最大熵分布等价于求解如下优化问题：</p>
+<script type="math/tex; mode=display">\begin{aligned}    
 \max\limits_{p}\quad&-\sum_{i=1}^{\vert X \vert} p(x_i)\ln p(x_i) \\
 s.t.\quad &p(x_i)  \geq0 \\
 &\sum_{i=1}^{\vert X \vert} p(x_i) = 1 \\
 &\sum_{k=1}^{n}\sum_{i=1}^{\vert X \vert}  f_k(x_i)p(x_i) = F_k
-\end{aligned}</script>其中信息熵的单位为nat，也即取$b=e$，对该优化问题用拉格朗日乘子法可得：<script type="math/tex; mode=display">\begin{aligned}    
+\end{aligned}</script><p>其中信息熵的单位为nat，也即取$b=e$，对该优化问题用拉格朗日乘子法可得：</p>
+<script type="math/tex; mode=display">\begin{aligned}    
 L(p,\boldsymbol\lambda) &=-\sum_{i=1}^{\vert X \vert}p(x_i)\ln p(x_i)+\lambda_0(1-\sum_{i=1}^{\vert X \vert}p(x_i))+\sum_{k=1}^{n}\lambda_k\left(F_k-\sum_{i=1}^{\vert X \vert} f_k(x_i)p(x_i) \right) \\
 &=\sum_{i=1}^{\vert X \vert} -p(x_i)\ln p(x_i)-\sum_{i=1}^{\vert X \vert} \lambda_0 p(x_i)-\sum_{i=1}^{\vert X \vert}\sum_{k=1}^{n}\lambda_kf_k(x_i)p(x_i)+\lambda_0+\sum_{k=1}^{n}\lambda_kF_k \\
 &=\sum_{i=1}^{\vert X \vert}\left(-p(x_i)\ln p(x_i)-\lambda_0 p(x_i)-\sum_{k=1}^{n}\lambda_kf_k(x_i)p(x_i)\right)+\lambda_0+\sum_{k=1}^{n}\lambda_kF_k
-\end{aligned}</script>其中，$p$可以看作一个分布律向量，也即$p=[p(x_1),p(x_2),…,p(x_{\vert X \vert})]$，$\boldsymbol\lambda=[\lambda_0,\lambda_1,…,\lambda_n]^T$为拉格朗日乘子向量，对$L(p,\boldsymbol\lambda)$关于$p$求偏导等价于分别对所有的$p(x_i)$求偏导：<script type="math/tex; mode=display">\begin{aligned}
+\end{aligned}</script><p>其中，$p$可以看作一个分布律向量，也即$p=[p(x_1),p(x_2),…,p(x_{\vert X \vert})]$，$\boldsymbol\lambda=[\lambda_0,\lambda_1,…,\lambda_n]^T$为拉格朗日乘子向量，对$L(p,\boldsymbol\lambda)$关于$p$求偏导等价于分别对所有的$p(x_i)$求偏导：</p>
+<script type="math/tex; mode=display">\begin{aligned}
 \cfrac{\partial L(p,\boldsymbol\lambda)}{\partial p(x_1)}&=-\ln p(x_1)-1-\lambda_0-\sum_{k=1}^{n}\lambda_kf_k(x_1) \\
 \cfrac{\partial L(p,\boldsymbol\lambda)}{\partial p(x_2)}&=-\ln p(x_2)-1-\lambda_0-\sum_{k=1}^{n}\lambda_kf_k(x_2) \\
 \vdots \\
 \cfrac{\partial L(p,\boldsymbol\lambda)}{\partial p(x_{\vert X \vert})}&=-\ln p(x_{\vert X \vert})-1-\lambda_0-\sum_{k=1}^{n}\lambda_kf_k(x_{\vert X \vert}) 
-\end{aligned}</script>则<script type="math/tex; mode=display">\cfrac{\partial L(p,\boldsymbol\lambda)}{\partial p(x_i)}=-\ln p(x_i)-1-\lambda_0-\sum_{k=1}^{n}\lambda_kf_k(x_i)</script>令上式等于0解得：<script type="math/tex; mode=display">p(x_i) =\exp(-1-\lambda_0-\sum\limits_{k=1}^{n}\lambda_kf_k(x_i))</script>又由约束条件$\sum\limits_{i=1}^{\vert X \vert} p(x_i) = 1$可得：<script type="math/tex; mode=display">\begin{aligned}    
+\end{aligned}</script><p>则</p>
+<script type="math/tex; mode=display">\cfrac{\partial L(p,\boldsymbol\lambda)}{\partial p(x_i)}=-\ln p(x_i)-1-\lambda_0-\sum_{k=1}^{n}\lambda_kf_k(x_i)</script><p>令上式等于0解得：</p>
+<script type="math/tex; mode=display">p(x_i) =\exp(-1-\lambda_0-\sum\limits_{k=1}^{n}\lambda_kf_k(x_i))</script><p>又由约束条件$\sum\limits_{i=1}^{\vert X \vert} p(x_i) = 1$可得：</p>
+<script type="math/tex; mode=display">\begin{aligned}    
 \sum_{i=1}^{\vert X \vert} \exp(-1-\lambda_0-\sum\limits_{k=1}^{n}\lambda_kf_k(x_i))= 1 \\
 \sum_{i=1}^{\vert X \vert} \cfrac{\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x_i))}{e^{(1+\lambda_0)}}= 1 \\
 e^{(1+\lambda_0)}=\sum_{i=1}^{\vert X \vert} \exp(-\sum_{k=1}^{n}\lambda_kf_k(x_i))
-\end{aligned}</script>将其代入$p(x_i)$可得：<script type="math/tex; mode=display">p(x_i) =\cfrac{\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x_i))}{\sum\limits_{i=1}^{\vert X \vert} \exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x_i))}</script>此式为$X$取到各个值$x_i$的概率，可以从中抽象出$X$的分布律为：<script type="math/tex; mode=display">\begin{aligned}    
+\end{aligned}</script><p>将其代入$p(x_i)$可得：</p>
+<script type="math/tex; mode=display">p(x_i) =\cfrac{\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x_i))}{\sum\limits_{i=1}^{\vert X \vert} \exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x_i))}</script><p>此式为$X$取到各个值$x_i$的概率，可以从中抽象出$X$的分布律为：</p>
+<script type="math/tex; mode=display">\begin{aligned}    
 p(x) &=\cfrac{\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))}{\sum\limits_x\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))} \qquad (A.2) \\
 &=\cfrac{1}{Z}\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))
-\end{aligned}</script>其中$Z=\sum\limits_x\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))$，此时$p(x)$的表达式显然符合指数分布族的一般形式。（注：上述推导过程是结合<a href="#ref1">[1]</a>中例6.2和<a href="#ref4">[4]</a>中9.2.6所述内容而成）<br><strong>当$X$为连续型时</strong>：<br>若已知$X$满足如下约束条件：<script type="math/tex; mode=display">\sum_{k=1}^{n}\int_{-\infty}^{+\infty}f_k(x)p(x)dx = F_k \qquad (B.1)</script>其中，$n$为约束个数，$f_k(x)$为任意函数，$F_k$为已知常数，此时求$X$的最大熵分布等价于求解如下优化问题：<script type="math/tex; mode=display">\begin{aligned}    
+\end{aligned}</script><p>其中$Z=\sum\limits_x\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))$，此时$p(x)$的表达式显然符合指数分布族的一般形式。（注：上述推导过程是结合<a href="#ref1">[1]</a>中例6.2和<a href="#ref4">[4]</a>中9.2.6所述内容而成）<br><strong>当$X$为连续型时</strong>：<br>若已知$X$满足如下约束条件：</p>
+<script type="math/tex; mode=display">\sum_{k=1}^{n}\int_{-\infty}^{+\infty}f_k(x)p(x)dx = F_k \qquad (B.1)</script><p>其中，$n$为约束个数，$f_k(x)$为任意函数，$F_k$为已知常数，此时求$X$的最大熵分布等价于求解如下优化问题：</p>
+<script type="math/tex; mode=display">\begin{aligned}    
 \max\limits_{p}\quad&-\int_{-\infty}^{+\infty}p(x)\ln p(x)dx \\
 s.t.\quad &p(x)  \geq0 \\
 &\int_{-\infty}^{+\infty}p(x)dx = 1 \\
 &\int_{-\infty}^{+\infty}f_k(x)p(x)dx = F_k
-\end{aligned}</script>其中信息熵的单位为nat，也即取$b=e$，对该优化问题用拉格朗日乘子法可得：<script type="math/tex; mode=display">\begin{aligned}    
+\end{aligned}</script><p>其中信息熵的单位为nat，也即取$b=e$，对该优化问题用拉格朗日乘子法可得：</p>
+<script type="math/tex; mode=display">\begin{aligned}    
 L(p,\boldsymbol\lambda) &=-\int_{-\infty}^{+\infty}p(x)\ln p(x)dx+\lambda_0(1-\int_{-\infty}^{+\infty}p(x)dx)+\sum_{k=1}^{n}\lambda_k\left(F_k-\int_{-\infty}^{+\infty}f_k(x)p(x)dx \right) \\
 &=\int_{-\infty}^{+\infty}-p(x)\ln p(x)dx-\int_{-\infty}^{+\infty}\lambda_0 p(x)dx-\int_{-\infty}^{+\infty}\sum_{k=1}^{n}\lambda_kf_k(x)p(x)dx+\lambda_0+\sum_{k=1}^{n}\lambda_kF_k \\
 &=\int_{-\infty}^{+\infty}\left(-p(x)\ln p(x)-\lambda_0 p(x)-\sum_{k=1}^{n}\lambda_kf_k(x)p(x)\right)dx+\lambda_0+\sum_{k=1}^{n}\lambda_kF_k
-\end{aligned}</script>其中，$\int_{-\infty}^{+\infty}$可以看作$\sum\limits_x$，因此可以按照$X$为离散型时的推导方法推得$X$的分布律为：<script type="math/tex; mode=display">\begin{aligned}    
+\end{aligned}</script><p>其中，$\int_{-\infty}^{+\infty}$可以看作$\sum\limits_x$，因此可以按照$X$为离散型时的推导方法推得$X$的分布律为：</p>
+<script type="math/tex; mode=display">\begin{aligned}    
 p(x) &=\cfrac{\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))}{\int_{-\infty}^{+\infty}\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))dx} \qquad (B.2)\\
 &=\cfrac{1}{Z}\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))
-\end{aligned}</script>其中$Z=\int_{-\infty}^{+\infty}\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))dx$。<h5 id="伯努利分布的最大熵推导："><a href="#伯努利分布的最大熵推导：" class="headerlink" title="伯努利分布的最大熵推导："></a>伯努利分布的最大熵推导：</h5><strong>“已知$X\in\{0,1\}$且期望$E[X]=\mu$时，伯努利分布是熵最大的分布”</strong>，证明如下：<br>已知$X\in\{0,1\}$，所以$X$属于离散型，则根据式（A.2）知$X$的分布律的一般形式为：<script type="math/tex; mode=display">p(x) =\cfrac{\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))}{\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(0))+\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(1))}</script>又已知$E[X]=\mu$，其等价于如下约束条件：<script type="math/tex; mode=display">\sum_{i=1}^{\vert X \vert} x_ip(x_i) =\mu</script>所以对比式（A.2）可知，此时$n=1,f_1(x_i)=x_i,F_1=\mu$，代入$p(x)$可得：<script type="math/tex; mode=display">p(x) =\cfrac{e^{-\lambda_1 x}}{1+e^{-\lambda_1}}</script>再由$E[X]=\mu$可得：<script type="math/tex; mode=display">E[X]=0*p(0)+1*p(1)=p(1)=\cfrac{e^{-\lambda_1}}{1+e^{-\lambda_1}}=\mu</script>所以$X$的分布律为：<script type="math/tex; mode=display">\begin{aligned}    
+\end{aligned}</script><p>其中$Z=\int_{-\infty}^{+\infty}\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))dx$。</p>
+<h5 id="伯努利分布的最大熵推导："><a href="#伯努利分布的最大熵推导：" class="headerlink" title="伯努利分布的最大熵推导："></a>伯努利分布的最大熵推导：</h5><p><strong>“已知$X\in\{0,1\}$且期望$E[X]=\mu$时，伯努利分布是熵最大的分布”</strong>，证明如下：<br>已知$X\in\{0,1\}$，所以$X$属于离散型，则根据式（A.2）知$X$的分布律的一般形式为：</p>
+<script type="math/tex; mode=display">p(x) =\cfrac{\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))}{\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(0))+\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(1))}</script><p>又已知$E[X]=\mu$，其等价于如下约束条件：</p>
+<script type="math/tex; mode=display">\sum_{i=1}^{\vert X \vert} x_ip(x_i) =\mu</script><p>所以对比式（A.2）可知，此时$n=1,f_1(x_i)=x_i,F_1=\mu$，代入$p(x)$可得：</p>
+<script type="math/tex; mode=display">p(x) =\cfrac{e^{-\lambda_1 x}}{1+e^{-\lambda_1}}</script><p>再由$E[X]=\mu$可得：</p>
+<script type="math/tex; mode=display">E[X]=0*p(0)+1*p(1)=p(1)=\cfrac{e^{-\lambda_1}}{1+e^{-\lambda_1}}=\mu</script><p>所以$X$的分布律为：</p>
+<script type="math/tex; mode=display">\begin{aligned}    
 p(0)&=1-\mu \\
 p(1)&=\mu
-\end{aligned}</script>显然此即为伯努利分布，证毕。<h5 id="正态分布的最大熵推导："><a href="#正态分布的最大熵推导：" class="headerlink" title="正态分布的最大熵推导："></a>正态分布的最大熵推导：</h5><strong>“已知$X$的均值为$\mu$，方差为$\sigma^2$时，正态分布是熵最大的分布”</strong>，证明如下<sup><a href="#ref5">[5]</a></sup>：<br>此时没有限定$X$的取值范围，则默认为$X\in(-\infty,+\infty)$的连续型，已知$X$的均值为$\mu$，方差为$\sigma^2$，其等价于如下约束条件：<script type="math/tex; mode=display">\int_{-\infty}^{+\infty}(x-\mu)^2p(x)dx = \sigma^2</script>所以对比式（B.1）可知，此时$n=1,f_1(x)=(x-\mu)^2,F_1=\sigma^2$，代入式（B.1）可得此时$X$的分布律：<script type="math/tex; mode=display">p(x) =\cfrac{\exp(-\lambda_1 (x-\mu)^2)}{\int_{-\infty}^{+\infty}\exp(-\lambda_1 (x-\mu)^2)dx}</script>再由$\int_{-\infty}^{+\infty}(x-\mu)^2p(x)dx = \sigma^2$解得：<script type="math/tex; mode=display">\lambda_1=\cfrac{1}{2\sigma^2}</script>代入$p(x)$中得：<script type="math/tex; mode=display">p(x) =\cfrac{1}{\sqrt{2\pi}\sigma}\exp\left(-\cfrac{(x-\mu)^2}{2\sigma^2}\right)</script>显然此即为正态分布，证毕。<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><span id="ref1">[1] 李航.《统计学习方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank" rel="external">Exponential family</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution" target="_blank" rel="external">Maximum entropy probability distribution</a></span><br><span id="ref4">[4] Murphy K P. 《Machine Learning: A Probabilistic Perspective》</span><br><span id="ref5">[5] 周晓飞. 《统计机器学习》课程的课件</span></li>
-</ul>
+\end{aligned}</script><p>显然此即为伯努利分布，证毕。</p>
+<h5 id="正态分布的最大熵推导："><a href="#正态分布的最大熵推导：" class="headerlink" title="正态分布的最大熵推导："></a>正态分布的最大熵推导：</h5><p><strong>“已知$X$的均值为$\mu$，方差为$\sigma^2$时，正态分布是熵最大的分布”</strong>，证明如下<sup><a href="#ref5">[5]</a></sup>：<br>此时没有限定$X$的取值范围，则默认为$X\in(-\infty,+\infty)$的连续型，已知$X$的均值为$\mu$，方差为$\sigma^2$，其等价于如下约束条件：</p>
+<script type="math/tex; mode=display">\int_{-\infty}^{+\infty}(x-\mu)^2p(x)dx = \sigma^2</script><p>所以对比式（B.1）可知，此时$n=1,f_1(x)=(x-\mu)^2,F_1=\sigma^2$，代入式（B.1）可得此时$X$的分布律：</p>
+<script type="math/tex; mode=display">p(x) =\cfrac{\exp(-\lambda_1 (x-\mu)^2)}{\int_{-\infty}^{+\infty}\exp(-\lambda_1 (x-\mu)^2)dx}</script><p>再由$\int_{-\infty}^{+\infty}(x-\mu)^2p(x)dx = \sigma^2$解得：</p>
+<script type="math/tex; mode=display">\lambda_1=\cfrac{1}{2\sigma^2}</script><p>代入$p(x)$中得：</p>
+<script type="math/tex; mode=display">p(x) =\cfrac{1}{\sqrt{2\pi}\sigma}\exp\left(-\cfrac{(x-\mu)^2}{2\sigma^2}\right)</script><p>显然此即为正态分布，证毕。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank" rel="external">Exponential family</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution" target="_blank" rel="external">Maximum entropy probability distribution</a></span><br><span id="ref4">[4] Murphy K P. 《Machine Learning: A Probabilistic Perspective》</span><br><span id="ref5">[5] 周晓飞. 《统计机器学习》课程的课件</span></p>
 ]]></content>
     
     <summary type="html">
