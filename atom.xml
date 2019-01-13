@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2019-01-13T10:42:08.656Z</updated>
+  <updated>2019-01-13T12:28:23.072Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy/"/>
     <id>http://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy/</id>
     <published>2019-01-13T07:55:30.000Z</published>
-    <updated>2019-01-13T10:42:08.656Z</updated>
+    <updated>2019-01-13T12:28:23.072Z</updated>
     
     <content type="html"><![CDATA[<h3 id="最大熵原理"><a href="#最大熵原理" class="headerlink" title="最大熵原理"></a>最大熵原理</h3><p>最大熵原理是概率模型学习的一个准则，最大熵原理认为：学习概率模型时，在所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以，最大熵原理也可以表述为在满足约束条件的模型集合中选取熵最大的模型<sup><a href="#ref1">[1]</a></sup>。此处所说的“熵”为信息论中的信息熵，信息熵定义如下：</p>
 <ul>
@@ -32,7 +32,7 @@
 p(x;\boldsymbol\theta) &= \cfrac{1}{Z(\boldsymbol\theta)} h(x) \exp\left(\eta(\boldsymbol\theta)^T T(x) \right) \\
 &= h(x) \exp\left(\eta(\boldsymbol\theta)^T T(x) − A(\boldsymbol\theta)\right)
 \end{aligned}</script><p>其中，$\eta(\boldsymbol\theta)$为natural parameter (也称canonical parameter)，是关于$\boldsymbol\theta$的函数，$T(x)$为sufficient statistic，$Z(\boldsymbol\theta)=\exp(-A(\boldsymbol\theta))$为partition function，是用来保证分布律的累加和$\sum\limits_x p(x;\boldsymbol\theta)=1$或者概率密度的积分值$\int_{-\infty}^{+\infty}p(x;\boldsymbol\theta)=1$，$b(x)$为一个关于$x$的函数，常见的伯努利分布和正态分布均属于指数分布族，所有指数分布族以及每个分布的各项参数值参见<a href="#ref2">[2]</a>里的表格。指数分布族有个很重要的性质：在给定的约束条件下，指数分布族是信息熵（微分熵）最大的分布。例如：在已知$X\in\{0,1\}$且期望$E[X]=\mu$时，伯努利分布是熵最大的分布；在已知$X$的均值为$\mu$，方差为$\sigma^2$时，正态分布是熵最大的分布，其他最大熵分布参见<a href="#ref3">[3]</a>里的表格。</p>
-<h5 id="指数族分布的最大熵推导："><a href="#指数族分布的最大熵推导：" class="headerlink" title="指数族分布的最大熵推导："></a>指数族分布的最大熵推导：</h5><p><strong>当$X$为离散型时</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref4">[4]</a></sup>：<br>若已知$X$满足如下约束条件：</p>
+<h5 id="指数族分布的最大熵推导："><a href="#指数族分布的最大熵推导：" class="headerlink" title="指数族分布的最大熵推导："></a>指数族分布的最大熵推导：</h5><p><strong>当$X$为离散型时</strong><sup><a href="#ref4">[4]</a></sup>：<br>若已知$X$满足如下约束条件：</p>
 <script type="math/tex; mode=display">\sum_{k=1}^{n}\sum_{i=1}^{\vert X \vert} f_k(x_i)p(x_i) = F_k \qquad (A.1)</script><p>其中，$\vert X \vert$为$X$的可能取值个数，$n$为约束个数，$f_k(x_i)$为任意函数，$F_k$为已知常数，此时求$X$的最大熵分布等价于求解如下优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}    
 \max\limits_{p}\quad&-\sum_{i=1}^{\vert X \vert} p(x_i)\ln p(x_i) \\
@@ -165,7 +165,7 @@ p(1)&=\mu
     <link href="http://www.sm1les.com/2019/01/02/logistic-regression-log-loss-and-quadratic-loss/"/>
     <id>http://www.sm1les.com/2019/01/02/logistic-regression-log-loss-and-quadratic-loss/</id>
     <published>2019-01-02T10:14:17.000Z</published>
-    <updated>2019-01-09T07:28:35.391Z</updated>
+    <updated>2019-01-13T10:50:14.716Z</updated>
     
     <content type="html"><![CDATA[<p>损失函数本身作为选取最优模型的准则，当然是可以任意选取的，但是不同的模型选取场景下，各个准则的评价效果是不同的，因此需要因地制宜，选择评价效果最好的准则。</p>
 <h3 id="平方损失函数"><a href="#平方损失函数" class="headerlink" title="平方损失函数"></a>平方损失函数</h3><p>由最小二乘法可以推得Logistic回归的平方损失函数为<sup><a href="#ref1">[1]</a></sup>：</p>
@@ -203,6 +203,8 @@ p(y|\boldsymbol x;\boldsymbol w) &= yp_1(\boldsymbol{x};\boldsymbol w)+(1-y)p_0(
     
       <category term="Logistic回归" scheme="http://www.sm1les.com/tags/Logistic%E5%9B%9E%E5%BD%92/"/>
     
+      <category term="损失函数" scheme="http://www.sm1les.com/tags/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/"/>
+    
   </entry>
   
   <entry>
@@ -210,7 +212,7 @@ p(y|\boldsymbol x;\boldsymbol w) &= yp_1(\boldsymbol{x};\boldsymbol w)+(1-y)p_0(
     <link href="http://www.sm1les.com/2018/12/19/logistic-regression-the-origin-of-sigmoid/"/>
     <id>http://www.sm1les.com/2018/12/19/logistic-regression-the-origin-of-sigmoid/</id>
     <published>2018-12-19T11:14:37.000Z</published>
-    <updated>2019-01-09T07:29:29.460Z</updated>
+    <updated>2019-01-13T10:50:52.197Z</updated>
     
     <content type="html"><![CDATA[<p>Logistic回归是一种广义线性模型（Generalized Linear Models），在学习广义线性模型之前需要先学习一下指数族分布（Exponential Family Distributions）。</p>
 <h3 id="指数族分布"><a href="#指数族分布" class="headerlink" title="指数族分布"></a>指数族分布</h3><p>顾名思义，指数族分布是某一类分布的总称，其分布律（概率密度）的一般表达形式如下：</p>

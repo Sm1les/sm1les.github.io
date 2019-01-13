@@ -42,7 +42,7 @@
 </div>
 <div id="tag-cloud">
 
-        <a href="/tags/KKT条件/" style="font-size: 10px;">KKT条件</a> <a href="/tags/Logistic回归/" style="font-size: 20px;">Logistic回归</a> <a href="/tags/Slater条件/" style="font-size: 10px;">Slater条件</a> <a href="/tags/对偶/" style="font-size: 10px;">对偶</a> <a href="/tags/指数分布族/" style="font-size: 10px;">指数分布族</a> <a href="/tags/最大熵/" style="font-size: 10px;">最大熵</a> <a href="/tags/正则化/" style="font-size: 10px;">正则化</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a>
+        <a href="/tags/KKT条件/" style="font-size: 10px;">KKT条件</a> <a href="/tags/Logistic回归/" style="font-size: 20px;">Logistic回归</a> <a href="/tags/Slater条件/" style="font-size: 10px;">Slater条件</a> <a href="/tags/对偶/" style="font-size: 10px;">对偶</a> <a href="/tags/指数分布族/" style="font-size: 10px;">指数分布族</a> <a href="/tags/损失函数/" style="font-size: 10px;">损失函数</a> <a href="/tags/最大熵/" style="font-size: 10px;">最大熵</a> <a href="/tags/正则化/" style="font-size: 10px;">正则化</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a>
     
 </div>
 <h6><a href="/about">About</a></h6>
@@ -78,7 +78,7 @@
 p(x;\boldsymbol\theta) &= \cfrac{1}{Z(\boldsymbol\theta)} h(x) \exp\left(\eta(\boldsymbol\theta)^T T(x) \right) \\
 &= h(x) \exp\left(\eta(\boldsymbol\theta)^T T(x) − A(\boldsymbol\theta)\right)
 \end{aligned}</script><p>其中，$\eta(\boldsymbol\theta)$为natural parameter (也称canonical parameter)，是关于$\boldsymbol\theta$的函数，$T(x)$为sufficient statistic，$Z(\boldsymbol\theta)=\exp(-A(\boldsymbol\theta))$为partition function，是用来保证分布律的累加和$\sum\limits_x p(x;\boldsymbol\theta)=1$或者概率密度的积分值$\int_{-\infty}^{+\infty}p(x;\boldsymbol\theta)=1$，$b(x)$为一个关于$x$的函数，常见的伯努利分布和正态分布均属于指数分布族，所有指数分布族以及每个分布的各项参数值参见<a href="#ref2">[2]</a>里的表格。指数分布族有个很重要的性质：在给定的约束条件下，指数分布族是信息熵（微分熵）最大的分布。例如：在已知$X\in\{0,1\}$且期望$E[X]=\mu$时，伯努利分布是熵最大的分布；在已知$X$的均值为$\mu$，方差为$\sigma^2$时，正态分布是熵最大的分布，其他最大熵分布参见<a href="#ref3">[3]</a>里的表格。</p>
-<h5 id="指数族分布的最大熵推导："><a href="#指数族分布的最大熵推导：" class="headerlink" title="指数族分布的最大熵推导："></a>指数族分布的最大熵推导：</h5><p><strong>当$X$为离散型时</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref4">[4]</a></sup>：<br>若已知$X$满足如下约束条件：</p>
+<h5 id="指数族分布的最大熵推导："><a href="#指数族分布的最大熵推导：" class="headerlink" title="指数族分布的最大熵推导："></a>指数族分布的最大熵推导：</h5><p><strong>当$X$为离散型时</strong><sup><a href="#ref4">[4]</a></sup>：<br>若已知$X$满足如下约束条件：</p>
 <script type="math/tex; mode=display">\sum_{k=1}^{n}\sum_{i=1}^{\vert X \vert} f_k(x_i)p(x_i) = F_k \qquad (A.1)</script><p>其中，$\vert X \vert$为$X$的可能取值个数，$n$为约束个数，$f_k(x_i)$为任意函数，$F_k$为已知常数，此时求$X$的最大熵分布等价于求解如下优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}    
 \max\limits_{p}\quad&-\sum_{i=1}^{\vert X \vert} p(x_i)\ln p(x_i) \\
