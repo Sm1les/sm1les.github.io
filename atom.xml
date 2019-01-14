@@ -272,7 +272,7 @@ h(\boldsymbol x) &= E(T(y)|\boldsymbol x;\theta) \\
     <link href="http://www.sm1les.com/2018/12/11/lagrange-duality/"/>
     <id>http://www.sm1les.com/2018/12/11/lagrange-duality/</id>
     <published>2018-12-11T07:36:48.000Z</published>
-    <updated>2019-01-13T07:59:29.475Z</updated>
+    <updated>2019-01-14T10:33:45.310Z</updated>
     
     <content type="html"><![CDATA[<p>对于带不等式约束的优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}
@@ -281,7 +281,7 @@ s.t.  \quad g_i(\boldsymbol x) &\leq 0 \quad (i=1,...,n) \\
 h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 \end{aligned}</script><p>令上述优化问题为<strong>“主问题”</strong>，其拉格朗日函数为：</p>
 <script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x)</script><p>其中$\boldsymbol \mu=(\mu_1,\mu_2,…,\mu_n)^T,\boldsymbol \lambda=(\lambda_1,\lambda_2,…,\lambda_m)^T$<br>定义$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$的<strong>对偶函数</strong>为：</p>
-<script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D}L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D} \left ( f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x) \right)</script><p>其中$D=\boldsymbol{dom}  f \cap \bigcap\limits_{i=1}^{m}\boldsymbol{dom}  g_i \cap \bigcap\limits_{j=1}^{n}\boldsymbol{dom}  h_j $<br>设$\tilde{\boldsymbol x}$为可行域中的点（即$g_i(\tilde{\boldsymbol x}) \leq 0$且$h_j(\tilde{\boldsymbol x}) = 0$），当$\boldsymbol \mu \succeq 0$时：</p>
+<script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D}L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D} \left ( f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x) \right)</script><p>其中$D=\boldsymbol{dom}  f \cap \bigcap\limits_{i=1}^{m}\boldsymbol{dom}  g_i \cap \bigcap\limits_{j=1}^{n}\boldsymbol{dom}  h_j $，为主问题的定义域。<br>设$\tilde{\boldsymbol x}$为可行域中的点（即$g_i(\tilde{\boldsymbol x}) \leq 0$且$h_j(\tilde{\boldsymbol x}) = 0$），当$\boldsymbol \mu \succeq 0$时：</p>
 <script type="math/tex; mode=display">\sum_{i=1}^{n}\mu_i g_i(\tilde{\boldsymbol x})+\sum_{j=1}^{m}\lambda_j h_j(\tilde{\boldsymbol x}) \leq 0</script><p>则</p>
 <script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D}L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda) \leq L(\tilde{\boldsymbol x},\boldsymbol \mu,\boldsymbol \lambda) \leq f(\tilde{\boldsymbol x})</script><script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda) \leq f(\tilde{\boldsymbol x})</script><p>这意味着当$\boldsymbol \mu \succeq 0$时，可行域中每个点$\tilde{\boldsymbol x}$均满足$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)\leq f(\tilde{\boldsymbol x})$，设主问题的最优值为$p^*$（即$\min f(\tilde{\boldsymbol x})$），则当$\boldsymbol \mu \succeq 0$时，$\Gamma (\boldsymbol \mu,\boldsymbol \lambda) \leq p^*$恒成立，此时对偶函数构成了最优值$p^*$的下界。于是可以考虑求最优下界来逼近$p^*$，也就是求对偶函数<strong>在$\boldsymbol \mu \succeq 0$约束下</strong>的最大值：</p>
 <script type="math/tex; mode=display">\max \Gamma (\boldsymbol \mu,\boldsymbol \lambda) \quad  s.t. \ \boldsymbol \mu \succeq 0</script><p>此时求对偶函数最大值的问题便是主问题的<strong>“对偶问题”</strong>。设对偶问题的最优值为$d^*$，显然$d^* \leq p^*$，此时称为“弱对偶性”成立，若$d^* = p^*$，则称为“强对偶性”成立，此时对偶问题的最优值便是主问题的最优值。<br>【注】：</p>
