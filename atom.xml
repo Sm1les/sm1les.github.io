@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2019-01-13T12:28:23.072Z</updated>
+  <updated>2019-01-15T02:51:26.324Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -16,22 +16,22 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>指数分布族与最大熵</title>
+    <title>指数族分布与最大熵</title>
     <link href="http://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy/"/>
     <id>http://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy/</id>
     <published>2019-01-13T07:55:30.000Z</published>
-    <updated>2019-01-13T12:28:23.072Z</updated>
+    <updated>2019-01-15T02:51:26.324Z</updated>
     
     <content type="html"><![CDATA[<h3 id="最大熵原理"><a href="#最大熵原理" class="headerlink" title="最大熵原理"></a>最大熵原理</h3><p>最大熵原理是概率模型学习的一个准则，最大熵原理认为：学习概率模型时，在所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以，最大熵原理也可以表述为在满足约束条件的模型集合中选取熵最大的模型<sup><a href="#ref1">[1]</a></sup>。此处所说的“熵”为信息论中的信息熵，信息熵定义如下：</p>
 <ul>
 <li>信息量：<script type="math/tex; mode=display">I(X) = -log_bp(X)</script>其中，$b=2$时单位为bit，$b=e$时单位为nat，$b=10$时单位为ban.</li>
 <li>信息熵是信息量的期望，即：<script type="math/tex; mode=display">H(X)=E[I(X)]=E[-log_bp(X)]</script>当$X$为离散型时：<script type="math/tex; mode=display">H(X)=-\sum_x p(x)log_bp(x)</script>当$X$为连续型时：<script type="math/tex; mode=display">H(X)=-\int_{-\infty}^{+\infty}p(x)log_bp(x)dx</script>其中$p(x)=p(X=x)$，当$X$为连续型时信息熵也称为微分熵，熵只依赖于$X$的分布，而与$X$的取值无关。</li>
 </ul>
-<h3 id="指数分布族"><a href="#指数分布族" class="headerlink" title="指数分布族"></a>指数分布族</h3><p>指数分布族（Exponential family）<sup><a href="#ref2">[2]</a></sup>是一类分布的总称，该类分布的分布律（概率密度）的一般形式如下：</p>
+<h3 id="指数族分布"><a href="#指数族分布" class="headerlink" title="指数族分布"></a>指数族分布</h3><p>指数族（Exponential family）分布<sup><a href="#ref2">[2]</a></sup>是一类分布的总称，该类分布的分布律（概率密度）的一般形式如下：</p>
 <script type="math/tex; mode=display">\begin{aligned}    
 p(x;\boldsymbol\theta) &= \cfrac{1}{Z(\boldsymbol\theta)} h(x) \exp\left(\eta(\boldsymbol\theta)^T T(x) \right) \\
 &= h(x) \exp\left(\eta(\boldsymbol\theta)^T T(x) − A(\boldsymbol\theta)\right)
-\end{aligned}</script><p>其中，$\eta(\boldsymbol\theta)$为natural parameter (也称canonical parameter)，是关于$\boldsymbol\theta$的函数，$T(x)$为sufficient statistic，$Z(\boldsymbol\theta)=\exp(-A(\boldsymbol\theta))$为partition function，是用来保证分布律的累加和$\sum\limits_x p(x;\boldsymbol\theta)=1$或者概率密度的积分值$\int_{-\infty}^{+\infty}p(x;\boldsymbol\theta)=1$，$b(x)$为一个关于$x$的函数，常见的伯努利分布和正态分布均属于指数分布族，所有指数分布族以及每个分布的各项参数值参见<a href="#ref2">[2]</a>里的表格。指数分布族有个很重要的性质：在给定的约束条件下，指数分布族是信息熵（微分熵）最大的分布。例如：在已知$X\in\{0,1\}$且期望$E[X]=\mu$时，伯努利分布是熵最大的分布；在已知$X$的均值为$\mu$，方差为$\sigma^2$时，正态分布是熵最大的分布，其他最大熵分布参见<a href="#ref3">[3]</a>里的表格。</p>
+\end{aligned}</script><p>其中，$\eta(\boldsymbol\theta)$为natural parameter (也称canonical parameter)，是关于$\boldsymbol\theta$的函数，$T(x)$为sufficient statistic，$Z(\boldsymbol\theta)=\exp(-A(\boldsymbol\theta))$为partition function，是用来保证分布律的累加和$\sum\limits_x p(x;\boldsymbol\theta)=1$或者概率密度的积分值$\int_{-\infty}^{+\infty}p(x;\boldsymbol\theta)=1$，$b(x)$为一个关于$x$的函数，常见的伯努利分布和正态分布均属于指数族分布，所有指数族分布以及每个分布的各项参数值参见<a href="#ref2">[2]</a>里的表格。指数族分布有个很重要的性质：在给定的约束条件下，指数族分布是信息熵（微分熵）最大的分布。例如：在已知$X\in\{0,1\}$且期望$E[X]=\mu$时，伯努利分布是熵最大的分布；在已知$X$的均值为$\mu$，方差为$\sigma^2$时，正态分布是熵最大的分布，其他最大熵分布参见<a href="#ref3">[3]</a>里的表格。</p>
 <h5 id="指数族分布的最大熵推导："><a href="#指数族分布的最大熵推导：" class="headerlink" title="指数族分布的最大熵推导："></a>指数族分布的最大熵推导：</h5><p><strong>当$X$为离散型时</strong><sup><a href="#ref4">[4]</a></sup>：<br>若已知$X$满足如下约束条件：</p>
 <script type="math/tex; mode=display">\sum_{k=1}^{n}\sum_{i=1}^{\vert X \vert} f_k(x_i)p(x_i) = F_k \qquad (A.1)</script><p>其中，$\vert X \vert$为$X$的可能取值个数，$n$为约束个数，$f_k(x_i)$为任意函数，$F_k$为已知常数，此时求$X$的最大熵分布等价于求解如下优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}    
@@ -62,7 +62,7 @@ e^{(1+\lambda_0)}=\sum_{i=1}^{\vert X \vert} \exp(-\sum_{k=1}^{n}\lambda_kf_k(x_
 <script type="math/tex; mode=display">\begin{aligned}    
 p(x) &=\cfrac{\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))}{\sum\limits_x\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))} \qquad (A.2) \\
 &=\cfrac{1}{Z}\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))
-\end{aligned}</script><p>其中$Z=\sum\limits_x\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))$，此时$p(x)$的表达式显然符合指数分布族的一般形式。（注：上述推导过程是结合<a href="#ref1">[1]</a>中例6.2和<a href="#ref4">[4]</a>中9.2.6所述内容而成）<br><strong>当$X$为连续型时</strong>：<br>若已知$X$满足如下约束条件：</p>
+\end{aligned}</script><p>其中$Z=\sum\limits_x\exp(-\sum\limits_{k=1}^{n}\lambda_kf_k(x))$，此时$p(x)$的表达式显然符合指数族分布的一般形式。（注：上述推导过程是结合<a href="#ref1">[1]</a>中例6.2和<a href="#ref4">[4]</a>中9.2.6所述内容而成）<br><strong>当$X$为连续型时</strong>：<br>若已知$X$满足如下约束条件：</p>
 <script type="math/tex; mode=display">\sum_{k=1}^{n}\int_{-\infty}^{+\infty}f_k(x)p(x)dx = F_k \qquad (B.1)</script><p>其中，$n$为约束个数，$f_k(x)$为任意函数，$F_k$为已知常数，此时求$X$的最大熵分布等价于求解如下优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}    
 \max\limits_{p}\quad&-\int_{-\infty}^{+\infty}p(x)\ln p(x)dx \\
@@ -105,7 +105,7 @@ p(1)&=\mu
       <category term="机器学习" scheme="http://www.sm1les.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="指数分布族" scheme="http://www.sm1les.com/tags/%E6%8C%87%E6%95%B0%E5%88%86%E5%B8%83%E6%97%8F/"/>
+      <category term="指数族分布" scheme="http://www.sm1les.com/tags/%E6%8C%87%E6%95%B0%E6%97%8F%E5%88%86%E5%B8%83/"/>
     
       <category term="最大熵" scheme="http://www.sm1les.com/tags/%E6%9C%80%E5%A4%A7%E7%86%B5/"/>
     
