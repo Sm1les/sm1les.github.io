@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+    <head>
+		
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="/styles/images/logo.jpg"/>
+        <link rel="alternate" type="application/rss+xml" title="Sm1les" href="/atom.xml">
+
+        <title>Logistic回归与最大熵 | Sm1les&#39;s blog</title>
+        <meta name="description" content="{{meta_description}}">
+
+        <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/styles/crisp.css">
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </head>
+    
+		<body class="post-template">
+	
+
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><header id="header">
+            <a id="logo" href="/"><img src="/styles/images/logo.jpg" alt="Sm1les's blog" /></a>
+            <h1><a href="/">Sm1les</a></h1>
+            <p></p>
+            <div id="follow-icons">
+	<a href="#"><i class="fa fa-instagram fa-2x"></i></a>
+	<a href="#"><i class="fa fa-pinterest-square fa-2x"></i></a>
+	<a href="http://github.com/Sm1les"><i class="fa fa-github-square fa-2x"></i></a>
+	<a href="#"><i class="fa fa-facebook-square fa-2x"></i></a>
+	<a href="#"><i class="fa fa-twitter-square fa-2x"></i></a>
+	<a href="#"><i class="fa fa-linkedin-square fa-2x"></i></a>
+	<a href="/atom.xml"><i class="fa fa-rss-square fa-2x"></i></a>
+</div>
+<div id="tag-cloud">
+
+        <a href="/tags/KKT条件/" style="font-size: 10px;">KKT条件</a> <a href="/tags/Logistic回归/" style="font-size: 20px;">Logistic回归</a> <a href="/tags/Slater条件/" style="font-size: 10px;">Slater条件</a> <a href="/tags/对偶/" style="font-size: 10px;">对偶</a> <a href="/tags/广义线性模型/" style="font-size: 10px;">广义线性模型</a> <a href="/tags/指数族分布/" style="font-size: 10px;">指数族分布</a> <a href="/tags/损失函数/" style="font-size: 10px;">损失函数</a> <a href="/tags/最大熵/" style="font-size: 20px;">最大熵</a> <a href="/tags/正则化/" style="font-size: 10px;">正则化</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a>
+    
+</div>
+<h6><a href="/about">About</a></h6>
+
+        </header>
+
+        <main id="content">
+        
+
+<article class="post">
+  
+  一月 17, 2019
+  
+    <span class="taglist">  &middot; 
+    
+    
+      <a href='/tags/最大熵/'>最大熵</a> 
+    
+      <a href='/tags/Logistic回归/'>Logistic回归</a> 
+    
+      <a href='/tags/广义线性模型/'>广义线性模型</a> 
+    
+    </span>
+  
+
+  <h1 class="post-title">Logistic回归与最大熵</h1>
+  <section class="post-content article-entry">
+    <p>根据Wikipedia上的资料显示，Logistic回归的起源主要有以下几大历程：最早由Pierre François Verhulst在对人口增长情况进行研究时提出Logistic function<sup><a href="#ref1">[1]</a></sup>，后来Joseph Berkson在其基础上提出Logit function<sup><a href="#ref2">[2]</a></sup>，再后来David Cox用Logit function来做二分类的回归分析，进而提出了Logistic regression<sup><a href="#ref3">[3]</a></sup>，详细的起源历程参见<a href="#ref4">[4]</a>和<a href="#ref5">[5]</a>。Logistic回归除了按照它的起源从对数几率的角度解释以外，还有业界比较认同的从最大熵的角度来解释，下面给出Logistic回归从最大熵角度的解释。</p>
+<p>对于数据集$\{(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2)…(\boldsymbol x_m,y_m)\}$，其中$\boldsymbol x_i\in \mathbb{R}^n,i=1,2…m$，Logistic回归在对随机变量$y\vert\boldsymbol x$建模的时候是假设其取值仅为0或1，即$y_i\in\{0,1\}$，且$y\vert\boldsymbol x$有固定但未知的期望$\mu$，所以根据<strong>最大熵原理</strong>，此时可以假设$y\vert\boldsymbol x$服从伯努利分布（原因参见<a href="https://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy">《指数族分布与最大熵》</a>），接着我们想用线性模型来对$y\vert\boldsymbol x$的概率$p(y\vert\boldsymbol x)$进行建模，于是可以通过广义线性模型（Generalized Linear Models）<sup><a href="#ref6">[6]</a></sup>的建模方法得到我们想要的模型。广义线性模型的建模步骤如下<sup><a href="#ref7">[7]</a></sup>：</p>
+<ul>
+<li>在给定$\boldsymbol x$的条件下，假设随机变量$y\vert\boldsymbol x$服从某个指数族分布（Exponential family）<sup><a href="#ref8">[8]</a></sup>；</li>
+<li>假设该指数族分布中的自然参数$\eta(\boldsymbol\theta)$和$\boldsymbol x$呈线性关系，即$\eta(\boldsymbol\theta) = \boldsymbol w^T \boldsymbol x$；</li>
+<li>建模出的模型为$T(y\vert\boldsymbol x)$的期望$E[T(y\vert\boldsymbol x)]$的表达式。</li>
+</ul>
+<p>在使用上述步骤对$y$进行建模前，先证明一下伯努利分布属于指数族分布：<br>伯努利分布的分布律如下：</p>
+<script type="math/tex; mode=display">p(x)=\mu^x (1-\mu)^{1-x}</script><p>其中$x\in\{0,1\}$，$\mu$为$x=1$的概率也为$x$的期望，即$p(1)=E[x]=\mu$。对其进行恒等变形可得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}    
+p(x) &= \mu^x (1-\mu)^{1-x} \\
+&= \exp(x \ln \mu+(1−x) \ln(1−\mu)) \\
+&= \exp \left((\ln(\cfrac{\mu}{1-\mu}))x+\ln(1-\mu) \right)
+\end{aligned}</script><p>对照<a href="https://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy">《指数族分布与最大熵》</a>中指数族分布的一般形式可知，伯努利分布属于指数族分布，且对应的指数族分布参数为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}    
+\boldsymbol\theta &=\mu &(A.1)\\
+\eta(\boldsymbol\theta)&= \ln(\cfrac{\mu}{1-\mu}) &(A.2)\\
+T(x) &= x &(A.3)\\
+A(\boldsymbol\theta) &= -\ln(1-\mu) &(A.4)\\
+h(x) &= 1 &(A.5)
+\end{aligned}</script><p>现在便可以根据上述广义线性模型的建模步骤对$y$进行建模：首先$y$服从伯努利分布，属于指数族分布，接着假设伯努利分布中的自然参数$\eta(\boldsymbol\theta)=\boldsymbol w^T \boldsymbol x$，再接着计算充分统计量$T(y\vert\boldsymbol x)$的期望表达式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}    
+E[T(y\vert\boldsymbol x)]&= E[y\vert\boldsymbol x] \\
+&= \mu \\
+&= \cfrac{1}{1+e^{(-\eta(\boldsymbol\theta))}} \\
+&= \cfrac{1}{1+e^{(-\boldsymbol w^T \boldsymbol x)}}
+\end{aligned}</script><p>其中，第1个等式由式（A.3）导出；第2个等式是因为$y\vert\boldsymbol x$服从伯努利分布，所以$E(y\vert\boldsymbol x)=1*p(1\vert\boldsymbol x)+0*(1-p(1\vert\boldsymbol x))=p(1\vert\boldsymbol x)=\mu$；第3个等式是由式(A.2)导出，所以现在建模出的模型为：</p>
+<script type="math/tex; mode=display">E(y\vert\boldsymbol x)=p(1\vert\boldsymbol x)=\cfrac{1}{1+e^{(-\boldsymbol w^T \boldsymbol x)}}</script><p>显然此即为Logistic回归模型。<br>【注】：</p>
+<ul>
+<li>上述广义线性模型的建模步骤是一种固定的建模方法，也就是说在构建广义线性模型时，我们唯一要做的就是假设$y\vert\boldsymbol x$服从何种<strong>指数族分布</strong>，通常是以最大熵原理为准则来假设$y\vert\boldsymbol x$的分布，例如在做二分类问题时通常假设$y\vert\boldsymbol x$服从伯努利分布，在做回归问题时通常假设$y\vert\boldsymbol x$服从高斯分布，在做网站访问量预测时通常假设$y\vert\boldsymbol x$服从泊松分布。在确定$y\vert\boldsymbol x$的分布后，只需按照上述步骤即可构建出一个广义线性模型；</li>
+<li>除了从伯努利分布属于最大熵分布来解释以外，还有学者直接通过最大熵原理推导出Logistic回归，详细推导过程参见<a href="#ref9">[9]</a>，文中推导思路如下：首先说明Logistic回归是多分类模型类别总数k=2时的特例，所以只要用最大熵原理推导出多分类模型也就推导出了Logistic回归。于是先证明了多分类模型的Softmax函数在取得最优参数时类似一个指示函数，接着便以此为约束条件用最大熵原理推导出Softmax函数，也即推导出多分类模型，进而也就推导出了Logistic回归。类似的直接从最大熵原理出发的推导还有<a href="#ref10">[10]</a>；</li>
+<li>Logistic回归也可以从贝叶斯的角度解释，参见<a href="#ref11">[11]</a></li>
+<li>本文启发自知乎上的讨论：<a href="https://www.zhihu.com/question/35322351" target="_blank" rel="external">为什么 LR 模型要使用 sigmoid 函数，背后的数学原理是什么？ - 知乎</a></li>
+</ul>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] <a href="https://en.wikipedia.org/wiki/Logistic_function" target="_blank" rel="external">Logistic function</a></span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Logit" target="_blank" rel="external">Logit</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Logistic_regression" target="_blank" rel="external">Logistic regression</a></span><br><span id="ref4">[4] <a href="https://chenrudan.github.io/blog/2016/01/09/logisticregression.html" target="_blank" rel="external">【机器学习算法系列之二】浅析Logistic Regression</a></span><br><span id="ref5">[5] Cramer J S . The Origins of Logistic Regression</span><br><span id="ref6">[6] <a href="https://en.wikipedia.org/wiki/Generalized_linear_model" target="_blank" rel="external">Generalized linear model</a></span><br><span id="ref7">[7] Andrew Ng. cs229-notes1</span><br><span id="ref8">[8] <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank" rel="external">Exponential family</a></span><br><span id="ref9">[9] <a href="http://www. win-vector. com/dfiles/LogisticRegressionMaxEnt. pdf" target="_blank" rel="external">Mount, J.The equivalence of logistic regression and maximum entropy models</a></span><br><span id="ref10">[10] <a href="https://www.zhihu.com/question/24094554/answer/108271031" target="_blank" rel="external">如何理解最大熵模型里面的特征？ - Semiring的回答 - 知乎</a></span><br><span id="ref11">[11] <a href="http://charleshm.github.io/2016/03/LR-and-NB/" target="_blank" rel="external">Logistic Regression and Naive Bayes</a></span></p>
+
+  </section>
+  <footer class="post-footer">
+    <!--
+    <section class="author">
+      <h4>Sm1les</h4>
+      <p></p>
+    </section>
+    -->
+  </footer>
+</article>
+
+<nav class="pagination" role="pagination">
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/01/13/exponential-family-and-maximum-entropy/">
+        <!--指数族分布与最大熵--> next →
+    </a>
+    
+</nav>
+
+<!-- Begin Comments Code -->
+
+  <div id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-logistic-regression-and-maximum-entropy" data-title="Logistic回归与最大熵" data-url="http://www.sm1les.com/2019/01/17/logistic-regression-and-maximum-entropy/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'sm1les'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+<!-- End Comments Code -->
+
+
+        </main>
+        <footer id="footer">
+            <section id="footer-message">&copy; 2019 Sm1les. All rights reserved. Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. <a href="https://github.com/guolin/crisp-hexo-theme" target="_blank">crisp</a> theme by <a href="http://guolin.github.io" target="_blank">Guo Lin</a>.</section>
+        </footer>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','/js/ga.js','ga');
+            ga('create', 'UA-131477813-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
+
+

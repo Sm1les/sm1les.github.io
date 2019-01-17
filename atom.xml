@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2019-01-15T02:51:26.324Z</updated>
+  <updated>2019-01-17T14:25:22.627Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -16,11 +16,75 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Logistic回归与最大熵</title>
+    <link href="http://www.sm1les.com/2019/01/17/logistic-regression-and-maximum-entropy/"/>
+    <id>http://www.sm1les.com/2019/01/17/logistic-regression-and-maximum-entropy/</id>
+    <published>2019-01-17T14:22:03.000Z</published>
+    <updated>2019-01-17T14:25:22.627Z</updated>
+    
+    <content type="html"><![CDATA[<p>根据Wikipedia上的资料显示，Logistic回归的起源主要有以下几大历程：最早由Pierre François Verhulst在对人口增长情况进行研究时提出Logistic function<sup><a href="#ref1">[1]</a></sup>，后来Joseph Berkson在其基础上提出Logit function<sup><a href="#ref2">[2]</a></sup>，再后来David Cox用Logit function来做二分类的回归分析，进而提出了Logistic regression<sup><a href="#ref3">[3]</a></sup>，详细的起源历程参见<a href="#ref4">[4]</a>和<a href="#ref5">[5]</a>。Logistic回归除了按照它的起源从对数几率的角度解释以外，还有业界比较认同的从最大熵的角度来解释，下面给出Logistic回归从最大熵角度的解释。</p>
+<p>对于数据集$\{(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2)…(\boldsymbol x_m,y_m)\}$，其中$\boldsymbol x_i\in \mathbb{R}^n,i=1,2…m$，Logistic回归在对随机变量$y\vert\boldsymbol x$建模的时候是假设其取值仅为0或1，即$y_i\in\{0,1\}$，且$y\vert\boldsymbol x$有固定但未知的期望$\mu$，所以根据<strong>最大熵原理</strong>，此时可以假设$y\vert\boldsymbol x$服从伯努利分布（原因参见<a href="https://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy">《指数族分布与最大熵》</a>），接着我们想用线性模型来对$y\vert\boldsymbol x$的概率$p(y\vert\boldsymbol x)$进行建模，于是可以通过广义线性模型（Generalized Linear Models）<sup><a href="#ref6">[6]</a></sup>的建模方法得到我们想要的模型。广义线性模型的建模步骤如下<sup><a href="#ref7">[7]</a></sup>：</p>
+<ul>
+<li>在给定$\boldsymbol x$的条件下，假设随机变量$y\vert\boldsymbol x$服从某个指数族分布（Exponential family）<sup><a href="#ref8">[8]</a></sup>；</li>
+<li>假设该指数族分布中的自然参数$\eta(\boldsymbol\theta)$和$\boldsymbol x$呈线性关系，即$\eta(\boldsymbol\theta) = \boldsymbol w^T \boldsymbol x$；</li>
+<li>建模出的模型为$T(y\vert\boldsymbol x)$的期望$E[T(y\vert\boldsymbol x)]$的表达式。</li>
+</ul>
+<p>在使用上述步骤对$y$进行建模前，先证明一下伯努利分布属于指数族分布：<br>伯努利分布的分布律如下：</p>
+<script type="math/tex; mode=display">p(x)=\mu^x (1-\mu)^{1-x}</script><p>其中$x\in\{0,1\}$，$\mu$为$x=1$的概率也为$x$的期望，即$p(1)=E[x]=\mu$。对其进行恒等变形可得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}    
+p(x) &= \mu^x (1-\mu)^{1-x} \\
+&= \exp(x \ln \mu+(1−x) \ln(1−\mu)) \\
+&= \exp \left((\ln(\cfrac{\mu}{1-\mu}))x+\ln(1-\mu) \right)
+\end{aligned}</script><p>对照<a href="https://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy">《指数族分布与最大熵》</a>中指数族分布的一般形式可知，伯努利分布属于指数族分布，且对应的指数族分布参数为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}    
+\boldsymbol\theta &=\mu &(A.1)\\
+\eta(\boldsymbol\theta)&= \ln(\cfrac{\mu}{1-\mu}) &(A.2)\\
+T(x) &= x &(A.3)\\
+A(\boldsymbol\theta) &= -\ln(1-\mu) &(A.4)\\
+h(x) &= 1 &(A.5)
+\end{aligned}</script><p>现在便可以根据上述广义线性模型的建模步骤对$y$进行建模：首先$y$服从伯努利分布，属于指数族分布，接着假设伯努利分布中的自然参数$\eta(\boldsymbol\theta)=\boldsymbol w^T \boldsymbol x$，再接着计算充分统计量$T(y\vert\boldsymbol x)$的期望表达式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}    
+E[T(y\vert\boldsymbol x)]&= E[y\vert\boldsymbol x] \\
+&= \mu \\
+&= \cfrac{1}{1+e^{(-\eta(\boldsymbol\theta))}} \\
+&= \cfrac{1}{1+e^{(-\boldsymbol w^T \boldsymbol x)}}
+\end{aligned}</script><p>其中，第1个等式由式（A.3）导出；第2个等式是因为$y\vert\boldsymbol x$服从伯努利分布，所以$E(y\vert\boldsymbol x)=1*p(1\vert\boldsymbol x)+0*(1-p(1\vert\boldsymbol x))=p(1\vert\boldsymbol x)=\mu$；第3个等式是由式(A.2)导出，所以现在建模出的模型为：</p>
+<script type="math/tex; mode=display">E(y\vert\boldsymbol x)=p(1\vert\boldsymbol x)=\cfrac{1}{1+e^{(-\boldsymbol w^T \boldsymbol x)}}</script><p>显然此即为Logistic回归模型。<br>【注】：</p>
+<ul>
+<li>上述广义线性模型的建模步骤是一种固定的建模方法，也就是说在构建广义线性模型时，我们唯一要做的就是假设$y\vert\boldsymbol x$服从何种<strong>指数族分布</strong>，通常是以最大熵原理为准则来假设$y\vert\boldsymbol x$的分布，例如在做二分类问题时通常假设$y\vert\boldsymbol x$服从伯努利分布，在做回归问题时通常假设$y\vert\boldsymbol x$服从高斯分布，在做网站访问量预测时通常假设$y\vert\boldsymbol x$服从泊松分布。在确定$y\vert\boldsymbol x$的分布后，只需按照上述步骤即可构建出一个广义线性模型；</li>
+<li>除了从伯努利分布属于最大熵分布来解释以外，还有学者直接通过最大熵原理推导出Logistic回归，详细推导过程参见<a href="#ref9">[9]</a>，文中推导思路如下：首先说明Logistic回归是多分类模型类别总数k=2时的特例，所以只要用最大熵原理推导出多分类模型也就推导出了Logistic回归。于是先证明了多分类模型的Softmax函数在取得最优参数时类似一个指示函数，接着便以此为约束条件用最大熵原理推导出Softmax函数，也即推导出多分类模型，进而也就推导出了Logistic回归。类似的直接从最大熵原理出发的推导还有<a href="#ref10">[10]</a>；</li>
+<li>Logistic回归也可以从贝叶斯的角度解释，参见<a href="#ref11">[11]</a></li>
+<li>本文启发自知乎上的讨论：<a href="https://www.zhihu.com/question/35322351" target="_blank" rel="external">为什么 LR 模型要使用 sigmoid 函数，背后的数学原理是什么？ - 知乎</a></li>
+</ul>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] <a href="https://en.wikipedia.org/wiki/Logistic_function" target="_blank" rel="external">Logistic function</a></span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Logit" target="_blank" rel="external">Logit</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Logistic_regression" target="_blank" rel="external">Logistic regression</a></span><br><span id="ref4">[4] <a href="https://chenrudan.github.io/blog/2016/01/09/logisticregression.html" target="_blank" rel="external">【机器学习算法系列之二】浅析Logistic Regression</a></span><br><span id="ref5">[5] Cramer J S . The Origins of Logistic Regression</span><br><span id="ref6">[6] <a href="https://en.wikipedia.org/wiki/Generalized_linear_model" target="_blank" rel="external">Generalized linear model</a></span><br><span id="ref7">[7] Andrew Ng. cs229-notes1</span><br><span id="ref8">[8] <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank" rel="external">Exponential family</a></span><br><span id="ref9">[9] <a href="http://www. win-vector. com/dfiles/LogisticRegressionMaxEnt. pdf" target="_blank" rel="external">Mount, J.The equivalence of logistic regression and maximum entropy models</a></span><br><span id="ref10">[10] <a href="https://www.zhihu.com/question/24094554/answer/108271031" target="_blank" rel="external">如何理解最大熵模型里面的特征？ - Semiring的回答 - 知乎</a></span><br><span id="ref11">[11] <a href="http://charleshm.github.io/2016/03/LR-and-NB/" target="_blank" rel="external">Logistic Regression and Naive Bayes</a></span></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;根据Wikipedia上的资料显示，Logistic回归的起源主要有以下几大历程：最早由Pierre François Verhulst在对人口增长情况进行研究时提出Logistic function&lt;sup&gt;&lt;a href=&quot;#ref1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt;，后来
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://www.sm1les.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="最大熵" scheme="http://www.sm1les.com/tags/%E6%9C%80%E5%A4%A7%E7%86%B5/"/>
+    
+      <category term="Logistic回归" scheme="http://www.sm1les.com/tags/Logistic%E5%9B%9E%E5%BD%92/"/>
+    
+      <category term="广义线性模型" scheme="http://www.sm1les.com/tags/%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/"/>
+    
+  </entry>
+  
+  <entry>
     <title>指数族分布与最大熵</title>
     <link href="http://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy/"/>
     <id>http://www.sm1les.com/2019/01/13/exponential-family-and-maximum-entropy/</id>
     <published>2019-01-13T07:55:30.000Z</published>
-    <updated>2019-01-15T02:51:26.324Z</updated>
+    <updated>2019-01-17T10:34:22.683Z</updated>
     
     <content type="html"><![CDATA[<h3 id="最大熵原理"><a href="#最大熵原理" class="headerlink" title="最大熵原理"></a>最大熵原理</h3><p>最大熵原理是概率模型学习的一个准则，最大熵原理认为：学习概率模型时，在所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以，最大熵原理也可以表述为在满足约束条件的模型集合中选取熵最大的模型<sup><a href="#ref1">[1]</a></sup>。此处所说的“熵”为信息论中的信息熵，信息熵定义如下：</p>
 <ul>
@@ -31,7 +95,7 @@
 <script type="math/tex; mode=display">\begin{aligned}    
 p(x;\boldsymbol\theta) &= \cfrac{1}{Z(\boldsymbol\theta)} h(x) \exp\left(\eta(\boldsymbol\theta)^T T(x) \right) \\
 &= h(x) \exp\left(\eta(\boldsymbol\theta)^T T(x) − A(\boldsymbol\theta)\right)
-\end{aligned}</script><p>其中，$\eta(\boldsymbol\theta)$为natural parameter (也称canonical parameter)，是关于$\boldsymbol\theta$的函数，$T(x)$为sufficient statistic，$Z(\boldsymbol\theta)=\exp(-A(\boldsymbol\theta))$为partition function，是用来保证分布律的累加和$\sum\limits_x p(x;\boldsymbol\theta)=1$或者概率密度的积分值$\int_{-\infty}^{+\infty}p(x;\boldsymbol\theta)=1$，$b(x)$为一个关于$x$的函数，常见的伯努利分布和正态分布均属于指数族分布，所有指数族分布以及每个分布的各项参数值参见<a href="#ref2">[2]</a>里的表格。指数族分布有个很重要的性质：在给定的约束条件下，指数族分布是信息熵（微分熵）最大的分布。例如：在已知$X\in\{0,1\}$且期望$E[X]=\mu$时，伯努利分布是熵最大的分布；在已知$X$的均值为$\mu$，方差为$\sigma^2$时，正态分布是熵最大的分布，其他最大熵分布参见<a href="#ref3">[3]</a>里的表格。</p>
+\end{aligned}</script><p>其中，$\boldsymbol\theta$为指数族分布的参数，视具体的分布而定，既可以是向量也可以是标量，此处暂用向量的形式表示，$\eta(\boldsymbol\theta)$是关于$\boldsymbol\theta$的函数，称作自然参数 (natural parameter，也称canonical parameter)，$T(x)$为充分统计量（sufficient statistic），$Z(\boldsymbol\theta)=\exp(-A(\boldsymbol\theta))$为配分函数（partition function），是用来保证分布律的累加和$\sum\limits_x p(x|\boldsymbol\theta)=1$或者概率密度的积分值$\int_{-\infty}^{+\infty}p(x|\boldsymbol\theta)=1$，$b(x)$为一个关于$x$的函数，常见的伯努利分布和正态分布均属于指数族分布，所有指数族分布以及每个分布的各项参数值参见<a href="#ref2">[2]</a>里的表格。指数族分布有个很重要的性质：在给定的约束条件下，指数族分布是信息熵（微分熵）最大的分布。例如：在已知$X\in\{0,1\}$且期望$E[X]=\mu$时，伯努利分布是熵最大的分布；在已知$X$的均值为$\mu$，方差为$\sigma^2$时，正态分布是熵最大的分布，其他最大熵分布参见<a href="#ref3">[3]</a>里的表格。</p>
 <h5 id="指数族分布的最大熵推导："><a href="#指数族分布的最大熵推导：" class="headerlink" title="指数族分布的最大熵推导："></a>指数族分布的最大熵推导：</h5><p><strong>当$X$为离散型时</strong><sup><a href="#ref4">[4]</a></sup>：<br>若已知$X$满足如下约束条件：</p>
 <script type="math/tex; mode=display">\sum_{k=1}^{n}\sum_{i=1}^{\vert X \vert} f_k(x_i)p(x_i) = F_k \qquad (A.1)</script><p>其中，$\vert X \vert$为$X$的可能取值个数，$n$为约束个数，$f_k(x_i)$为任意函数，$F_k$为已知常数，此时求$X$的最大熵分布等价于求解如下优化问题：</p>
 <script type="math/tex; mode=display">\begin{aligned}    
@@ -116,7 +180,7 @@ p(1)&=\mu
     <link href="http://www.sm1les.com/2019/01/07/l1-and-l2-regularization/"/>
     <id>http://www.sm1les.com/2019/01/07/l1-and-l2-regularization/</id>
     <published>2019-01-07T09:35:09.000Z</published>
-    <updated>2019-01-09T08:00:52.680Z</updated>
+    <updated>2019-01-17T13:58:51.504Z</updated>
     
     <content type="html"><![CDATA[<p>正则化是结构风险最小化策略的实现，是在经验风险上加一个正则化项或罚项，正则化项一般是模型复杂度的单调递增函数，模型越复杂，正则化值就越大。例如模型参数向量的范数，正则化的一般形式如下<sup><a href="#ref1">[1]</a></sup>：</p>
 <script type="math/tex; mode=display">\min \limits_{f\in\mathcal{F}} \left( \cfrac{1}{N} \sum_{N}^{i=1} L(y_i,f(x_i))+\lambda J(f) \right) \qquad (A.1)</script><p>其中，第1项是经验风险，第2项是正则化项，$\lambda$为调整两者之间关系的系数。常用的正则化项是模型参数向量的$L_1$范数和$L_2$范数，分别称作L1正则化和L2正则化。以线性回归为例，其L1正则化的损失函数为：</p>
@@ -143,6 +207,7 @@ p(1)&=\mu
 <li>L1正则化不易求解，这是因为绝对值函数通常都不好求解；</li>
 <li>L1正则化相对于L2正则化对异常值敏感度低，这是因为当$\vert w_i \vert&gt;1$时，$\sum\vert w_i \vert &lt; \sum(w_i)^2$，从而对异常值敏感度低。</li>
 </ul>
+<p>【注】：除了以上两个角度以外，还可以从贝叶斯的角度解释，参见<a href="#ref4">[4]</a>。</p>
 <h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)" target="_blank" rel="external">Lasso (statistics)</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Tikhonov_regularization" target="_blank" rel="external"> Ridge regression</a></span><br><span id="ref4">[4] <a href="https://www.zhihu.com/question/37096933" target="_blank" rel="external">l1 相比于 l2 为什么容易获得稀疏解？</a></span></p>
 ]]></content>
     
@@ -204,66 +269,6 @@ p(y|\boldsymbol x;\boldsymbol w) &= yp_1(\boldsymbol{x};\boldsymbol w)+(1-y)p_0(
       <category term="Logistic回归" scheme="http://www.sm1les.com/tags/Logistic%E5%9B%9E%E5%BD%92/"/>
     
       <category term="损失函数" scheme="http://www.sm1les.com/tags/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Logistic回归——sigmoid函数的由来</title>
-    <link href="http://www.sm1les.com/2018/12/19/logistic-regression-the-origin-of-sigmoid/"/>
-    <id>http://www.sm1les.com/2018/12/19/logistic-regression-the-origin-of-sigmoid/</id>
-    <published>2018-12-19T11:14:37.000Z</published>
-    <updated>2019-01-13T10:50:52.197Z</updated>
-    
-    <content type="html"><![CDATA[<p>Logistic回归是一种广义线性模型（Generalized Linear Models），在学习广义线性模型之前需要先学习一下指数族分布（Exponential Family Distributions）。</p>
-<h3 id="指数族分布"><a href="#指数族分布" class="headerlink" title="指数族分布"></a>指数族分布</h3><p>顾名思义，指数族分布是某一类分布的总称，其分布律（概率密度）的一般表达形式如下：</p>
-<script type="math/tex; mode=display">p(y;\eta) = b(y) \exp(\eta^T T(y) − a(\eta)) \label{1} \qquad (A.1)</script><p>其中$\eta$为natural parameter (也称canonical parameter)；$T(y)$为sufficient statistic（通常取$T(y)=y$）；$a(\eta)$是用来保证分布律的累加和$\sum p(y;\eta)=1$或者概率密度的积分值$\int p(y;\eta)=1$；$b(y)$为一个关于$y$的函数。<strong>伯努利分布</strong>和<strong>高斯分布</strong>均属于指数族分布，推导过程如下：</p>
-<h5 id="伯努利分布："><a href="#伯努利分布：" class="headerlink" title="伯努利分布："></a>伯努利分布：</h5><script type="math/tex; mode=display">p(y)=\phi^y (1-\phi)^{1-y}</script><p>其中$y=0,1$，$\phi$为$y=1$的概率$p(y=1)$。对其进行恒等变形可得：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}    
-p(y) &= \phi^y (1-\phi)^{1-y} \\
-&= \exp(y \ln \phi+(1−y) \ln(1−\phi)) \\
-&= \exp \left((\ln(\cfrac{\phi}{1-\phi}))y+\ln(1-\phi) \right)
-\end{aligned}</script><p>对照式(A.1)可知，伯努利分布的指数族分布参数为：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}    
-\eta &= \ln(\cfrac{\phi}{1-\phi}) &(B.1)\\
-T(y) &= y &(B.2)\\
-a(\eta) &= -\ln(1-\phi) &(B.3)\\
-b(y) &= 1 &(B.4)
-\end{aligned}</script><h5 id="高斯分布："><a href="#高斯分布：" class="headerlink" title="高斯分布："></a>高斯分布：</h5><p>参见<a href="#ref1">[1]</a></p>
-<h3 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h3><p>由以下三条假设构建出的模型即为广义线性模型：</p>
-<ol>
-<li>给定$\boldsymbol x$和$\theta$，$y$服从参数为$\eta$的指数族分布，即$y | \boldsymbol x; \theta \sim ExponentialFamily(\eta)$；</li>
-<li>在给定$\boldsymbol x$的前提下，模型的目标是求出用$\boldsymbol x$表示的$T(y)$的<strong>期望值</strong>表达式，即$h_{\theta}(\boldsymbol x)=E(T(y)|\boldsymbol x;\theta)$；</li>
-<li>参数$\eta$和$\boldsymbol x$呈线性关系，即$\eta = \theta^T \boldsymbol x$.</li>
-</ol>
-<p>在对二分类任务进行建模的时候，类别$y ∈ \{0,1\}$，所以我们很自然地选择伯努利分布来对$y$进行建模，即假设$y$服从伯努利分布，接下来便可以用上述三条假设和伯努利分布的指数族分布参数来构建一个广义线性模型：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}    
-h(\boldsymbol x) &= E(T(y)|\boldsymbol x;\theta) \\
-&= E(y|\boldsymbol x;\theta) \\
-&= \phi \\
-&= \cfrac{1}{1+e^{(-\eta)}} \\
-&= \cfrac{1}{1+e^{(-\theta^T\boldsymbol x)}}
-\end{aligned}</script><p>第1个等式即为假设2；第2个等式由式(B.2)导出；第3个等式是因为伯努利分布的期望为$E(y|\boldsymbol x;\theta)=1· \phi + 0 · (1-\phi)=\phi$；第4个等式是由式(B.1)导出；第5个等式则是由假设3导出。此广义线性模型即为Logistic回归模型，在给定$\boldsymbol x$和$\theta$时，$y=1$的概率$p(y=1|\boldsymbol x;\theta)=\phi=\cfrac{1}{1+e^{(-\theta^T\boldsymbol x)}}$即为sigmoid函数。<br>【注】：</p>
-<ul>
-<li>上述三条假设是一种固定的广义线性模型构建方法，在问题建模的过程中我们唯一要做的就是假设$y$服从何种<strong>指数族分布</strong>，例如在做二分类问题时通常假设$y$服从伯努利分布，在做回归问题时通常假设$y$服从高斯分布，在做网站访问量预测时通常假设$y$服从泊松分布。在确定$y$的分布后，只需按照上述三条假设即可构建出一个广义线性模型；</li>
-<li>线性回归也属于广义线性模型，推导过程参见<a href="#ref1">[1]</a>。</li>
-</ul>
-<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] cs229-notes1</span></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Logistic回归是一种广义线性模型（Generalized Linear Models），在学习广义线性模型之前需要先学习一下指数族分布（Exponential Family Distributions）。&lt;/p&gt;
-&lt;h3 id=&quot;指数族分布&quot;&gt;&lt;a href=&quot;#指数
-    
-    </summary>
-    
-      <category term="机器学习" scheme="http://www.sm1les.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="Logistic回归" scheme="http://www.sm1les.com/tags/Logistic%E5%9B%9E%E5%BD%92/"/>
     
   </entry>
   
