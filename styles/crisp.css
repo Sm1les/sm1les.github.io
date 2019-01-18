@@ -68,7 +68,7 @@ p, hr, h4, h5, h6 {
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
 	font-family: "Bree Serif", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", serif;
-	font-weight: 400 !important;
+	/* font-weight: 400 !important; */
 }
 h1 {
 	font-size: 2em;
@@ -196,6 +196,7 @@ header #logo img {
 	background-color: #5cc265;
 	padding: 5px;
 	margin-right: 5px;
+	white-space:nowrap;
 }
 #tag-cloud a:hover{
 	text-decoration: underline;
@@ -216,6 +217,7 @@ h3.post-title {
 	padding-bottom:0.9em;
 	border-bottom: 1px solid #eee;
 	font-size: 1.2em;
+	font-weight: 400 !important;
 	color: #444;
 }
 .post-title .feature-star {
@@ -305,7 +307,6 @@ footer a:hover {
 		margin-left: 2em; 
 	}
 }
-
 
 .article-entry pre,
 .article-entry .highlight {
