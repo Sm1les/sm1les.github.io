@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2019-01-18T05:35:30.038Z</updated>
+  <updated>2019-03-01T14:31:41.911Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -14,6 +14,50 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>梯度下降法与牛顿法</title>
+    <link href="http://www.sm1les.com/2019/03/01/gradient-descent-and-newton-method/"/>
+    <id>http://www.sm1les.com/2019/03/01/gradient-descent-and-newton-method/</id>
+    <published>2019-03-01T03:21:35.000Z</published>
+    <updated>2019-03-01T14:31:41.911Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="梯度下降法的泰勒公式推导-1-："><a href="#梯度下降法的泰勒公式推导-1-：" class="headerlink" title="梯度下降法的泰勒公式推导[1]："></a>梯度下降法的泰勒公式推导<sup><a href="#ref1">[1]</a></sup>：</h3><p>梯度下降法的目标是使得$f(x_t+\Delta x )&lt;f(x_t)$，由泰勒公式可知，$f(x)$在$x_t$点的一阶泰勒展开为：</p>
+<script type="math/tex; mode=display">f(x) = f(x_t)+f’(x_t)(x-x_t)</script><p>则</p>
+<script type="math/tex; mode=display">f(x_{t+1}) = f(x_t)+f’(x_t)(x_{t+1}-x_t)</script><p>又$x_{t+1}$可等价写作$x_t + \Delta x$，则上式可化为：</p>
+<script type="math/tex; mode=display">f(x_t + \Delta x) = f(x_t)+f’(x_t) \cdot \Delta x</script><p>所以要想使得$f(x_t+\Delta x )<f(x_t)$，$f’(x_t) \cdot \delta x$必须小于0，此时$f’(x_t)$为定值，$\delta x$为可控部分，于是可以令$\delta x="-\eta" f’(x_t)$，其中$\eta>0$，则</f(x_t)$，$f’(x_t)></p>
+<script type="math/tex; mode=display">f’(x_t) \cdot \Delta x= -\eta(f’(x_t))^2<0</script><p>由此可以推得当$\Delta x = -\eta \cdot f’(x_t)$时，$f(x_t+\Delta x )&lt;f(x_t)$恒成立。</p>
+<h3 id="牛顿法的泰勒公式推导-2-："><a href="#牛顿法的泰勒公式推导-2-：" class="headerlink" title="牛顿法的泰勒公式推导[2]："></a>牛顿法的泰勒公式推导<sup><a href="#ref2">[2]</a></sup>：</h3><p>对于无约束的<strong>凸优化</strong>问题</p>
+<script type="math/tex; mode=display">\min\limits_{\boldsymbol{x} \in \mathbb{R}^n}f(\boldsymbol{x})</script><p>其中$\boldsymbol{x}^*$为目标函数的最小值点，也是极小值点，牛顿法利用极小值点的必要条件</p>
+<script type="math/tex; mode=display">\nabla f(\boldsymbol{x}^*)=\boldsymbol{0}</script><p>从点$\boldsymbol{x}^t$开始，求$ f(\boldsymbol{x})$在$\boldsymbol{x}^t$点的二阶泰勒展开式的极小值点（仅当$\boldsymbol{x}^{t}$点的海赛矩阵（Hessian matrix）为正定矩阵时），作为下一次（第$t+1$次）的迭代值$\boldsymbol{x}^{t+1}$，直到某次迭代值$\boldsymbol{x}^{t+1}$使得$\parallel\nabla f(\boldsymbol{x}^{t+1})\parallel&lt;\epsilon$时停止迭代，其中$\epsilon$为自定义的精度要求，具体迭代步骤如下，由多元函数的泰勒展开式<sup><a href="#ref3">[3]</a></sup>可得$f(\boldsymbol{x})$在$\boldsymbol{x}^{t}$点的二阶泰勒展开式为：</p>
+<script type="math/tex; mode=display">f(\boldsymbol{x})=f(\boldsymbol{x}^t)+g_t^T \cdot (\boldsymbol{x}-\boldsymbol{x}^t)+\cfrac{1}{2}(\boldsymbol{x}-\boldsymbol{x}^t)^T \cdot H_t \cdot (\boldsymbol{x}-\boldsymbol{x}^t)</script><p>其中$g_t$为$f(\boldsymbol{x})$在$\boldsymbol{x}^{t}$点的梯度值，$H_t$为$f(\boldsymbol{x})$在$\boldsymbol{x}^{t}$点的海赛矩阵值。对上式求导并令其等于$\boldsymbol{0}$可得：</p>
+<script type="math/tex; mode=display">g_t + H_t \cdot (\boldsymbol{x}-\boldsymbol{x}^t)=\boldsymbol{0}</script><p>解得$\boldsymbol{x}=\boldsymbol{x}^t-H_t^{-1}g_t$，令其为下一次的迭代值，即$\boldsymbol{x}^{t+1}=\boldsymbol{x}^t-H_t^{-1}g_t$。<br>【注】：</p>
+<ul>
+<li>牛顿法是经典的求根方法，在最优化问题里，通常最值点也是极值点，所以目标函数$f(x)$的一阶导函数$f’(x)$在最值点处一定等于0，此时求目标函数$f(x)$最小值的问题转化为了求目标函数的一阶导函数$f’(x)$的根的问题<sup><a href="#ref4">[4]</a></sup>；</li>
+<li>关于牛顿法和梯度下降法的效率对比：从本质上去看，牛顿法是二阶收敛，梯度下降是一阶收敛，所以牛顿法就更快。如果更通俗地说的话，比如你想找一条最短的路径走到一个盆地的最底部，梯度下降法每次只从你当前所处位置选一个坡度最大的方向走一步，牛顿法在选择方向时，不仅会考虑坡度是否够大，还会考虑你走了一步之后，坡度是否会变得更大。所以，可以说牛顿法比梯度下降法看得更远一点，能更快地走到最底部。（牛顿法目光更加长远，所以少走弯路；相对而言，梯度下降法只考虑了局部的最优，没有全局思想。）根据wiki上的解释，从几何上说，牛顿法就是用一个二次曲面去拟合你当前所处位置的局部曲面，而梯度下降法是用一个平面去拟合当前的局部曲面，通常情况下，二次曲面的拟合会比平面更好，所以牛顿法选择的下降路径会更符合真实的最优下降路径。<center>
+<img src="./gdandnewton.jpg"><br>
+红色为牛顿法的迭代路径，绿色为梯度下降法的迭代路径
+</center>
+
+</li>
+</ul>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] <a href="https://zhuanlan.zhihu.com/p/36564434" target="_blank" rel="noopener">梯度下降法 —— 经典的优化方法</a></span><br><span id="ref2">[2]  李航.《统计学习方法》</span><br><span id="ref3">[3] <a href="https://blog.csdn.net/red_stone1/article/details/70260070" target="_blank" rel="noopener">多元函数的泰勒(Taylor)展开式</a></span><br><span id="ref4">[4] <a href="http://sofasofa.io/forum_main_post.php?postid=1000966" target="_blank" rel="noopener">牛顿法到底是一阶优化算法还是二阶优化算法？</a></span></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;梯度下降法的泰勒公式推导-1-：&quot;&gt;&lt;a href=&quot;#梯度下降法的泰勒公式推导-1-：&quot; class=&quot;headerlink&quot; title=&quot;梯度下降法的泰勒公式推导[1]：&quot;&gt;&lt;/a&gt;梯度下降法的泰勒公式推导&lt;sup&gt;&lt;a href=&quot;#ref1&quot;&gt;[1]&lt;/
+    
+    </summary>
+    
+      <category term="最优化" scheme="http://www.sm1les.com/categories/%E6%9C%80%E4%BC%98%E5%8C%96/"/>
+    
+    
+      <category term="梯度下降法" scheme="http://www.sm1les.com/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/"/>
+    
+      <category term="牛顿法" scheme="http://www.sm1les.com/tags/%E7%89%9B%E9%A1%BF%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>Logistic回归与最大熵</title>
@@ -57,9 +101,9 @@ E[T(y\vert\boldsymbol x)]&= E[y\vert\boldsymbol x] \\
 <li>上述广义线性模型的建模步骤是一种固定的建模方法，也就是说在构建广义线性模型时，我们唯一要做的就是假设$y\vert\boldsymbol x$服从何种<strong>指数族分布</strong>，通常是以最大熵原理为准则来假设$y\vert\boldsymbol x$的分布，例如在做二分类问题时通常假设$y\vert\boldsymbol x$服从伯努利分布，在做回归问题时通常假设$y\vert\boldsymbol x$服从高斯分布，在做网站访问量预测时通常假设$y\vert\boldsymbol x$服从泊松分布。在确定$y\vert\boldsymbol x$的分布后，只需按照上述步骤即可构建出一个广义线性模型；</li>
 <li>除了从伯努利分布属于最大熵分布来解释以外，还有学者直接通过最大熵原理推导出Logistic回归，详细推导过程参见<a href="#ref9">[9]</a>，文中推导思路如下：首先说明Logistic回归是多分类模型类别总数k=2时的特例，所以只要用最大熵原理推导出多分类模型也就推导出了Logistic回归。于是先证明了多分类模型的Softmax函数在取得最优参数时类似一个指示函数，接着便以此为约束条件用最大熵原理推导出Softmax函数，也即推导出多分类模型，进而也就推导出了Logistic回归。类似的直接从最大熵原理出发的推导还有<a href="#ref10">[10]</a>；</li>
 <li>Logistic回归也可以从贝叶斯的角度解释，参见<a href="#ref11">[11]</a></li>
-<li>本文启发自知乎上的讨论：<a href="https://www.zhihu.com/question/35322351" target="_blank" rel="external">为什么 LR 模型要使用 sigmoid 函数，背后的数学原理是什么？</a></li>
+<li>本文启发自知乎上的讨论：<a href="https://www.zhihu.com/question/35322351" target="_blank" rel="noopener">为什么 LR 模型要使用 sigmoid 函数，背后的数学原理是什么？</a></li>
 </ul>
-<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] <a href="https://en.wikipedia.org/wiki/Logistic_function" target="_blank" rel="external">Logistic function</a></span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Logit" target="_blank" rel="external">Logit</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Logistic_regression" target="_blank" rel="external">Logistic regression</a></span><br><span id="ref4">[4] <a href="https://chenrudan.github.io/blog/2016/01/09/logisticregression.html" target="_blank" rel="external">【机器学习算法系列之二】浅析Logistic Regression</a></span><br><span id="ref5">[5] Cramer J S . The Origins of Logistic Regression</span><br><span id="ref6">[6] <a href="https://en.wikipedia.org/wiki/Generalized_linear_model" target="_blank" rel="external">Generalized linear model</a></span><br><span id="ref7">[7] Andrew Ng. cs229-notes1</span><br><span id="ref8">[8] <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank" rel="external">Exponential family</a></span><br><span id="ref9">[9] <a href="http://www. win-vector. com/dfiles/LogisticRegressionMaxEnt. pdf" target="_blank" rel="external">Mount, J.The equivalence of logistic regression and maximum entropy models</a></span><br><span id="ref10">[10] <a href="https://www.zhihu.com/question/24094554/answer/108271031" target="_blank" rel="external">如何理解最大熵模型里面的特征？ - Semiring的回答 - 知乎</a></span><br><span id="ref11">[11] <a href="http://charleshm.github.io/2016/03/LR-and-NB/" target="_blank" rel="external">Logistic Regression and Naive Bayes</a></span></p>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] <a href="https://en.wikipedia.org/wiki/Logistic_function" target="_blank" rel="noopener">Logistic function</a></span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Logit" target="_blank" rel="noopener">Logit</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Logistic_regression" target="_blank" rel="noopener">Logistic regression</a></span><br><span id="ref4">[4] <a href="https://chenrudan.github.io/blog/2016/01/09/logisticregression.html" target="_blank" rel="noopener">【机器学习算法系列之二】浅析Logistic Regression</a></span><br><span id="ref5">[5] Cramer J S . The Origins of Logistic Regression</span><br><span id="ref6">[6] <a href="https://en.wikipedia.org/wiki/Generalized_linear_model" target="_blank" rel="noopener">Generalized linear model</a></span><br><span id="ref7">[7] Andrew Ng. cs229-notes1</span><br><span id="ref8">[8] <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank" rel="noopener">Exponential family</a></span><br><span id="ref9">[9] <a href="http://www. win-vector. com/dfiles/LogisticRegressionMaxEnt. pdf" target="_blank" rel="noopener">Mount, J.The equivalence of logistic regression and maximum entropy models</a></span><br><span id="ref10">[10] <a href="https://www.zhihu.com/question/24094554/answer/108271031" target="_blank" rel="noopener">如何理解最大熵模型里面的特征？ - Semiring的回答 - 知乎</a></span><br><span id="ref11">[11] <a href="http://charleshm.github.io/2016/03/LR-and-NB/" target="_blank" rel="noopener">Logistic Regression and Naive Bayes</a></span></p>
 ]]></content>
     
     <summary type="html">
@@ -157,7 +201,7 @@ p(1)&=\mu
 <script type="math/tex; mode=display">p(x) =\cfrac{\exp(-\lambda_1 (x-\mu)^2)}{\int_{-\infty}^{+\infty}\exp(-\lambda_1 (x-\mu)^2)dx}</script><p>再由$\int_{-\infty}^{+\infty}(x-\mu)^2p(x)dx = \sigma^2$解得：</p>
 <script type="math/tex; mode=display">\lambda_1=\cfrac{1}{2\sigma^2}</script><p>代入$p(x)$中得：</p>
 <script type="math/tex; mode=display">p(x) =\cfrac{1}{\sqrt{2\pi}\sigma}\exp\left(-\cfrac{(x-\mu)^2}{2\sigma^2}\right)</script><p>显然此即为正态分布，证毕。</p>
-<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank" rel="external">Exponential family</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution" target="_blank" rel="external">Maximum entropy probability distribution</a></span><br><span id="ref4">[4] Murphy K P. 《Machine Learning: A Probabilistic Perspective》</span><br><span id="ref5">[5] 周晓飞. 《统计机器学习》课程的课件</span></p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank" rel="noopener">Exponential family</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution" target="_blank" rel="noopener">Maximum entropy probability distribution</a></span><br><span id="ref4">[4] Murphy K P. 《Machine Learning: A Probabilistic Perspective》</span><br><span id="ref5">[5] 周晓飞. 《统计机器学习》课程的课件</span></p>
 ]]></content>
     
     <summary type="html">
@@ -208,7 +252,7 @@ p(1)&=\mu
 <li>L1正则化相对于L2正则化对异常值敏感度低，这是因为当$\vert w_i \vert&gt;1$时，$\sum\vert w_i \vert &lt; \sum(w_i)^2$，从而对异常值敏感度低。</li>
 </ul>
 <p>【注】：除了以上两个角度以外，还可以从贝叶斯的角度解释，参见<a href="#ref4">[4]</a>。</p>
-<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)" target="_blank" rel="external">Lasso (statistics)</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Tikhonov_regularization" target="_blank" rel="external"> Ridge regression</a></span><br><span id="ref4">[4] <a href="https://www.zhihu.com/question/37096933" target="_blank" rel="external">l1 相比于 l2 为什么容易获得稀疏解？</a></span></p>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)" target="_blank" rel="noopener">Lasso (statistics)</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Tikhonov_regularization" target="_blank" rel="noopener"> Ridge regression</a></span><br><span id="ref4">[4] <a href="https://www.zhihu.com/question/37096933" target="_blank" rel="noopener">l1 相比于 l2 为什么容易获得稀疏解？</a></span></p>
 ]]></content>
     
     <summary type="html">
@@ -253,7 +297,7 @@ p(y|\boldsymbol x;\boldsymbol w) &= yp_1(\boldsymbol{x};\boldsymbol w)+(1-y)p_0(
 \end{aligned}</script></li>
 <li>$y\in\{1,-1\}$时一种似然项构造：<script type="math/tex; mode=display">p(y|\boldsymbol x;\boldsymbol w)=\cfrac{1}{1+e^{-y\boldsymbol w^T\boldsymbol x}}</script>其相应的对数似然函数为：<script type="math/tex; mode=display">\ln L(\boldsymbol w)=-\sum_{i=1}^{m}\ln(1+e^{-y_i\boldsymbol w^T\boldsymbol x_i})</script></li>
 </ul>
-<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] <a href="https://www.zhihu.com/question/65350200" target="_blank" rel="external">逻辑回归损失函数为什么使用最大似然估计而不用最小二乘法？</a></span></p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] <a href="https://www.zhihu.com/question/65350200" target="_blank" rel="noopener">逻辑回归损失函数为什么使用最大似然估计而不用最小二乘法？</a></span></p>
 ]]></content>
     
     <summary type="html">
@@ -299,7 +343,7 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 <li>KKT条件成立和强对偶性成立没有必然的联系，也就是说当KKT条件成立时<strong>不一定</strong>能推出强对偶性成立，通常强对偶性成立的条件更为苛刻。</li>
 <li>若拉格朗日函数$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$是<strong>关于$\boldsymbol x$的一阶可微凸函数</strong>，则其对偶函数的表达式求解过程如下：先对$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$关于$\boldsymbol x$求导并令导数等于0，得到一个$\boldsymbol x$关于$\boldsymbol \mu$和$\boldsymbol \lambda$的表达式$\boldsymbol x=\Phi (\boldsymbol \mu,\boldsymbol \lambda)$，然后将其带回到$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$中即可得仅含$\boldsymbol \mu$和$\boldsymbol \lambda$的对偶函数$L \left ( \Phi (\boldsymbol \mu,\boldsymbol \lambda),\boldsymbol \mu,\boldsymbol \lambda \right ) =\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$，例<a href="#ref1">[1]</a> § 5.2.4和SVM的对偶函数求解。</li>
 </ul>
-<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王书宁 译.《凸优化》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank" rel="external">Slater’s condition</a></span></p>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王书宁 译.《凸优化》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank" rel="noopener">Slater’s condition</a></span></p>
 ]]></content>
     
     <summary type="html">
@@ -357,7 +401,7 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 <li>对于上述优化问题，若目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，则称该优化问题为<strong>凸优化</strong>，此时KKT条件升级为<strong>充要条件</strong>，$\boldsymbol x^*$升级为<strong>全局可行解</strong>；</li>
 <li>以上部分论述的严格数学证明参见<a href="#ref1">[1]</a> § 4.2</li>
 </ul>
-<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王燕军. 《最优化基础理论与方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions#Regularity_conditions_(or_constraint_qualifications)" target="_blank" rel="external">Karush–Kuhn–Tucker conditions</a></span></p>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王燕军. 《最优化基础理论与方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions#Regularity_conditions_(or_constraint_qualifications)" target="_blank" rel="noopener">Karush–Kuhn–Tucker conditions</a></span></p>
 ]]></content>
     
     <summary type="html">

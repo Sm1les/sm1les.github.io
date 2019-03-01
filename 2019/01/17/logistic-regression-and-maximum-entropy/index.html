@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
-    <head>
+    <head><meta name="generator" content="Hexo 3.8.0">
 		
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="description" content="">
-        <link rel="shortcut icon" href="/styles/images/logo.jpg"/>
+        <meta name="description" content>
+        <link rel="shortcut icon" href="/styles/images/logo.jpg">
         <link rel="alternate" type="application/rss+xml" title="Sm1les" href="/atom.xml">
 
         <title>Logistic回归与最大熵 | Sm1les&#39;s blog</title>
@@ -13,9 +13,9 @@
 
         <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="/styles/crisp.css">
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -28,7 +28,7 @@
 	
 
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><header id="header">
-            <a id="logo" href="/"><img src="/styles/images/logo.jpg" alt="Sm1les's blog" /></a>
+            <a id="logo" href="/"><img src="/styles/images/logo.jpg" alt="Sm1les's blog"></a>
             <h1><a href="/">Sm1les</a></h1>
             <p></p>
             <div id="follow-icons">
@@ -42,7 +42,7 @@
 </div>
 <div id="tag-cloud">
 
-        <a href="/tags/KKT条件/" style="font-size: 10px;">KKT条件</a> <a href="/tags/Logistic回归/" style="font-size: 20px;">Logistic回归</a> <a href="/tags/Slater条件/" style="font-size: 10px;">Slater条件</a> <a href="/tags/对偶/" style="font-size: 10px;">对偶</a> <a href="/tags/广义线性模型/" style="font-size: 10px;">广义线性模型</a> <a href="/tags/指数族分布/" style="font-size: 10px;">指数族分布</a> <a href="/tags/损失函数/" style="font-size: 10px;">损失函数</a> <a href="/tags/最大熵/" style="font-size: 20px;">最大熵</a> <a href="/tags/正则化/" style="font-size: 10px;">正则化</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a>
+        <a href="/tags/KKT条件/" style="font-size: 10px;">KKT条件</a> <a href="/tags/Logistic回归/" style="font-size: 20px;">Logistic回归</a> <a href="/tags/Slater条件/" style="font-size: 10px;">Slater条件</a> <a href="/tags/对偶/" style="font-size: 10px;">对偶</a> <a href="/tags/广义线性模型/" style="font-size: 10px;">广义线性模型</a> <a href="/tags/指数族分布/" style="font-size: 10px;">指数族分布</a> <a href="/tags/损失函数/" style="font-size: 10px;">损失函数</a> <a href="/tags/最大熵/" style="font-size: 20px;">最大熵</a> <a href="/tags/梯度下降法/" style="font-size: 10px;">梯度下降法</a> <a href="/tags/正则化/" style="font-size: 10px;">正则化</a> <a href="/tags/牛顿法/" style="font-size: 10px;">牛顿法</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a>
     
 </div>
 <h6><a href="/about">About</a></h6>
@@ -59,11 +59,11 @@
     <span class="taglist">  &middot; 
     
     
-      <a href='/tags/最大熵/'>最大熵</a> 
+      <a href="/tags/最大熵/">最大熵</a> 
     
-      <a href='/tags/Logistic回归/'>Logistic回归</a> 
+      <a href="/tags/Logistic回归/">Logistic回归</a> 
     
-      <a href='/tags/广义线性模型/'>广义线性模型</a> 
+      <a href="/tags/广义线性模型/">广义线性模型</a> 
     
     </span>
   
@@ -105,9 +105,9 @@ E[T(y\vert\boldsymbol x)]&= E[y\vert\boldsymbol x] \\
 <li>上述广义线性模型的建模步骤是一种固定的建模方法，也就是说在构建广义线性模型时，我们唯一要做的就是假设$y\vert\boldsymbol x$服从何种<strong>指数族分布</strong>，通常是以最大熵原理为准则来假设$y\vert\boldsymbol x$的分布，例如在做二分类问题时通常假设$y\vert\boldsymbol x$服从伯努利分布，在做回归问题时通常假设$y\vert\boldsymbol x$服从高斯分布，在做网站访问量预测时通常假设$y\vert\boldsymbol x$服从泊松分布。在确定$y\vert\boldsymbol x$的分布后，只需按照上述步骤即可构建出一个广义线性模型；</li>
 <li>除了从伯努利分布属于最大熵分布来解释以外，还有学者直接通过最大熵原理推导出Logistic回归，详细推导过程参见<a href="#ref9">[9]</a>，文中推导思路如下：首先说明Logistic回归是多分类模型类别总数k=2时的特例，所以只要用最大熵原理推导出多分类模型也就推导出了Logistic回归。于是先证明了多分类模型的Softmax函数在取得最优参数时类似一个指示函数，接着便以此为约束条件用最大熵原理推导出Softmax函数，也即推导出多分类模型，进而也就推导出了Logistic回归。类似的直接从最大熵原理出发的推导还有<a href="#ref10">[10]</a>；</li>
 <li>Logistic回归也可以从贝叶斯的角度解释，参见<a href="#ref11">[11]</a></li>
-<li>本文启发自知乎上的讨论：<a href="https://www.zhihu.com/question/35322351" target="_blank" rel="external">为什么 LR 模型要使用 sigmoid 函数，背后的数学原理是什么？</a></li>
+<li>本文启发自知乎上的讨论：<a href="https://www.zhihu.com/question/35322351" target="_blank" rel="noopener">为什么 LR 模型要使用 sigmoid 函数，背后的数学原理是什么？</a></li>
 </ul>
-<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] <a href="https://en.wikipedia.org/wiki/Logistic_function" target="_blank" rel="external">Logistic function</a></span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Logit" target="_blank" rel="external">Logit</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Logistic_regression" target="_blank" rel="external">Logistic regression</a></span><br><span id="ref4">[4] <a href="https://chenrudan.github.io/blog/2016/01/09/logisticregression.html" target="_blank" rel="external">【机器学习算法系列之二】浅析Logistic Regression</a></span><br><span id="ref5">[5] Cramer J S . The Origins of Logistic Regression</span><br><span id="ref6">[6] <a href="https://en.wikipedia.org/wiki/Generalized_linear_model" target="_blank" rel="external">Generalized linear model</a></span><br><span id="ref7">[7] Andrew Ng. cs229-notes1</span><br><span id="ref8">[8] <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank" rel="external">Exponential family</a></span><br><span id="ref9">[9] <a href="http://www. win-vector. com/dfiles/LogisticRegressionMaxEnt. pdf" target="_blank" rel="external">Mount, J.The equivalence of logistic regression and maximum entropy models</a></span><br><span id="ref10">[10] <a href="https://www.zhihu.com/question/24094554/answer/108271031" target="_blank" rel="external">如何理解最大熵模型里面的特征？ - Semiring的回答 - 知乎</a></span><br><span id="ref11">[11] <a href="http://charleshm.github.io/2016/03/LR-and-NB/" target="_blank" rel="external">Logistic Regression and Naive Bayes</a></span></p>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] <a href="https://en.wikipedia.org/wiki/Logistic_function" target="_blank" rel="noopener">Logistic function</a></span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Logit" target="_blank" rel="noopener">Logit</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Logistic_regression" target="_blank" rel="noopener">Logistic regression</a></span><br><span id="ref4">[4] <a href="https://chenrudan.github.io/blog/2016/01/09/logisticregression.html" target="_blank" rel="noopener">【机器学习算法系列之二】浅析Logistic Regression</a></span><br><span id="ref5">[5] Cramer J S . The Origins of Logistic Regression</span><br><span id="ref6">[6] <a href="https://en.wikipedia.org/wiki/Generalized_linear_model" target="_blank" rel="noopener">Generalized linear model</a></span><br><span id="ref7">[7] Andrew Ng. cs229-notes1</span><br><span id="ref8">[8] <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank" rel="noopener">Exponential family</a></span><br><span id="ref9">[9] <a href="http://www. win-vector. com/dfiles/LogisticRegressionMaxEnt. pdf" target="_blank" rel="noopener">Mount, J.The equivalence of logistic regression and maximum entropy models</a></span><br><span id="ref10">[10] <a href="https://www.zhihu.com/question/24094554/answer/108271031" target="_blank" rel="noopener">如何理解最大熵模型里面的特征？ - Semiring的回答 - 知乎</a></span><br><span id="ref11">[11] <a href="http://charleshm.github.io/2016/03/LR-and-NB/" target="_blank" rel="noopener">Logistic Regression and Naive Bayes</a></span></p>
 
   </section>
   <footer class="post-footer">
@@ -121,6 +121,10 @@ E[T(y\vert\boldsymbol x)]&= E[y\vert\boldsymbol x] \\
 </article>
 
 <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2019/03/01/gradient-descent-and-newton-method/">
+        ← prev <!--梯度下降法与牛顿法-->
+    </a>
     
     <span class="page-number">•</span>
     
@@ -180,7 +184,7 @@ E[T(y\vert\boldsymbol x)]&= E[y\vert\boldsymbol x] \\
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
 
