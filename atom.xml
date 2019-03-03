@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2019-03-01T14:31:41.911Z</updated>
+  <updated>2019-03-03T07:34:00.240Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.sm1les.com/2019/03/01/gradient-descent-and-newton-method/"/>
     <id>http://www.sm1les.com/2019/03/01/gradient-descent-and-newton-method/</id>
     <published>2019-03-01T03:21:35.000Z</published>
-    <updated>2019-03-01T14:31:41.911Z</updated>
+    <updated>2019-03-03T07:34:00.240Z</updated>
     
     <content type="html"><![CDATA[<h3 id="梯度下降法的泰勒公式推导-1-："><a href="#梯度下降法的泰勒公式推导-1-：" class="headerlink" title="梯度下降法的泰勒公式推导[1]："></a>梯度下降法的泰勒公式推导<sup><a href="#ref1">[1]</a></sup>：</h3><p>梯度下降法的目标是使得$f(x_t+\Delta x )&lt;f(x_t)$，由泰勒公式可知，$f(x)$在$x_t$点的一阶泰勒展开为：</p>
 <script type="math/tex; mode=display">f(x) = f(x_t)+f’(x_t)(x-x_t)</script><p>则</p>
@@ -34,14 +34,14 @@
 <script type="math/tex; mode=display">g_t + H_t \cdot (\boldsymbol{x}-\boldsymbol{x}^t)=\boldsymbol{0}</script><p>解得$\boldsymbol{x}=\boldsymbol{x}^t-H_t^{-1}g_t$，令其为下一次的迭代值，即$\boldsymbol{x}^{t+1}=\boldsymbol{x}^t-H_t^{-1}g_t$。<br>【注】：</p>
 <ul>
 <li>牛顿法是经典的求根方法，在最优化问题里，通常最值点也是极值点，所以目标函数$f(x)$的一阶导函数$f’(x)$在最值点处一定等于0，此时求目标函数$f(x)$最小值的问题转化为了求目标函数的一阶导函数$f’(x)$的根的问题<sup><a href="#ref4">[4]</a></sup>；</li>
-<li>关于牛顿法和梯度下降法的效率对比：从本质上去看，牛顿法是二阶收敛，梯度下降是一阶收敛，所以牛顿法就更快。如果更通俗地说的话，比如你想找一条最短的路径走到一个盆地的最底部，梯度下降法每次只从你当前所处位置选一个坡度最大的方向走一步，牛顿法在选择方向时，不仅会考虑坡度是否够大，还会考虑你走了一步之后，坡度是否会变得更大。所以，可以说牛顿法比梯度下降法看得更远一点，能更快地走到最底部。（牛顿法目光更加长远，所以少走弯路；相对而言，梯度下降法只考虑了局部的最优，没有全局思想。）根据wiki上的解释，从几何上说，牛顿法就是用一个二次曲面去拟合你当前所处位置的局部曲面，而梯度下降法是用一个平面去拟合当前的局部曲面，通常情况下，二次曲面的拟合会比平面更好，所以牛顿法选择的下降路径会更符合真实的最优下降路径。<center>
+<li>关于牛顿法和梯度下降法的效率对比：从本质上去看，牛顿法是二阶收敛，梯度下降是一阶收敛，所以牛顿法就更快。如果更通俗地说的话，比如你想找一条最短的路径走到一个盆地的最底部，梯度下降法每次只从你当前所处位置选一个坡度最大的方向走一步，牛顿法在选择方向时，不仅会考虑坡度是否够大，还会考虑你走了一步之后，坡度是否会变得更大。所以，可以说牛顿法比梯度下降法看得更远一点，能更快地走到最底部。（牛顿法目光更加长远，所以少走弯路；相对而言，梯度下降法只考虑了局部的最优，没有全局思想。）根据wiki上的解释，从几何上说，牛顿法就是用一个二次曲面去拟合你当前所处位置的局部曲面，而梯度下降法是用一个平面去拟合当前的局部曲面，通常情况下，二次曲面的拟合会比平面更好，所以牛顿法选择的下降路径会更符合真实的最优下降路径<sup><a href="#ref5">[5]</a></sup>。<center>
 <img src="./gdandnewton.jpg"><br>
 红色为牛顿法的迭代路径，绿色为梯度下降法的迭代路径
 </center>
 
 </li>
 </ul>
-<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] <a href="https://zhuanlan.zhihu.com/p/36564434" target="_blank" rel="noopener">梯度下降法 —— 经典的优化方法</a></span><br><span id="ref2">[2]  李航.《统计学习方法》</span><br><span id="ref3">[3] <a href="https://blog.csdn.net/red_stone1/article/details/70260070" target="_blank" rel="noopener">多元函数的泰勒(Taylor)展开式</a></span><br><span id="ref4">[4] <a href="http://sofasofa.io/forum_main_post.php?postid=1000966" target="_blank" rel="noopener">牛顿法到底是一阶优化算法还是二阶优化算法？</a></span></p>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] <a href="https://zhuanlan.zhihu.com/p/36564434" target="_blank" rel="noopener">梯度下降法 —— 经典的优化方法</a></span><br><span id="ref2">[2]  李航.《统计学习方法》</span><br><span id="ref3">[3] <a href="https://blog.csdn.net/red_stone1/article/details/70260070" target="_blank" rel="noopener">多元函数的泰勒(Taylor)展开式</a></span><br><span id="ref4">[4] <a href="http://sofasofa.io/forum_main_post.php?postid=1000966" target="_blank" rel="noopener">牛顿法到底是一阶优化算法还是二阶优化算法？</a></span><br><span id="ref5">[5] <a href="http://www.cnblogs.com/maybe2030/p/4751804.html" target="_blank" rel="noopener">常见的几种最优化方法</a></span></p>
 ]]></content>
     
     <summary type="html">
