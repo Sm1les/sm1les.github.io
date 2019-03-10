@@ -84,15 +84,34 @@
 <script type="math/tex; mode=display">\cfrac{\partial J(\boldsymbol w)}{\partial w_i}=\cfrac{\partial L(\boldsymbol w)}{\partial w_i}+\lambda sign (w_i)</script><p>对式(B.2)关于$\boldsymbol w$某个维度$w_i$求偏导可得：</p>
 <script type="math/tex; mode=display">\cfrac{\partial J(\boldsymbol w)}{\partial w_i}=\cfrac{\partial L(\boldsymbol w)}{\partial w_i}+2\lambda w_i</script><p>当使用梯度下降法等此类根据$\boldsymbol w$的梯度来调整$\boldsymbol w$的算法时，若用L1正则化，$\boldsymbol w$的某个维度$w_i$的更新公式为：</p>
 <script type="math/tex; mode=display">w_i:=w_i-\eta\cfrac{\partial J(\boldsymbol w)}{\partial w_i}=w_i-\eta\cfrac{\partial L(\boldsymbol w)}{\partial w_i}-\eta\lambda sign (w_i)</script><p>其中$\eta$为自行设定的学习率，从上式可以看出，$\eta\lambda sign (w_i)$的取值恒为$\pm\eta\lambda$，与$w_i$的大小无关，所以这就会导致即使$w_i$已经很小了但仍然以较高的梯度在变化，从而容易使得$w_i$取到0；若用L2正则化，则更新公式为：</p>
-<script type="math/tex; mode=display">w_i:=w_i-\eta\cfrac{\partial J(\boldsymbol w)}{\partial w_i}=w_i-\eta\cfrac{\partial L(\boldsymbol w)}{\partial w_i}-2\eta\lambda w_i</script><p>显然此式中的$2\eta\lambda w_i$的大小与$w_i$相关，所以当$w_i$很小时变化的梯度也很小，不容易取到0，也就不容易得到稀疏解。<br>L1正则化和L2正则化还有如下不同之处：</p>
+<script type="math/tex; mode=display">w_i:=w_i-\eta\cfrac{\partial J(\boldsymbol w)}{\partial w_i}=w_i-\eta\cfrac{\partial L(\boldsymbol w)}{\partial w_i}-2\eta\lambda w_i</script><p>显然此式中的$2\eta\lambda w_i$的大小与$w_i$相关，所以当$w_i$很小时变化的梯度也很小，不容易取到0，也就不容易得到稀疏解。</p>
+<h5 id="从贝叶斯的角度："><a href="#从贝叶斯的角度：" class="headerlink" title="从贝叶斯的角度："></a>从贝叶斯的角度：</h5><p>贝叶斯学派常用的参数估计方法为最大后验估计（Maximum A Posteriori，MAP），最大后验估计法估计参数的公式为<sup><a href="#ref5">[5]</a></sup>：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+\hat{\boldsymbol{w}} &= \mathop{\arg\max}_{\boldsymbol{w}}P(\boldsymbol{w} \vert \boldsymbol{y})\\
+&= \mathop{\arg\max}_{\boldsymbol{w}}\log P(\boldsymbol{w} \vert \boldsymbol{y}) \\
+&= \mathop{\arg\min}_{\boldsymbol{w}}-\log P(\boldsymbol{w} \vert \boldsymbol{y})
+\end{aligned}</script><p>由贝叶斯公式可知$P(\boldsymbol{w} \vert \boldsymbol{y})=\cfrac{P(\boldsymbol{y} \vert \boldsymbol{w})\times P( \boldsymbol{w})}{P(\boldsymbol{y})}$，代入上式可得：</p>
+<script type="math/tex; mode=display">\hat{\boldsymbol{w}} =\mathop{\arg\min}_{\boldsymbol{w}}-\log P(\boldsymbol{y} \vert \boldsymbol{w})-\log P(\boldsymbol{w})+\log P(\boldsymbol{y})</script><p>由于我们要求的是最优参数$\hat{\boldsymbol{w}}$，与$P(\boldsymbol{y})$无关，所以上式最后一项可以略去，进而得到损失函数为：</p>
+<script type="math/tex; mode=display">J(\boldsymbol{w}) =-\log P(\boldsymbol{y} \vert \boldsymbol{w})-\log P(\boldsymbol{w})</script><p>其中$\log P(\boldsymbol{y} \vert \boldsymbol{w})$为对数似然函数，$P(\boldsymbol{w})$为我们对参数$\boldsymbol{w}$的先验估计，当我们先验估计参数$\boldsymbol{w}$服从均值为0方差为$\sigma^2$高斯分布时，即：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+P(\boldsymbol{w}) &= \prod_{i=1}^{d}P(w_i)=\prod_{i=1}^{d}\cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{w_i^2}{2\sigma^2}\right) \\ 
+\log P(\boldsymbol{w}) &= \sum_{i=1}^{d}\log\cfrac{1}{\sqrt{2\pi}\sigma} \mathrm{exp}\left(-\cfrac{w_i^2}{2\sigma^2}\right) \\
+&= d \cdot \log\cfrac{1}{\sqrt{2\pi}\sigma} -\cfrac{1}{2\sigma^2} \cdot  \sum_{i=1}^{d}w_i^2 \\
+&= d \cdot \log\cfrac{1}{\sqrt{2\pi}\sigma} -\cfrac{1}{2\sigma^2} \cdot  \Vert\boldsymbol{w}\Vert_2^2
+\end{aligned}</script><p>代入损失函数$J(\boldsymbol{w})$可得：</p>
+<script type="math/tex; mode=display">J(\boldsymbol{w}) = -\log P(\boldsymbol{y} \vert \boldsymbol{w})-d \cdot \log\cfrac{1}{\sqrt{2\pi}\sigma} +\cfrac{1}{2\sigma^2} \cdot  \Vert\boldsymbol{w}\Vert_2^2</script><p>同理$d \cdot \log\cfrac{1}{\sqrt{2\pi}\sigma}$与$\boldsymbol{w}$无关，可以略去，所以：</p>
+<script type="math/tex; mode=display">J(\boldsymbol{w})=  -\log P(\boldsymbol{y} \vert \boldsymbol{w})+\cfrac{1}{2\sigma^2} \cdot  \Vert\boldsymbol{w}\Vert_2^2</script><p>此时可以看出<strong>采用高斯分布先验的最大后验估计=最大似然估计+L2正则项</strong>，同理可得<strong>采用拉普拉斯分布先验的最大后验估计=最大似然估计+L1正则项</strong>，观察高斯分布和拉普拉斯分布的概率密度函数图像可知，拉普拉斯分布更为稀疏，也即取到0的概率更大。</p>
+<p><center>
+<img src="./normalandlaplace.png" width="60%" height="60%"><br>
+图中的高斯分布和拉普拉斯分布的均值和方差均相同
+</center><br>L1正则化和L2正则化还有如下不同之处：</p>
 <ul>
 <li>L1正则化自带特征选择的功能，这是由于L1正则化易得稀疏解导致的，因为稀疏解$\boldsymbol w^*$的某些维度$w_i=0$，从而达到了特征选择的功能；</li>
 <li>L1正则化的解不稳定，也即可能会有多个解，这是因为L1正则化的红色等高线容易与经验风险的蓝色等高线产生多个切点，例如上图中的蓝色等高线若不为圆形曲线，而是直线时，此时极有可能与L1正则化的红色等高线重合，从而产生多个解；</li>
 <li>L1正则化不易求解，这是因为绝对值函数通常都不好求解；</li>
 <li>L1正则化相对于L2正则化对异常值敏感度低，这是因为当$\vert w_i \vert&gt;1$时，$\sum\vert w_i \vert &lt; \sum(w_i)^2$，从而对异常值敏感度低。</li>
 </ul>
-<p>【注】：除了以上两个角度以外，还可以从贝叶斯的角度解释，参见<a href="#ref4">[4]</a>。</p>
-<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)" target="_blank" rel="noopener">Lasso (statistics)</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Tikhonov_regularization" target="_blank" rel="noopener"> Ridge regression</a></span><br><span id="ref4">[4] <a href="https://www.zhihu.com/question/37096933" target="_blank" rel="noopener">l1 相比于 l2 为什么容易获得稀疏解？</a></span></p>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)" target="_blank" rel="noopener">Lasso (statistics)</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Tikhonov_regularization" target="_blank" rel="noopener"> Ridge regression</a></span><br><span id="ref4">[4] <a href="https://www.zhihu.com/question/37096933" target="_blank" rel="noopener">l1 相比于 l2 为什么容易获得稀疏解？</a></span><br><span id="ref5">[5] <a href="https://zhuanlan.zhihu.com/p/32480810" target="_blank" rel="noopener">聊一聊机器学习的MLE和MAP：最大似然估计和最大后验估计</a></span></p>
 
   </section>
   <footer class="post-footer">
@@ -154,23 +173,8 @@
             })(window,document,'script','/js/ga.js','ga');
             ga('create', 'UA-131477813-1', 'auto');
             ga('send', 'pageview');
-        </script>
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-</body>
+        </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </body>
 </html>
 
 
