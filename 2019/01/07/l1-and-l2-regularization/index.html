@@ -103,7 +103,7 @@ P(\boldsymbol{w}) &= \prod_{i=1}^{d}P(w_i)=\prod_{i=1}^{d}\cfrac{1}{\sqrt{2\pi}\
 <script type="math/tex; mode=display">J(\boldsymbol{w})=  -\log P(\boldsymbol{y} \vert \boldsymbol{w})+\cfrac{1}{2\sigma^2} \cdot  \Vert\boldsymbol{w}\Vert_2^2</script><p>此时可以看出<strong>采用高斯分布先验的最大后验估计=最大似然估计+L2正则项</strong>，同理可得<strong>采用拉普拉斯分布先验的最大后验估计=最大似然估计+L1正则项</strong>，观察高斯分布和拉普拉斯分布的概率密度函数图像可知，拉普拉斯分布更为稀疏，也即取到0的概率更大。</p>
 <p><center>
 <img src="./normalandlaplace.png" width="60%" height="60%"><br>
-图中的高斯分布和拉普拉斯分布的均值和方差均相同
+图中高斯分布和拉普拉斯分布的均值和方差均相同
 </center><br>L1正则化和L2正则化还有如下不同之处：</p>
 <ul>
 <li>L1正则化自带特征选择的功能，这是由于L1正则化易得稀疏解导致的，因为稀疏解$\boldsymbol w^*$的某些维度$w_i=0$，从而达到了特征选择的功能；</li>
