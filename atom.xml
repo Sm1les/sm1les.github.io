@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2019-03-03T07:34:00.240Z</updated>
+  <updated>2019-03-13T07:52:58.253Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -16,11 +16,72 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>EM算法</title>
+    <link href="http://www.sm1les.com/2019/03/13/expectation-maximization/"/>
+    <id>http://www.sm1les.com/2019/03/13/expectation-maximization/</id>
+    <published>2019-03-13T07:51:10.000Z</published>
+    <updated>2019-03-13T07:52:58.253Z</updated>
+    
+    <content type="html"><![CDATA[<p>在推导EM算法之前先学习一下<strong>Jensen不等式<sup><a href="#ref1">[1]</a></sup></strong>，Jensen不等式的定义如下：若<br>$f$是<strong>凸函数</strong>，则</p>
+<script type="math/tex; mode=display">f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)</script><p>其中$t\in [0,1]$。同理，若$f$是<strong>凹函数</strong>，则只需将上式的$\leq$换成$\geq$即可。</p>
+<p>将上式中的$t$推广到$n$个同样成立，即</p>
+<script type="math/tex; mode=display">f(t_1 x_1 + t_2x_2+...+t_nx_n)\leq t_1f(x_1)+t_2f(x_2)+...+t_nf(t_n)</script><p>其中$t_1,t_2,…,t_n\in[0,1],t_1+t_2+…+t_n=1$。</p>
+<p>上式在概率论中通常以如下形式出现：</p>
+<script type="math/tex; mode=display">\varphi(E[X])\leq E[\varphi(X)]</script><p>其中$X$是一个随机变量，$\varphi$为凸函数，$E[X]$为随机变量$X$的期望。</p>
+<h3 id="EM（Expectation-Maximization）算法的导出-2"><a href="#EM（Expectation-Maximization）算法的导出-2" class="headerlink" title="EM（Expectation Maximization）算法的导出[2]"></a>EM（Expectation Maximization）算法的导出<sup><a href="#ref2">[2]</a></sup></h3><p>我们面对一个含有隐变量的概率模型，目标是极大化观测数据（不完全数据）$Y$关于参数$\theta$的对数似然函数，即极大化</p>
+<script type="math/tex; mode=display">L(\theta)=\ln P(Y\vert \theta)=\ln \sum_Z P(Y,Z\vert\theta)=\ln \left(\sum_Z P(Y\vert Z,\theta)P(Z\vert \theta)\right)</script><p>注意到这一极大化的主要困难是上式中有未观测数据$Z$并有包含和（$Z$为离散型时）或者积分（$Z$为连续型时）的对数。EM算法采用的是通过迭代逐步近似极大化$L(\theta)$：假设在第$i$次迭代后$\theta$的估计值是$\theta^{(i)}$，我们希望新的估计值$\theta$能使$L(\theta)$增加，即$L(\theta)&gt;L(\theta^{(i)})$，并逐步达到极大值。为此，考虑两者的差：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+L(\theta)-L(\theta^{(i)})&=\ln \left(\sum_Z P(Y\vert Z,\theta)P(Z\vert \theta)\right)-\ln P(Y\vert\theta^{(i)}) \\
+&=\ln \left(\sum_Z P(Z\vert Y,\theta^{(i)}) \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}\right)-\ln P(Y\vert\theta^{(i)})
+\end{aligned}</script><p>注意，上式中采用的是和参考文献<a href="#ref3">[3]</a>一样上下同时乘以$P(Z\vert Y,\theta^{(i)})$，而参考文献<a href="#ref2">[2]</a>中一开始上下同乘的是$P(Y\vert Z,\theta^{(i)})$，而后续却用的是$P(Z\vert Y,\theta^{(i)})$，不知是另有原由还是作者笔误，暂不讨论，接着由上述Jensen不等式以及$\ln$函数为<strong>凹函数</strong>可得：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+L(\theta)-L(\theta^{(i)})&=\ln \left(\sum_Z P(Z\vert Y,\theta^{(i)}) \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}\right)-\ln P(Y\vert\theta^{(i)})  \\
+&\geq \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}-\ln P(Y\vert\theta^{(i)}) \\
+&= \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}-1\cdot \ln P(Y\vert\theta^{(i)}) \\
+&= \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}-\sum_Z P(Z\vert Y,\theta^{(i)})\cdot \ln P(Y\vert\theta^{(i)}) \\
+&=\sum_Z P(Z\vert Y,\theta^{(i)}) \left( \ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})} - \ln P(Y\vert\theta^{(i)}) \right)\\
+&= \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})P(Y\vert\theta^{(i)})}
+\end{aligned}</script><p>令</p>
+<script type="math/tex; mode=display">B(\theta,\theta^{(i)})=L(\theta^{(i)})+\sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})P(Y\vert\theta^{(i)})}</script><p>则</p>
+<script type="math/tex; mode=display">L(\theta)\geq B(\theta,\theta^{(i)})</script><p>即函数$B(\theta,\theta^{(i)})$是$L(\theta)$的一个下界，此时若设$\theta^{(i+1)}$使得$B(\theta,\theta^{(i)})$达到极大，也即</p>
+<script type="math/tex; mode=display">B(\theta^{(i+1)},\theta^{(i)}) \geq B(\theta^{(i)},\theta^{(i)})</script><p>由于$L(\theta^{(i)})=B(\theta^{(i)},\theta^{(i)})$，所以可以进一步推得：</p>
+<script type="math/tex; mode=display">L(\theta^{(i+1)})\geq B(\theta^{(i+1)},\theta^{(i)})\geq B(\theta^{(i)},\theta^{(i)})=L(\theta^{(i)})</script><script type="math/tex; mode=display">L(\theta^{(i+1)})\geq L(\theta^{(i)})</script><p><center>
+<img src="./em.png" width="60%" height="60%"><br>
+此图是对上述不等式的直观解释
+</center><br>因此，任何可以使$B(\theta,\theta^{(i)})$增大的$\theta$，也可以使$L(\theta)$增大，于是问题就转化为了求解能使得$B(\theta,\theta^{(i)})$达到极大的$\theta^{(i+1)}$，即</p>
+<script type="math/tex; mode=display">\begin{aligned}
+\theta^{(i+1)}&=\mathop{\arg\max}_{\theta}B(\theta,\theta^{(i)}) \\
+&=\mathop{\arg\max}_{\theta}\left( L(\theta^{(i)})+\sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})P(Y\vert\theta^{(i)})}\right)
+\end{aligned}</script><p>略去对$\theta$的极大化而言是常数的项：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+\theta^{(i+1)}&=\mathop{\arg\max}_{\theta}\left(\sum_Z P(Z\vert Y,\theta^{(i)})\ln\left( P(Y\vert Z,\theta)P(Z\vert \theta)\right)\right) \\
+&=\mathop{\arg\max}_{\theta}\left(\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta)\right) \\
+&=\mathop{\arg\max}_{\theta}Q(\theta,\theta^{(i)})
+\end{aligned}</script><p>到此即完成了EM算法的一次迭代，求出的$\theta^{(i+1)}$作为下一次迭代的初始$\theta^{(i)}$。综上可以看出EM算法的“E步”和“M步”分别为：<br><strong>E步：</strong>计算完全数据的对数似然函数$\ln P(Y,Z\vert \theta)$关于在给定观测数据$Y$和当前参数$\theta^{(i)}$下对未观测数据$Z$的条件概率分布$ P(Y\vert Z,\theta^{(i)})$的期望，也即$Q$函数：</p>
+<script type="math/tex; mode=display">Q(\theta,\theta^{(i)})=E_Z[\ln P(Y,Z\vert \theta)\vert ]=\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta)</script><p><strong>M步：</strong>求使得$Q$函数到达极大的$\theta^{(i+1)}$。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality" target="_blank" rel="noopener">Jensen’s inequality</a></span><br><span id="ref2">[2] 李航.《统计学习方法》</span><br><span id="ref3">[3] cs229-notes8</span></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在推导EM算法之前先学习一下&lt;strong&gt;Jensen不等式&lt;sup&gt;&lt;a href=&quot;#ref1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt;&lt;/strong&gt;，Jensen不等式的定义如下：若&lt;br&gt;$f$是&lt;strong&gt;凸函数&lt;/strong&gt;，则&lt;/p&gt;
+&lt;script typ
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://www.sm1les.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="EM算法" scheme="http://www.sm1les.com/tags/EM%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
     <title>梯度下降法与牛顿法</title>
     <link href="http://www.sm1les.com/2019/03/01/gradient-descent-and-newton-method/"/>
     <id>http://www.sm1les.com/2019/03/01/gradient-descent-and-newton-method/</id>
     <published>2019-03-01T03:21:35.000Z</published>
-    <updated>2019-03-03T07:34:00.240Z</updated>
+    <updated>2019-03-12T06:37:18.626Z</updated>
     
     <content type="html"><![CDATA[<h3 id="梯度下降法的泰勒公式推导-1-："><a href="#梯度下降法的泰勒公式推导-1-：" class="headerlink" title="梯度下降法的泰勒公式推导[1]："></a>梯度下降法的泰勒公式推导<sup><a href="#ref1">[1]</a></sup>：</h3><p>梯度下降法的目标是使得$f(x_t+\Delta x )&lt;f(x_t)$，由泰勒公式可知，$f(x)$在$x_t$点的一阶泰勒展开为：</p>
 <script type="math/tex; mode=display">f(x) = f(x_t)+f’(x_t)(x-x_t)</script><p>则</p>

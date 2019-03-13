@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+    <head><meta name="generator" content="Hexo 3.8.0">
+		
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content>
+        <link rel="shortcut icon" href="/styles/images/logo.jpg">
+        <link rel="alternate" type="application/rss+xml" title="Sm1les" href="/atom.xml">
+
+        <title>EM算法 | Sm1les&#39;s blog</title>
+        <meta name="description" content="{{meta_description}}">
+
+        <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/styles/crisp.css">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </head>
+    
+		<body class="post-template">
+	
+
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><header id="header">
+            <a id="logo" href="/"><img src="/styles/images/logo.jpg" alt="Sm1les's blog"></a>
+            <h1><a href="/">Sm1les</a></h1>
+            <p></p>
+            <div id="follow-icons">
+	<a href="#"><i class="fa fa-instagram fa-2x"></i></a>
+	<a href="#"><i class="fa fa-pinterest-square fa-2x"></i></a>
+	<a href="http://github.com/Sm1les"><i class="fa fa-github-square fa-2x"></i></a>
+	<a href="#"><i class="fa fa-facebook-square fa-2x"></i></a>
+	<a href="#"><i class="fa fa-twitter-square fa-2x"></i></a>
+	<a href="#"><i class="fa fa-linkedin-square fa-2x"></i></a>
+	<a href="/atom.xml"><i class="fa fa-rss-square fa-2x"></i></a>
+</div>
+<div id="tag-cloud">
+
+        <a href="/tags/EM算法/" style="font-size: 10px;">EM算法</a> <a href="/tags/KKT条件/" style="font-size: 10px;">KKT条件</a> <a href="/tags/Logistic回归/" style="font-size: 20px;">Logistic回归</a> <a href="/tags/Slater条件/" style="font-size: 10px;">Slater条件</a> <a href="/tags/对偶/" style="font-size: 10px;">对偶</a> <a href="/tags/广义线性模型/" style="font-size: 10px;">广义线性模型</a> <a href="/tags/指数族分布/" style="font-size: 10px;">指数族分布</a> <a href="/tags/损失函数/" style="font-size: 10px;">损失函数</a> <a href="/tags/最大熵/" style="font-size: 20px;">最大熵</a> <a href="/tags/梯度下降法/" style="font-size: 10px;">梯度下降法</a> <a href="/tags/正则化/" style="font-size: 10px;">正则化</a> <a href="/tags/牛顿法/" style="font-size: 10px;">牛顿法</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a>
+    
+</div>
+<h6><a href="/about">About</a></h6>
+
+        </header>
+
+        <main id="content">
+        
+
+<article class="post">
+  
+  三月 13, 2019
+  
+    <span class="taglist">  &middot; 
+    
+    
+      <a href="/tags/EM算法/">EM算法</a> 
+    
+    </span>
+  
+
+  <h1 class="post-title">EM算法</h1>
+  <section class="post-content article-entry">
+    <p>在推导EM算法之前先学习一下<strong>Jensen不等式<sup><a href="#ref1">[1]</a></sup></strong>，Jensen不等式的定义如下：若<br>$f$是<strong>凸函数</strong>，则</p>
+<script type="math/tex; mode=display">f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)</script><p>其中$t\in [0,1]$。同理，若$f$是<strong>凹函数</strong>，则只需将上式的$\leq$换成$\geq$即可。</p>
+<p>将上式中的$t$推广到$n$个同样成立，即</p>
+<script type="math/tex; mode=display">f(t_1 x_1 + t_2x_2+...+t_nx_n)\leq t_1f(x_1)+t_2f(x_2)+...+t_nf(t_n)</script><p>其中$t_1,t_2,…,t_n\in[0,1],t_1+t_2+…+t_n=1$。</p>
+<p>上式在概率论中通常以如下形式出现：</p>
+<script type="math/tex; mode=display">\varphi(E[X])\leq E[\varphi(X)]</script><p>其中$X$是一个随机变量，$\varphi$为凸函数，$E[X]$为随机变量$X$的期望。</p>
+<h3 id="EM（Expectation-Maximization）算法的导出-2"><a href="#EM（Expectation-Maximization）算法的导出-2" class="headerlink" title="EM（Expectation Maximization）算法的导出[2]"></a>EM（Expectation Maximization）算法的导出<sup><a href="#ref2">[2]</a></sup></h3><p>我们面对一个含有隐变量的概率模型，目标是极大化观测数据（不完全数据）$Y$关于参数$\theta$的对数似然函数，即极大化</p>
+<script type="math/tex; mode=display">L(\theta)=\ln P(Y\vert \theta)=\ln \sum_Z P(Y,Z\vert\theta)=\ln \left(\sum_Z P(Y\vert Z,\theta)P(Z\vert \theta)\right)</script><p>注意到这一极大化的主要困难是上式中有未观测数据$Z$并有包含和（$Z$为离散型时）或者积分（$Z$为连续型时）的对数。EM算法采用的是通过迭代逐步近似极大化$L(\theta)$：假设在第$i$次迭代后$\theta$的估计值是$\theta^{(i)}$，我们希望新的估计值$\theta$能使$L(\theta)$增加，即$L(\theta)&gt;L(\theta^{(i)})$，并逐步达到极大值。为此，考虑两者的差：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+L(\theta)-L(\theta^{(i)})&=\ln \left(\sum_Z P(Y\vert Z,\theta)P(Z\vert \theta)\right)-\ln P(Y\vert\theta^{(i)}) \\
+&=\ln \left(\sum_Z P(Z\vert Y,\theta^{(i)}) \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}\right)-\ln P(Y\vert\theta^{(i)})
+\end{aligned}</script><p>注意，上式中采用的是和参考文献<a href="#ref3">[3]</a>一样上下同时乘以$P(Z\vert Y,\theta^{(i)})$，而参考文献<a href="#ref2">[2]</a>中一开始上下同乘的是$P(Y\vert Z,\theta^{(i)})$，而后续却用的是$P(Z\vert Y,\theta^{(i)})$，不知是另有原由还是作者笔误，暂不讨论，接着由上述Jensen不等式以及$\ln$函数为<strong>凹函数</strong>可得：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+L(\theta)-L(\theta^{(i)})&=\ln \left(\sum_Z P(Z\vert Y,\theta^{(i)}) \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}\right)-\ln P(Y\vert\theta^{(i)})  \\
+&\geq \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}-\ln P(Y\vert\theta^{(i)}) \\
+&= \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}-1\cdot \ln P(Y\vert\theta^{(i)}) \\
+&= \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}-\sum_Z P(Z\vert Y,\theta^{(i)})\cdot \ln P(Y\vert\theta^{(i)}) \\
+&=\sum_Z P(Z\vert Y,\theta^{(i)}) \left( \ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})} - \ln P(Y\vert\theta^{(i)}) \right)\\
+&= \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})P(Y\vert\theta^{(i)})}
+\end{aligned}</script><p>令</p>
+<script type="math/tex; mode=display">B(\theta,\theta^{(i)})=L(\theta^{(i)})+\sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})P(Y\vert\theta^{(i)})}</script><p>则</p>
+<script type="math/tex; mode=display">L(\theta)\geq B(\theta,\theta^{(i)})</script><p>即函数$B(\theta,\theta^{(i)})$是$L(\theta)$的一个下界，此时若设$\theta^{(i+1)}$使得$B(\theta,\theta^{(i)})$达到极大，也即</p>
+<script type="math/tex; mode=display">B(\theta^{(i+1)},\theta^{(i)}) \geq B(\theta^{(i)},\theta^{(i)})</script><p>由于$L(\theta^{(i)})=B(\theta^{(i)},\theta^{(i)})$，所以可以进一步推得：</p>
+<script type="math/tex; mode=display">L(\theta^{(i+1)})\geq B(\theta^{(i+1)},\theta^{(i)})\geq B(\theta^{(i)},\theta^{(i)})=L(\theta^{(i)})</script><script type="math/tex; mode=display">L(\theta^{(i+1)})\geq L(\theta^{(i)})</script><p><center>
+<img src="./em.png" width="60%" height="60%"><br>
+此图是对上述不等式的直观解释
+</center><br>因此，任何可以使$B(\theta,\theta^{(i)})$增大的$\theta$，也可以使$L(\theta)$增大，于是问题就转化为了求解能使得$B(\theta,\theta^{(i)})$达到极大的$\theta^{(i+1)}$，即</p>
+<script type="math/tex; mode=display">\begin{aligned}
+\theta^{(i+1)}&=\mathop{\arg\max}_{\theta}B(\theta,\theta^{(i)}) \\
+&=\mathop{\arg\max}_{\theta}\left( L(\theta^{(i)})+\sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})P(Y\vert\theta^{(i)})}\right)
+\end{aligned}</script><p>略去对$\theta$的极大化而言是常数的项：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+\theta^{(i+1)}&=\mathop{\arg\max}_{\theta}\left(\sum_Z P(Z\vert Y,\theta^{(i)})\ln\left( P(Y\vert Z,\theta)P(Z\vert \theta)\right)\right) \\
+&=\mathop{\arg\max}_{\theta}\left(\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta)\right) \\
+&=\mathop{\arg\max}_{\theta}Q(\theta,\theta^{(i)})
+\end{aligned}</script><p>到此即完成了EM算法的一次迭代，求出的$\theta^{(i+1)}$作为下一次迭代的初始$\theta^{(i)}$。综上可以看出EM算法的“E步”和“M步”分别为：<br><strong>E步：</strong>计算完全数据的对数似然函数$\ln P(Y,Z\vert \theta)$关于在给定观测数据$Y$和当前参数$\theta^{(i)}$下对未观测数据$Z$的条件概率分布$ P(Y\vert Z,\theta^{(i)})$的期望，也即$Q$函数：</p>
+<script type="math/tex; mode=display">Q(\theta,\theta^{(i)})=E_Z[\ln P(Y,Z\vert \theta)\vert ]=\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta)</script><p><strong>M步：</strong>求使得$Q$函数到达极大的$\theta^{(i+1)}$。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality" target="_blank" rel="noopener">Jensen’s inequality</a></span><br><span id="ref2">[2] 李航.《统计学习方法》</span><br><span id="ref3">[3] cs229-notes8</span></p>
+
+  </section>
+  <footer class="post-footer">
+    <!--
+    <section class="author">
+      <h4>Sm1les</h4>
+      <p></p>
+    </section>
+    -->
+  </footer>
+</article>
+
+<nav class="pagination" role="pagination">
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/03/01/gradient-descent-and-newton-method/">
+        <!--梯度下降法与牛顿法--> next →
+    </a>
+    
+</nav>
+
+<!-- Begin Comments Code -->
+
+  <div id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-expectation-maximization" data-title="EM算法" data-url="http://www.sm1les.com/2019/03/13/expectation-maximization/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'sm1les'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+<!-- End Comments Code -->
+
+
+        </main>
+        <footer id="footer">
+            <section id="footer-message">&copy; 2019 Sm1les. All rights reserved. Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. <a href="https://github.com/guolin/crisp-hexo-theme" target="_blank">crisp</a> theme by <a href="http://guolin.github.io" target="_blank">Guo Lin</a>.</section>
+        </footer>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','/js/ga.js','ga');
+            ga('create', 'UA-131477813-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
+
+
