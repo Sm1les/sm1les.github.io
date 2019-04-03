@@ -121,7 +121,7 @@ z_{jk} = \left\{ \begin{array}{rcl}
 &= \sum_{j=1}^{N}\sum_{k=1}^{K}\ln\left([\alpha_{k}\phi(y_j\vert\theta_k)]^{z_{jk}}\right) \\
 &= \sum_{j=1}^{N}\sum_{k=1}^{K}{z_{jk}}\ln(\alpha_{k}\phi(y_j\vert\theta_k)) \\
 &= \sum_{j=1}^{N}\sum_{k=1}^{K}{z_{jk}}(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k)) \\
-\end{aligned}</script><h5 id="1-EM算法E步：确定-Q-函数"><a href="#1-EM算法E步：确定-Q-函数" class="headerlink" title="1.EM算法E步：确定$Q$函数"></a>1.EM算法E步：确定$Q$函数</h5><script type="math/tex; mode=display">\begin{aligned}
+\end{aligned}</script><h5 id="2-EM算法E步：确定-Q-函数"><a href="#2-EM算法E步：确定-Q-函数" class="headerlink" title="2.EM算法E步：确定$Q$函数"></a>2.EM算法E步：确定$Q$函数</h5><script type="math/tex; mode=display">\begin{aligned}
 Q(\theta,\theta^{(i)})&=\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta) \\
 &=\sum_Z P(Z\vert Y,\theta^{(i)})\left\{\sum_{j=1}^{N}\sum_{k=1}^{K}{z_{jk}}(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\}\\
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\sum_{z_{jk}}P(z_{jk}\vert y_j,\theta^{(i)}){z_{jk}}(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\} \quad(此处\sum_{z_{jk}}表示遍历z_{jk}的两种取值情况：0和1)\\
@@ -145,7 +145,7 @@ Q(\theta,\theta^{(i)})&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}(\ln\alpha
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}\ln\alpha_{k}+\gamma_{jk}\ln\left(\cfrac{1}{\sqrt{2\pi}\sigma_k}\exp\left(-\cfrac{(y_j-\mu_k)^2}{2\sigma_k^2}\right)\right)\right\} \\
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}\ln\alpha_{k}+\gamma_{jk}\left(\ln\cfrac{1}{\sqrt{2\pi}}-\ln \sigma_k-\cfrac{(y_j-\mu_k)^2}{2\sigma_k^2}\right)\right\} \\
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}\ln\alpha_{k}+\gamma_{jk}\ln\cfrac{1}{\sqrt{2\pi}}-\gamma_{jk}\ln \sigma_k-\gamma_{jk}\cfrac{(y_j-\mu_k)^2}{2\sigma_k^2}\right\}
-\end{aligned}</script><h5 id="2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1-alpha-1-i-1-alpha-2-i-1-…-alpha-K-i-1-theta-1-i-1-theta-2-i-1-…-theta-K-i-1"><a href="#2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1-alpha-1-i-1-alpha-2-i-1-…-alpha-K-i-1-theta-1-i-1-theta-2-i-1-…-theta-K-i-1" class="headerlink" title="2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}=(\alpha_1^{(i+1)},\alpha_2^{(i+1)},…,\alpha_K^{(i+1)};\theta_1^{(i+1)},\theta_2^{(i+1)},…,\theta_K^{(i+1)})$"></a>2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}=(\alpha_1^{(i+1)},\alpha_2^{(i+1)},…,\alpha_K^{(i+1)};\theta_1^{(i+1)},\theta_2^{(i+1)},…,\theta_K^{(i+1)})$</h5><p>$Q(\theta,\theta^{(i)})$关于$\mu_k$求偏导（此时$k$是固定的）：</p>
+\end{aligned}</script><h5 id="3-EM算法M步：求使得-Q-函数达到极大的-theta-i-1-alpha-1-i-1-alpha-2-i-1-…-alpha-K-i-1-theta-1-i-1-theta-2-i-1-…-theta-K-i-1"><a href="#3-EM算法M步：求使得-Q-函数达到极大的-theta-i-1-alpha-1-i-1-alpha-2-i-1-…-alpha-K-i-1-theta-1-i-1-theta-2-i-1-…-theta-K-i-1" class="headerlink" title="3.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}=(\alpha_1^{(i+1)},\alpha_2^{(i+1)},…,\alpha_K^{(i+1)};\theta_1^{(i+1)},\theta_2^{(i+1)},…,\theta_K^{(i+1)})$"></a>3.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}=(\alpha_1^{(i+1)},\alpha_2^{(i+1)},…,\alpha_K^{(i+1)};\theta_1^{(i+1)},\theta_2^{(i+1)},…,\theta_K^{(i+1)})$</h5><p>$Q(\theta,\theta^{(i)})$关于$\mu_k$求偏导（此时$k$是固定的）：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 \cfrac{\partial{Q(\theta,\theta^{(i)})}}{\partial{\mu_k}}&=\sum_{j=1}^{N}\left\{0+0-0-\cfrac{\gamma_{jk}}{2\sigma_k^2}\cdot 2 \cdot(y_j-\mu_k)\right\} \\
 &=\sum_{j=1}^{N}\left\{-\cfrac{\gamma_{jk}}{\sigma_k^2}\cdot(y_j-\mu_k)\right\} \\
