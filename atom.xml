@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2019-03-18T10:55:48.836Z</updated>
+  <updated>2019-04-03T10:35:18.103Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.sm1les.com/2019/03/13/expectation-maximization/"/>
     <id>http://www.sm1les.com/2019/03/13/expectation-maximization/</id>
     <published>2019-03-13T07:51:10.000Z</published>
-    <updated>2019-03-18T10:55:48.836Z</updated>
+    <updated>2019-04-03T10:35:18.103Z</updated>
     
     <content type="html"><![CDATA[<p>在推导EM算法之前先学习一下<strong>Jensen不等式<sup><a href="#ref1">[1]</a></sup></strong>，Jensen不等式的定义如下：若<br>$f$是<strong>凸函数</strong>，则</p>
 <script type="math/tex; mode=display">f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)</script><p>其中$t\in [0,1]$。同理，若$f$是<strong>凹函数</strong>，则只需将上式的$\leq$换成$\geq$即可。</p>
@@ -101,7 +101,7 @@ Q(\theta,\theta^{(i)})&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}(\ln\alpha
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}\ln\alpha_{k}+\gamma_{jk}\ln\left(\cfrac{1}{\sqrt{2\pi}\sigma_k}\exp\left(-\cfrac{(y_j-\mu_k)^2}{2\sigma_k^2}\right)\right)\right\} \\
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}\ln\alpha_{k}+\gamma_{jk}\left(\ln\cfrac{1}{\sqrt{2\pi}}-\ln \sigma_k-\cfrac{(y_j-\mu_k)^2}{2\sigma_k^2}\right)\right\} \\
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}\ln\alpha_{k}+\gamma_{jk}\ln\cfrac{1}{\sqrt{2\pi}}-\gamma_{jk}\ln \sigma_k-\gamma_{jk}\cfrac{(y_j-\mu_k)^2}{2\sigma_k^2}\right\}
-\end{aligned}</script><h5 id="1-EM算法M步：求使得-Q-函数达到极大的-theta-i-1-alpha-1-i-1-alpha-2-i-1-…-alpha-K-i-1-theta-1-i-1-theta-2-i-1-…-theta-K-i-1"><a href="#1-EM算法M步：求使得-Q-函数达到极大的-theta-i-1-alpha-1-i-1-alpha-2-i-1-…-alpha-K-i-1-theta-1-i-1-theta-2-i-1-…-theta-K-i-1" class="headerlink" title="1.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}=(\alpha_1^{(i+1)},\alpha_2^{(i+1)},…,\alpha_K^{(i+1)};\theta_1^{(i+1)},\theta_2^{(i+1)},…,\theta_K^{(i+1)})$"></a>1.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}=(\alpha_1^{(i+1)},\alpha_2^{(i+1)},…,\alpha_K^{(i+1)};\theta_1^{(i+1)},\theta_2^{(i+1)},…,\theta_K^{(i+1)})$</h5><p>$Q(\theta,\theta^{(i)})$关于$\mu_k$求偏导（此时$k$是固定的）：</p>
+\end{aligned}</script><h5 id="2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1-alpha-1-i-1-alpha-2-i-1-…-alpha-K-i-1-theta-1-i-1-theta-2-i-1-…-theta-K-i-1"><a href="#2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1-alpha-1-i-1-alpha-2-i-1-…-alpha-K-i-1-theta-1-i-1-theta-2-i-1-…-theta-K-i-1" class="headerlink" title="2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}=(\alpha_1^{(i+1)},\alpha_2^{(i+1)},…,\alpha_K^{(i+1)};\theta_1^{(i+1)},\theta_2^{(i+1)},…,\theta_K^{(i+1)})$"></a>2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}=(\alpha_1^{(i+1)},\alpha_2^{(i+1)},…,\alpha_K^{(i+1)};\theta_1^{(i+1)},\theta_2^{(i+1)},…,\theta_K^{(i+1)})$</h5><p>$Q(\theta,\theta^{(i)})$关于$\mu_k$求偏导（此时$k$是固定的）：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 \cfrac{\partial{Q(\theta,\theta^{(i)})}}{\partial{\mu_k}}&=\sum_{j=1}^{N}\left\{0+0-0-\cfrac{\gamma_{jk}}{2\sigma_k^2}\cdot 2 \cdot(y_j-\mu_k)\right\} \\
 &=\sum_{j=1}^{N}\left\{-\cfrac{\gamma_{jk}}{\sigma_k^2}\cdot(y_j-\mu_k)\right\} \\
@@ -242,9 +242,9 @@ E[T(y\vert\boldsymbol x)]&= E[y\vert\boldsymbol x] \\
       <category term="机器学习" scheme="http://www.sm1les.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="最大熵" scheme="http://www.sm1les.com/tags/%E6%9C%80%E5%A4%A7%E7%86%B5/"/>
-    
       <category term="Logistic回归" scheme="http://www.sm1les.com/tags/Logistic%E5%9B%9E%E5%BD%92/"/>
+    
+      <category term="最大熵" scheme="http://www.sm1les.com/tags/%E6%9C%80%E5%A4%A7%E7%86%B5/"/>
     
       <category term="广义线性模型" scheme="http://www.sm1les.com/tags/%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/"/>
     
@@ -340,9 +340,9 @@ p(1)&=\mu
       <category term="机器学习" scheme="http://www.sm1les.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="指数族分布" scheme="http://www.sm1les.com/tags/%E6%8C%87%E6%95%B0%E6%97%8F%E5%88%86%E5%B8%83/"/>
-    
       <category term="最大熵" scheme="http://www.sm1les.com/tags/%E6%9C%80%E5%A4%A7%E7%86%B5/"/>
+    
+      <category term="指数族分布" scheme="http://www.sm1les.com/tags/%E6%8C%87%E6%95%B0%E6%97%8F%E5%88%86%E5%B8%83/"/>
     
   </entry>
   
