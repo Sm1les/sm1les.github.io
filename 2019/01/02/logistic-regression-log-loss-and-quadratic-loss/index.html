@@ -1,77 +1,74 @@
-<!DOCTYPE html>
-<html lang="zh-Hans">
+<!doctype html>
+<html lang="en">
+    <head><meta name="generator" content="Hexo 3.8.0">
+		
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content>
+        <link rel="shortcut icon" href="/styles/images/logo.jpg">
+        <link rel="alternate" type="application/rss+xml" title="Sm1les" href="/atom.xml">
 
-<!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.8.0">
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Logistic回归——为什么用对数损失函数而不用平方损失函数？ | Sm1les&#39;s blog</title>
+        <meta name="description" content="{{meta_description}}">
 
-    <!--Description-->
+        <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/styles/crisp.css">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </head>
     
-        <meta name="description" content="损失函数本身作为选取最优模型的准则，当然是可以任意选取的，但是不同的模型选取场景下，各个准则的评价效果是不同的，因此需要因地制宜，选择评价效果最好的准则。
-平方损失函数由最小二乘法可以推得Logistic回归的平方损失函数为[1]：
-J(\boldsymbol w)=\sum_{i=1}^{m} \">
+		<body class="post-template">
+	
+
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><header id="header">
+            <a id="logo" href="/"><img src="/styles/images/logo.jpg" alt="Sm1les's blog"></a>
+            <h1><a href="/">Sm1les</a></h1>
+            <p></p>
+            <div id="follow-icons">
+	<a href="#"><i class="fa fa-instagram fa-2x"></i></a>
+	<a href="#"><i class="fa fa-pinterest-square fa-2x"></i></a>
+	<a href="http://github.com/Sm1les"><i class="fa fa-github-square fa-2x"></i></a>
+	<a href="#"><i class="fa fa-facebook-square fa-2x"></i></a>
+	<a href="#"><i class="fa fa-twitter-square fa-2x"></i></a>
+	<a href="#"><i class="fa fa-linkedin-square fa-2x"></i></a>
+	<a href="/atom.xml"><i class="fa fa-rss-square fa-2x"></i></a>
+</div>
+<div id="tag-cloud">
+
+        <a href="/tags/EM算法/" style="font-size: 10px;">EM算法</a> <a href="/tags/KKT条件/" style="font-size: 10px;">KKT条件</a> <a href="/tags/Logistic回归/" style="font-size: 20px;">Logistic回归</a> <a href="/tags/Slater条件/" style="font-size: 10px;">Slater条件</a> <a href="/tags/对偶/" style="font-size: 10px;">对偶</a> <a href="/tags/广义线性模型/" style="font-size: 10px;">广义线性模型</a> <a href="/tags/指数族分布/" style="font-size: 10px;">指数族分布</a> <a href="/tags/损失函数/" style="font-size: 10px;">损失函数</a> <a href="/tags/最大熵/" style="font-size: 20px;">最大熵</a> <a href="/tags/梯度下降法/" style="font-size: 10px;">梯度下降法</a> <a href="/tags/正则化/" style="font-size: 10px;">正则化</a> <a href="/tags/牛顿法/" style="font-size: 10px;">牛顿法</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a>
     
+</div>
+<h6><a href="/about">About</a></h6>
 
-    <!--Author-->
+        </header>
+
+        <main id="content">
+        
+
+<article class="post">
+  
+  一月 2, 2019
+  
+    <span class="taglist">  &middot; 
     
-        <meta name="author" content="Sm1les">
     
-
-    <!-- Title -->
+      <a href="/tags/Logistic回归/">Logistic回归</a> 
     
-    <title>Logistic回归——为什么用对数损失函数而不用平方损失函数？ | Sm1les&#39;s blog</title>
+      <a href="/tags/损失函数/">损失函数</a> 
+    
+    </span>
+  
 
-    <!-- Bootstrap Core CSS -->
-    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/style.css">
-
-    <!-- Custom Fonts -->
-    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Noto+Serif:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-</head>
-
-<body>
-
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Content -->
-    <section class="article-container">
-<!-- Back Home -->
-<a class="nav-back" href="/">
-    <i class="fa fa-puzzle-piece"></i>
-</a>
-
-<!-- Page Header -->
-<header class="intro-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <h1>Logistic回归——为什么用对数损失函数而不用平方损失函数？</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-            <!-- Post Main Content -->
-            <div class="post-content col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <p>损失函数本身作为选取最优模型的准则，当然是可以任意选取的，但是不同的模型选取场景下，各个准则的评价效果是不同的，因此需要因地制宜，选择评价效果最好的准则。</p>
+  <h1 class="post-title">Logistic回归——为什么用对数损失函数而不用平方损失函数？</h1>
+  <section class="post-content article-entry">
+    <p>损失函数本身作为选取最优模型的准则，当然是可以任意选取的，但是不同的模型选取场景下，各个准则的评价效果是不同的，因此需要因地制宜，选择评价效果最好的准则。</p>
 <h3 id="平方损失函数"><a href="#平方损失函数" class="headerlink" title="平方损失函数"></a>平方损失函数</h3><p>由最小二乘法可以推得Logistic回归的平方损失函数为<sup><a href="#ref1">[1]</a></sup>：</p>
 <script type="math/tex; mode=display">J(\boldsymbol w)=\sum_{i=1}^{m} \left( y_i - \cfrac{1}{1+e^{-\boldsymbol w^T\boldsymbol x_i}} \right)^2</script><p>此函数为<strong>非凸</strong>函数，易得局部最优解，不易求得全局最优解。</p>
 <h3 id="对数损失函数"><a href="#对数损失函数" class="headerlink" title="对数损失函数"></a>对数损失函数</h3><p>对数损失函数也称为对数似然损失函数，一般由最（极）大似然估计法推得，推导过程如下：<br>设$y\in\{0,1\}$，$y$取1和0的概率分别分为$p_1(\boldsymbol{x};\boldsymbol w)$和$p_0(\boldsymbol{x};\boldsymbol w)$，则：</p>
@@ -94,50 +91,83 @@ p(y|\boldsymbol x;\boldsymbol w) &= yp_1(\boldsymbol{x};\boldsymbol w)+(1-y)p_0(
 </ul>
 <h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] <a href="https://www.zhihu.com/question/65350200" target="_blank" rel="noopener">逻辑回归损失函数为什么使用最大似然估计而不用最小二乘法？</a></span></p>
 
- 
-                <!-- Meta -->
-                <div class="post-meta">
-                    <hr>
-                    <br>
-                    <div class="post-tags">
-                        
-                            
-
-<a href="/tags/Logistic回归/">#Logistic回归</a> <a href="/tags/损失函数/">#损失函数</a>
-
-
-                        
-                    </div>
-                    <div class="post-date">
-                        2019 年 01 月 02 日
-                    </div>
-                </div>
-            </div>
-
-            <!-- Comments -->
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <!-- Disqus Comments -->
-
-
-            </div>
-        </div>
-    </div>
+  </section>
+  <footer class="post-footer">
+    <!--
+    <section class="author">
+      <h4>Sm1les</h4>
+      <p></p>
+    </section>
+    -->
+  </footer>
 </article>
-</section>
 
-    <!-- Scripts -->
-    <!-- jQuery -->
-<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
-<!-- Bootstrap -->
-<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-<script type="text/javascript">
-	console.log('Hexo-theme-hollow designed by zchen9 🙋 © 2015-' + (new Date()).getFullYear());
-</script>
-
-    <!-- Google Analytics --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<nav class="pagination" role="pagination">
     
+    <a class="newer-posts" href="/2019/01/07/l1-and-l2-regularization/">
+        ← prev <!--L1正则化和L2正则化-->
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/12/11/lagrange-duality/">
+        <!--拉格朗日对偶性--> next →
+    </a>
+    
+</nav>
 
+<!-- Begin Comments Code -->
+
+  <div id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-logistic-regression-log-loss-and-quadratic-loss" data-title="Logistic回归——为什么用对数损失函数而不用平方损失函数？" data-url="http://www.sm1les.com/2019/01/02/logistic-regression-log-loss-and-quadratic-loss/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'sm1les'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+<!-- End Comments Code -->
+
+
+        </main>
+        <footer id="footer">
+            <section id="footer-message">&copy; 2019 Sm1les. All rights reserved. Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. <a href="https://github.com/guolin/crisp-hexo-theme" target="_blank">crisp</a> theme by <a href="http://guolin.github.io" target="_blank">Guo Lin</a>.</section>
+        </footer>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','/js/ga.js','ga');
+            ga('create', 'UA-131477813-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
-
 </html>
+
+
