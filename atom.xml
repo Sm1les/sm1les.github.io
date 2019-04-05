@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2019-04-03T10:36:42.283Z</updated>
+  <updated>2019-04-05T11:53:21.975Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.sm1les.com/2019/03/13/expectation-maximization/"/>
     <id>http://www.sm1les.com/2019/03/13/expectation-maximization/</id>
     <published>2019-03-13T07:51:10.000Z</published>
-    <updated>2019-04-03T10:36:42.283Z</updated>
+    <updated>2019-04-05T11:53:21.975Z</updated>
     
     <content type="html"><![CDATA[<p>在推导EM算法之前先学习一下<strong>Jensen不等式<sup><a href="#ref1">[1]</a></sup></strong>，Jensen不等式的定义如下：若<br>$f$是<strong>凸函数</strong>，则</p>
 <script type="math/tex; mode=display">f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)</script><p>其中$t\in [0,1]$。同理，若$f$是<strong>凹函数</strong>，则只需将上式的$\leq$换成$\geq$即可。</p>
@@ -72,7 +72,6 @@ z_{jk} = \left\{ \begin{array}{rcl}
 \ln P(Y,Z\vert \theta)&=\ln\left( P(Y\vert Z,\theta)P(Z\vert \theta)\right) \\
 &=\ln\left( \prod_{j=1}^{N}\left( \prod_{k=1}^{K} [\phi(y_j\vert\theta_k)]^{z_{jk}}\times \prod_{k=1}^{K} \alpha_{k}^{z_{jk}}\right)\right) \\
 &=\ln\left( \prod_{j=1}^{N}\left( \prod_{k=1}^{K} [\phi(y_j\vert\theta_k)]^{z_{jk}} \alpha_{k}^{z_{jk}}\right)\right) \\
-&=\ln\left( \prod_{j=1}^{N}\prod_{k=1}^{K}[\alpha_{k}\phi(y_j\vert\theta_k)]^{z_{jk}}\right) \\
 &=\ln\left( \prod_{j=1}^{N}\prod_{k=1}^{K}[\alpha_{k}\phi(y_j\vert\theta_k)]^{z_{jk}}\right) \\
 &= \sum_{j=1}^{N}\sum_{k=1}^{K}\ln\left([\alpha_{k}\phi(y_j\vert\theta_k)]^{z_{jk}}\right) \\
 &= \sum_{j=1}^{N}\sum_{k=1}^{K}{z_{jk}}\ln(\alpha_{k}\phi(y_j\vert\theta_k)) \\
