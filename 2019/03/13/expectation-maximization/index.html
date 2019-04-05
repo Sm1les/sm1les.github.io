@@ -126,7 +126,7 @@ Q(\theta,\theta^{(i)})&=\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta) \\
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\sum_{z_{jk}}P(z_{jk}\vert y_j,\theta^{(i)}){z_{jk}}(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\} \quad(此处\sum_{z_{jk}}表示遍历z_{jk}的两种取值情况：0和1)\\
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{P(z_{jk}=1\vert y_j,\theta^{(i)})\cdot 1 \cdot (\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))+P(z_{jk}=0\vert y_j,\theta^{(i)})\cdot 0 \cdot (\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\} \\
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{P(z_{jk}=1\vert y_j,\theta^{(i)})(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\}\\    
-\end{aligned}</script><p>其中$P(z_{jk}=1\vert y_j,\theta^{(i)})$表示在给定$\theta=\theta^{(i)}$的条件下，某个观测数据$y_j$是由第$k$个分模型生成的概率，称为分模型$k$对观测数据$y_j$的响应度。由<strong>贝叶斯定理</strong>可进一步推得&lt;/sup&gt;<sup><a href="#ref4">[4]</a></sup>：</p>
+\end{aligned}</script><p>其中$P(z_{jk}=1\vert y_j,\theta^{(i)})$表示在给定$\theta=\theta^{(i)}$的条件下，某个观测数据$y_j$是由第$k$个分模型生成的概率，称为分模型$k$对观测数据$y_j$的响应度。由<strong>贝叶斯定理</strong>可进一步推得<sup><a href="#ref4">[4]</a></sup>：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 P(z_{jk}=1\vert y_j,\theta^{(i)})&=\cfrac{P(y_j\vert z_{jk}=1,\theta^{(i)})\cdot P(z_{jk}=1,\theta^{(i)})}{P(y_j,\theta^{(i)})} \\
 &=\cfrac{P(y_j\vert z_{jk}=1,\theta^{(i)})\cdot P(z_{jk}=1,\theta^{(i)})}{\sum_{l=1}^{K}\alpha_l\phi(y_j\vert \theta_l^{(i)})} \\
