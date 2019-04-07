@@ -146,12 +146,12 @@ Q(\theta,\theta^{(i)})&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}(\ln\alpha
     <link href="http://www.sm1les.com/2019/03/01/gradient-descent-and-newton-method/"/>
     <id>http://www.sm1les.com/2019/03/01/gradient-descent-and-newton-method/</id>
     <published>2019-03-01T03:21:35.000Z</published>
-    <updated>2019-03-12T06:37:18.626Z</updated>
+    <updated>2019-04-07T05:35:53.332Z</updated>
     
     <content type="html"><![CDATA[<h3 id="梯度下降法的泰勒公式推导-1-："><a href="#梯度下降法的泰勒公式推导-1-：" class="headerlink" title="梯度下降法的泰勒公式推导[1]："></a>梯度下降法的泰勒公式推导<sup><a href="#ref1">[1]</a></sup>：</h3><p>梯度下降法的目标是使得$f(x_t+\Delta x )&lt;f(x_t)$，由泰勒公式可知，$f(x)$在$x_t$点的一阶泰勒展开为：</p>
 <script type="math/tex; mode=display">f(x) = f(x_t)+f’(x_t)(x-x_t)</script><p>则</p>
 <script type="math/tex; mode=display">f(x_{t+1}) = f(x_t)+f’(x_t)(x_{t+1}-x_t)</script><p>又$x_{t+1}$可等价写作$x_t + \Delta x$，则上式可化为：</p>
-<script type="math/tex; mode=display">f(x_t + \Delta x) = f(x_t)+f’(x_t) \cdot \Delta x</script><p>所以要想使得$f(x_t+\Delta x )<f(x_t)$，$f’(x_t) \cdot \delta x$必须小于0，此时$f’(x_t)$为定值，$\delta x$为可控部分，于是可以令$\delta x="-\eta" f’(x_t)$，其中$\eta>0$，则</f(x_t)$，$f’(x_t)></p>
+<script type="math/tex; mode=display">f(x_t + \Delta x) = f(x_t)+f’(x_t) \cdot \Delta x</script><p>所以要想使得$f(x_t+\Delta x)$&lt;$f(x_t)$，$f’(x_t)\cdot\Delta x$必须小于0，此时$f’(x_t)$为定值，$\Delta x$为可变部分，于是可以令$\Delta x = -\eta \cdot f’(x_t)$，其中$\eta&gt;0$，则</p>
 <script type="math/tex; mode=display">f’(x_t) \cdot \Delta x= -\eta(f’(x_t))^2<0</script><p>由此可以推得当$\Delta x = -\eta \cdot f’(x_t)$时，$f(x_t+\Delta x )&lt;f(x_t)$恒成立。</p>
 <h3 id="牛顿法的泰勒公式推导-2-："><a href="#牛顿法的泰勒公式推导-2-：" class="headerlink" title="牛顿法的泰勒公式推导[2]："></a>牛顿法的泰勒公式推导<sup><a href="#ref2">[2]</a></sup>：</h3><p>对于无约束的<strong>凸优化</strong>问题</p>
 <script type="math/tex; mode=display">\min\limits_{\boldsymbol{x} \in \mathbb{R}^n}f(\boldsymbol{x})</script><p>其中$\boldsymbol{x}^*$为目标函数的最小值点，也是极小值点，牛顿法利用极小值点的必要条件</p>
