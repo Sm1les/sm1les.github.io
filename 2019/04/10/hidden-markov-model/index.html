@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://www.sm1les.com/2019/04/10/hidden-markov-model/hmm.png">
 <meta property="og:image" content="http://www.sm1les.com/2019/04/10/hidden-markov-model/hmm-forward.png">
 <meta property="og:image" content="http://www.sm1les.com/2019/04/10/hidden-markov-model/hmm-backward.png">
-<meta property="og:updated_time" content="2019-04-10T12:10:10.206Z">
+<meta property="og:updated_time" content="2019-04-10T13:54:54.059Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="概率图模型——隐马尔可夫模型">
 <meta name="twitter:description" content="隐马尔可夫模型的定义[1]隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为状态序列；每个状态生成一个观测，而由此产生的观测的随机序列，称为观测序列，序列的每一个位置又可以看作是一个时刻。其形式定义如下：   $Q">
@@ -178,13 +178,21 @@ Q(\lambda,\bar{\lambda})&=\sum_I P(O,I\vert\bar{\lambda})\ln P(O,I\vert \lambda)
 P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
 \end{aligned}</script>解得<script type="math/tex; mode=display">\eta=-P(O\vert\bar{\lambda})</script>将其代回式（B.1）可得：<script type="math/tex; mode=display">P(O,i_1=q_i\vert\bar{\lambda})-P(O\vert\bar{\lambda})\cdot\pi_i=0</script><script type="math/tex; mode=display">\pi_i = \cfrac{P(O,i_1=q_i\vert\bar{\lambda})}{P(O\vert\bar{\lambda})}</script><script type="math/tex; mode=display">\pi_i=\gamma_1(i)</script>其中，$\gamma_1(i)$由式（A.1）给出。</li>
 <li>上述$Q$函数中的第2项可以写成：<script type="math/tex; mode=display">\begin{aligned} 
-\sum_I P(O,I\vert\bar{\lambda})\left(\sum_{t=1}^{T-1}\ln a_{i_t i_{t+1}}\right)&=\sum_{t=1}^{T-1}\left\{\sum_{i=1}^N\sum_{j=1}^N\left[\ln a_{ij}\cdot\left(\sum_{i_1,i_2,...,i_{t-1},i_{t+2},...,i_T}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})\right)\right]\right\} \\
+\sum_I P(O,I\vert\bar{\lambda})\left(\sum_{t=1}^{T-1}\ln a_{i_t i_{t+1}}\right)&=\sum_{t=1}^{T-1}\left\{\sum_{i=1}^N\sum_{j=1}^N\left[\ln a_{ij}\cdot\left(\sum_{i_1,i_2,...,i_{t-1},i_{t+2},...,i_T}P(O,i_1,i_2,...,i_t=q_i,i_{t+1}=q_j,...,i_T\vert\bar{\lambda})\right)\right]\right\} \\
 &=\sum_{t=1}^{T-1}\left\{\sum_{i=1}^N\sum_{j=1}^N\left[\ln a_{ij}\cdot P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})\right]\right\} \\
 &=\sum_{t=1}^{T-1}\sum_{i=1}^N\sum_{j=1}^N\ln a_{ij}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})
 \end{aligned}</script>由于$a_{ij}$满足约束$\sum_{j=1}^Na_{ij}=1$，同样利用拉格朗日乘子法，写出拉格朗日函数：<script type="math/tex; mode=display">\sum_{t=1}^{T-1}\sum_{i=1}^N\sum_{j=1}^N\ln a_{ij}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})+\eta\left(\sum_{j=1}^Na_{ij}-1\right)</script>对其关于$a_{ij}$求偏导并令结果为0：<script type="math/tex; mode=display">\cfrac{\partial}{\partial a_{ij}}\left[\sum_{t=1}^{T-1}\sum_{i=1}^N\sum_{j=1}^N\ln a_{ij}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})+\eta\left(\sum_{j=1}^Na_{ij}-1\right)\right]=0</script>得<script type="math/tex; mode=display">\sum_{t=1}^{T-1}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})+\eta a_{ij}=0\tag{B.2}</script>对上式关于$j$求和可得：<script type="math/tex; mode=display">\begin{aligned} 
 \sum_{j=1}^N\sum_{t=1}^{T-1}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})+\sum_{j=1}^N\eta a_{ij}&=0 \\
 \sum_{t=1}^{T-1}P(O,i_t=q_i\vert\bar{\lambda})+\eta\cdot 1&=0 \\
 \end{aligned}</script>解得：<script type="math/tex; mode=display">\eta=-\sum_{t=1}^{T-1}P(O,i_t=q_i\vert\bar{\lambda})</script>将其代回式（B.2）可得：<script type="math/tex; mode=display">\sum_{t=1}^{T-1}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})-\sum_{t=1}^{T-1}P(O,i_t=q_i\vert\bar{\lambda}) \cdot a_{ij}=0</script><script type="math/tex; mode=display">a_{ij}=\cfrac{\sum_{t=1}^{T-1}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})}{\sum_{t=1}^{T-1}P(O,i_t=q_i\vert\bar{\lambda})}</script><script type="math/tex; mode=display">a_{ij}=\cfrac{\sum_{t=1}^{T-1}\xi_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i)}</script>其中，$\xi_t(i,j)$由式（A.2）给出，$\gamma_t(i)$由式（A.1）给出。</li>
+<li>上述$Q$函数中的第3项可以写成：<script type="math/tex; mode=display">\begin{aligned}
+\sum_I P(O,I\vert\bar{\lambda})\left(\sum_{t=1}^{T}\ln b_{i_t o_t}\right)&=\sum_{t=1}^{T}\left\{\sum_{j=1}^N\left[\ln b_{jo_t}\cdot\left(\sum_{i_1,i_2,...,i_{t-1},i_{t+1},...,i_T}P(O,i_1,i_2,...,i_t=q_j,...,i_T\vert\bar{\lambda})\right)\right]\right\} \\
+&=\sum_{t=1}^{T}\left\{\sum_{j=1}^N\left[\ln b_{jo_t}\cdot P(O,i_t=q_j\vert\bar{\lambda})\right]\right\} \\
+&=\sum_{t=1}^{T}\sum_{j=1}^N\ln b_{jo_t}P(O,i_t=q_j\vert\bar{\lambda}) \\
+\end{aligned}</script>由于$b_{jk}$满足约束$\sum_{k=1}^M b_{jk}=1$，同样利用拉格朗日乘子法，写出拉格朗日函数：<script type="math/tex; mode=display">\sum_{t=1}^{T}\sum_{j=1}^N\ln b_{jo_t}P(O,i_t=q_j\vert\bar{\lambda})+\eta\left(\sum_{k=1}^M b_{jk}-1\right)</script>对其关于$b_{jk}$求偏导并令结果为0：<script type="math/tex; mode=display">\cfrac{\partial}{\partial b_{jk}}\left[\sum_{t=1}^{T}\sum_{j=1}^N\ln b_{jo_t}P(O,i_t=q_j\vert\bar{\lambda})+\eta\left(\sum_{k=1}^M b_{jk}-1\right)\right]=0</script>得<script type="math/tex; mode=display">\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)+\eta b_{jk}=0 \tag{B.3}</script>其中，$\mathbb{I}(o_t=v_k)$为指示函数。对上式关于$k$求和可得：<script type="math/tex; mode=display">\begin{aligned}
+\sum_{k=1}^M\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)+\sum_{k=1}^M\eta b_{jk}&=0 \\
+\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})+\eta\cdot 1&=0 
+\end{aligned}</script>解得：<script type="math/tex; mode=display">\eta=-\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})</script>将其代回式（B.3）可得：<script type="math/tex; mode=display">\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)-\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\cdot b_{jk}=0</script><script type="math/tex; mode=display">b_{jk}=\cfrac{\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)}{\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})}</script><script type="math/tex; mode=display">b_{jk}=\cfrac{\sum_{t=1,o_t=v_k}^T\gamma_t(j)}{\sum_{t=1}^{T}\gamma_t(j)}</script>其中，$\gamma_t(j)$由式（A.1）给出。</li>
 </ol>
 <h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span></p>
 
