@@ -14,7 +14,7 @@
 <meta property="og:description" content="对于带不等式约束的优化问题： \begin{aligned} \min \quad f(\boldsymbol x) \\ s.t.  \quad g_i(\boldsymbol x) &amp;\leq 0 \quad (i=1,...,n) \\ h_j(\boldsymbol x) &amp;= 0 \quad (j=1,...,m) \end{aligned}若$f(\boldsymbol x),g_i(">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/Inequality_constraint_diagram.png">
-<meta property="og:updated_time" content="2019-01-05T10:44:02.046Z">
+<meta property="og:updated_time" content="2019-04-18T15:33:07.337Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Karush–Kuhn–Tucker（简称KKT）条件">
 <meta name="twitter:description" content="对于带不等式约束的优化问题： \begin{aligned} \min \quad f(\boldsymbol x) \\ s.t.  \quad g_i(\boldsymbol x) &amp;\leq 0 \quad (i=1,...,n) \\ h_j(\boldsymbol x) &amp;= 0 \quad (j=1,...,m) \end{aligned}若$f(\boldsymbol x),g_i(">
@@ -93,7 +93,7 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 \end{aligned}</script><p>若$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$在$\boldsymbol x^*$处<strong>一阶可微</strong>，$\boldsymbol x^*$是优化问题的局部可行解（此时为极小值解），并且在$\boldsymbol x^*$处<strong>约束限制条件（constraint qualifications）</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref2">[2]</a></sup>成立，则存在$\boldsymbol \mu^*=(\mu_1^*,\mu_2^*,…,\mu_n^*)^T,\boldsymbol \lambda^*=(\lambda_1^*,\lambda_2^*,…,\lambda_m^*)^T,$使得：</p>
 <script type="math/tex; mode=display">\left\{
 \begin{aligned}
-& \nabla L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )=\nabla f(\boldsymbol  x^* )+\sum_{i=1}^{n}\mu_i^* \nabla g_i(\boldsymbol x^* )+\sum_{j=1}^{m}\lambda_j^* \nabla h_j(\boldsymbol x^*) &(1) \\
+& \nabla L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )=\nabla f(\boldsymbol  x^* )+\sum_{i=1}^{n}\mu_i^* \nabla g_i(\boldsymbol x^* )+\sum_{j=1}^{m}\lambda_j^* \nabla h_j(\boldsymbol x^*)=0 &(1) \\
 & h_j(\boldsymbol x^*)=0 &(2) \\
 & g_i(\boldsymbol x^*) \leq 0 &(3) \\
 & \mu_i^* \geq 0 &(4)\\
