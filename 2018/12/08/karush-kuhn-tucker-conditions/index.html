@@ -14,7 +14,7 @@
 <meta property="og:description" content="对于带不等式约束的优化问题： \begin{aligned} \min \quad f(\boldsymbol x) \\ s.t.  \quad g_i(\boldsymbol x) &amp;\leq 0 \quad (i=1,...,n) \\ h_j(\boldsymbol x) &amp;= 0 \quad (j=1,...,m) \end{aligned}若$f(\boldsymbol x),g_i(">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/Inequality_constraint_diagram.png">
-<meta property="og:updated_time" content="2019-04-18T15:33:07.337Z">
+<meta property="og:updated_time" content="2019-04-19T10:29:33.975Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Karush–Kuhn–Tucker（简称KKT）条件">
 <meta name="twitter:description" content="对于带不等式约束的优化问题： \begin{aligned} \min \quad f(\boldsymbol x) \\ s.t.  \quad g_i(\boldsymbol x) &amp;\leq 0 \quad (i=1,...,n) \\ h_j(\boldsymbol x) &amp;= 0 \quad (j=1,...,m) \end{aligned}若$f(\boldsymbol x),g_i(">
@@ -100,7 +100,7 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
 & \mu_i^* g_i(\boldsymbol x^*)=0 &(5)
 \end{aligned}
 \right.</script><p>其中$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$为拉格朗日函数：</p>
-<script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x)</script><p>以上即5条为KKT条件，其中条件(2)和(3)为约束条件显然成立，条件(1)、(4)、(5)成立的<strong>简单证明</strong>如下：</p>
+<script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x)</script><p>以上5条即为KKT条件，其中条件(2)和(3)为约束条件显然成立，条件(1)、(4)、(5)成立的<strong>简单证明</strong>如下：</p>
 <p><center>
 <img src="./Inequality_constraint_diagram.png" width="60%" height="60%">
 </center><br>由约束条件：$g_i(\boldsymbol x) \leq 0$可知，$\boldsymbol x^*$一定满足$g_i(\boldsymbol x^*) \lt 0$或者$g_i(\boldsymbol x^*) = 0$（也即条件(3)），对这两种情形进行讨论：</p>
