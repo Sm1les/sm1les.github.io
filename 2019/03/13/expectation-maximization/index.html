@@ -14,7 +14,7 @@
 <meta property="og:description" content="在推导EM算法之前先学习一下Jensen不等式[1]，Jensen不等式的定义如下：若$f$是凸函数，则 f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)其中$t\in [0,1]$。同理，若$f$是凹函数，则只需将上式的$\leq$换成$\geq$即可。 将上式中的$t$推广到$n$个同样成立，即 f(t_1 x_1 + t_2x_2+...+t_nx_n)">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.sm1les.com/2019/03/13/expectation-maximization/em.png">
-<meta property="og:updated_time" content="2019-04-06T06:00:18.934Z">
+<meta property="og:updated_time" content="2019-04-24T12:14:01.548Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EM算法">
 <meta name="twitter:description" content="在推导EM算法之前先学习一下Jensen不等式[1]，Jensen不等式的定义如下：若$f$是凸函数，则 f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)其中$t\in [0,1]$。同理，若$f$是凹函数，则只需将上式的$\leq$换成$\geq$即可。 将上式中的$t$推广到$n$个同样成立，即 f(t_1 x_1 + t_2x_2+...+t_nx_n)">
@@ -120,7 +120,8 @@ L(\theta)-L(\theta^{(i)})&=\ln \left(\sum_Z P(Z\vert Y,\theta^{(i)}) \cfrac{P(Y\
 \theta^{(i+1)}&=\mathop{\arg\max}_{\theta}\left(\sum_Z P(Z\vert Y,\theta^{(i)})\ln\left( P(Y\vert Z,\theta)P(Z\vert \theta)\right)\right) \\
 &=\mathop{\arg\max}_{\theta}\left(\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta)\right) \\
 &=\mathop{\arg\max}_{\theta}Q(\theta,\theta^{(i)})
-\end{aligned}</script><p>到此即完成了EM算法的一次迭代，求出的$\theta^{(i+1)}$作为下一次迭代的初始$\theta^{(i)}$。综上可以总结出EM算法的“E步”和“M步”分别为：<br><strong>E步：</strong>计算完全数据的对数似然函数$\ln P(Y,Z\vert \theta)$关于在给定观测数据$Y$和当前参数$\theta^{(i)}$下对未观测数据$Z$的条件概率分布$ P(Z\vert Y,\theta^{(i)})$的期望，也即$Q$函数：</p>
+\end{aligned}</script><p>到此即完成了EM算法的一次迭代，求出的$\theta^{(i+1)}$作为下一次迭代的初始$\theta^{(i)}$。综上可以总结出EM算法的“E步”和“M步”分别为：</p>
+<p><strong>E步：</strong>计算完全数据的对数似然函数$\ln P(Y,Z\vert \theta)$关于在给定观测数据$Y$和当前参数$\theta^{(i)}$下对未观测数据$Z$的条件概率分布$ P(Z\vert Y,\theta^{(i)})$的期望，也即$Q$函数：</p>
 <script type="math/tex; mode=display">Q(\theta,\theta^{(i)})=E_Z[\ln P(Y,Z\vert \theta)\vert Y,\theta^{(i)}]=\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta)</script><p><strong>M步：</strong>求使得$Q$函数到达极大的$\theta^{(i+1)}$。<br>EM算法的基本思想可以总结为<sup><a href="#ref4">[4]</a></sup>：若参数$\theta$已知，则可根据观测数据$Y$推断出最优隐变量$Z$的值（E步）；反之，若$Z$的值已知，则可方便地对参数$\theta$做极大似然估计（M步）。</p>
 <h3 id="EM算法在高斯混合模型中的应用-2-3-5"><a href="#EM算法在高斯混合模型中的应用-2-3-5" class="headerlink" title="EM算法在高斯混合模型中的应用[2][3][5]"></a>EM算法在高斯混合模型中的应用<sup><a href="#ref2">[2]</a></sup><sup><a href="#ref3">[3]</a></sup><sup><a href="#ref5">[5]</a></sup></h3><p>高斯混合模型（Gaussian Mixture Model，GMM）定义如下：</p>
 <script type="math/tex; mode=display">P(y|\theta)=\sum_{k=1}^{K}\alpha_k\phi(y\vert \theta_k)</script><p>其中$\alpha_k$是系数，$\alpha_k\geq0,\sum_{k=1}^{K}\alpha_k=1$，$\theta_k=(\mu_k,\sigma_k^2)$，$\phi(y\vert \theta_k)$为高斯分布密度：</p>
@@ -182,10 +183,55 @@ Q(\theta,\theta^{(i)})&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}(\ln\alpha
 \end{aligned}</script><p>令上式等于0即可得：</p>
 <script type="math/tex; mode=display">\alpha_{k}^{(i+1)}=\cfrac{\sum_{j=1}^{N}\gamma_{jk}}{-\beta}</script><p>又由约束条件可得：</p>
 <script type="math/tex; mode=display">\sum_{k=1}^{K}\alpha_k^{(i+1)}=\cfrac{\sum_{k=1}^{K}\sum_{j=1}^{N}\gamma_{jk}}{-\beta}=1</script><p>其中$\sum_{k=1}^{K}\sum_{j=1}^{N}\gamma_{jk}=\sum_{j=1}^{N}\sum_{k=1}^{K}\gamma_{jk}=\sum_{j=1}^{N}1=N$，所以</p>
-<script type="math/tex; mode=display">\cfrac{N}{-\beta}=1\Rightarrow -\beta=N\Rightarrow \alpha_{k}^{(i+1)}=\cfrac{\sum_{j=1}^{N}\gamma_{jk}}{N}</script><p>【注】：</p>
+<script type="math/tex; mode=display">\cfrac{N}{-\beta}=1\Rightarrow -\beta=N\Rightarrow \alpha_{k}^{(i+1)}=\cfrac{\sum_{j=1}^{N}\gamma_{jk}}{N}</script><h3 id="EM算法在三硬币模型中的应用-6"><a href="#EM算法在三硬币模型中的应用-6" class="headerlink" title="EM算法在三硬币模型中的应用[6]"></a>EM算法在三硬币模型中的应用<sup><a href="#ref2">[6]</a></sup></h3><h5 id="1-EM算法E步：确定-Q-函数"><a href="#1-EM算法E步：确定-Q-函数" class="headerlink" title="1.EM算法E步：确定$Q$函数"></a>1.EM算法E步：确定$Q$函数</h5><script type="math/tex; mode=display">
+\begin{aligned} Q(\theta|\theta^{(i)})&=\sum_Z P(Z|Y,\theta^{(i)})\ln P(Y,Z|\theta)\\
+&=\sum_{j=1}^N\left[ \sum_zP(z|y_j,\theta^{(i)})\ln P(y_j,z|\theta)  \right]\\
+&=\sum_{j=1}^N\left[  P(z=1|y_j,\theta^{(i)})\ln P(y_j,z=1|\theta) + P(z=0|y_j,\theta^{(i)})\ln P(y_j,z=0|\theta)\right]\end{aligned}</script><p>由于</p>
+<script type="math/tex; mode=display">
+\begin{cases} 
+P(y_j,z=1|\theta)=\pi p^{y_j}(1-p)^{1-y_j} \\
+P(y_j,z=0|\theta)=(1-\pi )q^{y_j}(1-q)^{1-y_j} 
+\end{cases}</script><script type="math/tex; mode=display">
+\begin{cases} 
+P(z=1|y_j,\theta^{(i)})=\cfrac{P(z=1,y_j|\theta^{(i)})}{P(y_j|\theta^{(i)})}=\cfrac{\pi^{(i)} [p^{(i)}]^{y_j} (1-p^{(i)})^{1-y_j}}{\pi^{(i)} [p^{(i)}]^{y_j} (1-p^{(i)})^{1-y_j}+(1-\pi^{(i)} )[q^{(i)}]^{y_j}(1-q^{(i)})^{1-y_j}}=\mu_j^{(i+1)} \\
+P(z=0|y_j,\theta^{(i)})=\cfrac{P(z=0,y_j|\theta^{(i)})}{P(y_j|\theta^{(i)})}=\cfrac{(1-\pi^{(i)} )[q^{(i)}]^{y_j}(1-q^{(i)})^{1-y_j}}{\pi^{(i)} [p^{(i)}]^{y_j} (1-p^{(i)})^{1-y_j}+(1-\pi^{(i)} )[q^{(i)}]^{y_j}(1-q^{(i)})^{1-y_j}}=(1-\mu_j^{(i+1)}) \\
+\end{cases}</script><p>所以</p>
+<script type="math/tex; mode=display">
+Q(\theta|\theta^{(i)})=\sum_{j=1}^N\left\{  \mu_j^{(i+1)}\ln\left[\pi p^{y_j}(1-p)^{1-y_j} \right]+ (1-\mu_j^{(i+1)})\ln\left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right]\right\}</script><h5 id="2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1"><a href="#2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1" class="headerlink" title="2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$"></a>2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$</h5><p>对Q函数关于$\pi$求一阶偏导数，并令一阶偏导数等于0：</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial \pi}&=\sum_{j=1}^N\cfrac{\partial}{\partial \pi}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
+&=\sum_{j=1}^N\left\{\mu_{j}^{(i+1)}\frac{p^{y_j}(1-p)^{1-y_j}}{\pi p^{y_j}(1-p)^{1-y_j}}+(1-\mu_{j}^{(i+1)})\frac{-q^{y_j}(1-q)^{1-y_j}}{(1-\pi )q^{y_j}(1-q)^{1-y_j}} \right\}\\
+&=\sum_{j=1}^N\left\{\frac{\mu_{j}^{(i+1)}(1-\pi)p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi (1-\pi) p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}+\frac{(\mu_{j}^{(i+1)}-1) \pi p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi(1-\pi )p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}} \right\}\\
+&=\sum_{j=1}^N\left\{\frac{\mu_{j}^{(i+1)}p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}-\pi p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi (1-\pi) p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}} \right\}\\
+&=\sum_{j=1}^N\left[ \cfrac{\mu_{j}^{(i+1)}-\pi }{\pi (1-\pi)}\right] \\
+&=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}-\sum_{j=1}^N\pi }{\pi (1-\pi)} \\
+&=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}-n\pi }{\pi (1-\pi)} 
+\end{aligned}</script><p>令上式等于0可得：</p>
+<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial \pi}=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}-n\pi }{\pi (1-\pi)} =0</script><script type="math/tex; mode=display">\sum_{j=1}^N\mu_{j}^{(i+1)}-n\pi =0</script><script type="math/tex; mode=display">n\pi =\sum_{j=1}^N\mu_{j}^{(i+1)}</script><script type="math/tex; mode=display">\pi =\cfrac{1}{n}\sum_{j=1}^N\mu_{j}^{(i+1)}\Rightarrow \pi^{(i+1)} =\cfrac{1}{n}\sum_{j=1}^N\mu_{j}^{(i+1)}</script><p>对Q函数关于p求一阶偏导数，并令一阶偏导数等于0：</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial p}&=\sum_{j=1}^N\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
+&=\sum_{j=1}^N\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]\right\}\\
+&=\sum_{j=1}^N\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\left[\ln\pi + {y_j}\ln p + (1-y_j)\ln(1-p)\right]\right\}\\
+&=\sum_{j=1}^N\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln\pi + \mu_{j}^{(i+1)}{y_j}\ln p + \mu_{j}^{(i+1)}(1-y_j)\ln(1-p)\right\}\\
+&=\sum_{j=1}^N\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}{y_j}\ln p + \mu_{j}^{(i+1)}(1-y_j)\ln(1-p)\right\}\\
+&=\sum_{j=1}^N\left\{\cfrac{\mu_{j}^{(i+1)}{y_j}}{p} + \cfrac{(-1)\cdot\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\right\}\\
+&=\sum_{j=1}^N\cfrac{\mu_{j}^{(i+1)}{y_j}}{p} -\sum_{j=1}^N \cfrac{\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\\
+&=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j}}{p} -\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\\
+\end{aligned}</script><p>令上式等于0可得：</p>
+<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial p}=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j}}{p} -\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}=0</script><script type="math/tex; mode=display">\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j}}{p} =\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}</script><script type="math/tex; mode=display">(1-p)\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j} =p\sum_{j=1}^N\mu_{j}^{(i+1)}(1-y_j)</script><script type="math/tex; mode=display">\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j} -p\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j} =p\sum_{j=1}^N\mu_{j}^{(i+1)}-p\sum_{j=1}^N\mu_{j}^{(i+1)}y_j</script><script type="math/tex; mode=display">\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j}=p\sum_{j=1}^N\mu_{j}^{(i+1)}</script><script type="math/tex; mode=display">p=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j} }{\sum_{j=1}^N\mu_{j}^{(i+1)}}\Rightarrow p^{(i+1)}=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j} }{\sum_{j=1}^N\mu_{j}^{(i+1)}}</script><p>对Q函数关于q求一阶偏导数，并令一阶偏导数等于0：</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial q}&=\sum_{j=1}^N\cfrac{\partial}{\partial q}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
+&=\sum_{j=1}^N\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right]\right\}\\
+&=\sum_{j=1}^N\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\left[\ln(1-\pi )+{y_j}\ln q+(1-y_j)\ln(1-q)\right]\right\}\\
+&=\sum_{j=1}^N\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\ln(1-\pi )+(1-\mu_{j}^{(i+1)}){y_j}\ln q+(1-\mu_{j}^{(i+1)})(1-y_j)\ln(1-q)\right\}\\
+&=\sum_{j=1}^N\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)}){y_j}\ln q+(1-\mu_{j}^{(i+1)})(1-y_j)\ln(1-q)\right\}\\
+&=\sum_{j=1}^N\left\{\cfrac{(1-\mu_{j}^{(i+1)}){y_j}}{q}+\cfrac{(-1)\cdot(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\right\}\\
+&=\sum_{j=1}^N\cfrac{(1-\mu_{j}^{(i+1)}){y_j}}{q}-\sum_{j=1}^N\cfrac{(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\\
+&=\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}}{q}-\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\\
+\end{aligned}</script><p>令上式等于0可得：</p>
+<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial q}=\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}}{q}-\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}=0</script><script type="math/tex; mode=display">\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}}{q}=\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}</script><script type="math/tex; mode=display">(1-q)\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^N(1-\mu_{j}^{(i+1)})(1-y_j)</script><script type="math/tex; mode=display">\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}-q\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^N(1-\mu_{j}^{(i+1)})-q\sum_{j=1}^N(1-\mu_{j}^{(i+1)})y_j</script><script type="math/tex; mode=display">\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^N(1-\mu_{j}^{(i+1)})</script><script type="math/tex; mode=display">q=\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}}{\sum_{j=1}^N(1-\mu_{j}^{(i+1)})}\Rightarrow q^{(i+1)}=\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}}{\sum_{j=1}^N(1-\mu_{j}^{(i+1)})}</script><p>【注】：</p>
 <ul>
 <li>上述“M步”中求极大化时直接就求偏导令其等于0进行求解，求出来的解一定是极大值点吗？不会是极小值点吗？不应该先做凹凸性判断吗？但是做凹凸性判断时$\sigma_k$的二阶偏导正负性无法判断呀。。。难道另有隐情？为何参考文献里都没提？挖坑待填。。。</li>
-<li><a href="#ref2">[2]</a>中三硬币模型使用EM算法的推导过程参见<a href="#ref2">[6]</a></li>
 </ul>
 <h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality" target="_blank" rel="noopener">Jensen’s inequality</a></span><br><span id="ref2">[2] 李航.《统计学习方法》</span><br><span id="ref3">[3] cs229-notes8</span><br><span id="ref4">[4] 周志华.《机器学习》</span><br><span id="ref5">[5] <a href="http://alexkong.net/2014/07/GMM-and-EM/" target="_blank" rel="noopener">高斯混合模型和期望最大化算法</a></span><br><span id="ref6">[6] <a href="http://www.cnblogs.com/Determined22/p/5776791.html" target="_blank" rel="noopener">NLP —— 图模型（零）：EM算法简述及简单示例（三硬币模型）</a></span></p>
 
