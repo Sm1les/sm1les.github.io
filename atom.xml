@@ -169,7 +169,7 @@ P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
     <link href="http://www.sm1les.com/2019/03/13/expectation-maximization/"/>
     <id>http://www.sm1les.com/2019/03/13/expectation-maximization/</id>
     <published>2019-03-13T07:51:10.000Z</published>
-    <updated>2019-04-25T08:09:45.260Z</updated>
+    <updated>2019-04-25T09:30:09.888Z</updated>
     
     <content type="html"><![CDATA[<p>在推导EM算法之前先学习一下<strong>Jensen不等式<sup><a href="#ref1">[1]</a></sup></strong>，Jensen不等式的定义如下：若<br>$f$是<strong>凸函数</strong>，则</p>
 <script type="math/tex; mode=display">f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)</script><p>其中$t\in [0,1]$。同理，若$f$是<strong>凹函数</strong>，则只需将上式的$\leq$换成$\geq$即可。</p>
@@ -252,9 +252,9 @@ Q(\theta,\theta^{(i)})&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}(\ln\alpha
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}\ln\alpha_{k}+\gamma_{jk}\ln\cfrac{1}{\sqrt{2\pi}}-\gamma_{jk}\ln \sigma_k-\gamma_{jk}\cfrac{(y_j-\mu_k)^2}{2\sigma_k^2}\right\}
 \end{aligned}</script><h5 id="3-EM算法M步：求使得-Q-函数达到极大的-theta-i-1"><a href="#3-EM算法M步：求使得-Q-函数达到极大的-theta-i-1" class="headerlink" title="3.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$"></a>3.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$</h5><p>$Q(\theta,\theta^{(i)})$关于$\mu_k$求偏导（此时$k$是固定的）：</p>
 <script type="math/tex; mode=display">\begin{aligned}
-\cfrac{\partial{Q(\theta,\theta^{(i)})}}{\partial{\mu_k}}&=\sum_{j=1}^{N}\left\{0+0-0-\cfrac{\gamma_{jk}}{2\sigma_k^2}\cdot 2 \cdot(y_j-\mu_k)\right\} \\
-&=\sum_{j=1}^{N}\left\{-\cfrac{\gamma_{jk}}{\sigma_k^2}\cdot(y_j-\mu_k)\right\} \\
-&=\cfrac{\mu_k}{\sigma_k^2}\sum_{j=1}^{N}\gamma_{jk}-\cfrac{1}{\sigma_k^2}\sum_{j=1}^{N}\gamma_{jk}y_j \\
+\cfrac{\partial{Q(\theta,\theta^{(i)})}}{\partial{\mu_k}}&=\sum_{j=1}^{N}\left\{0+0-0-\cfrac{\gamma_{jk}}{2\sigma_k^2}\cdot 2 \cdot(y_j-\mu_k)\cdot(-1)\right\} \\
+&=\sum_{j=1}^{N}\left\{\cfrac{\gamma_{jk}}{\sigma_k^2}\cdot(y_j-\mu_k)\right\} \\
+&=\cfrac{1}{\sigma_k^2}\sum_{j=1}^{N}\gamma_{jk}y_j-\cfrac{\mu_k}{\sigma_k^2}\sum_{j=1}^{N}\gamma_{jk} \\
 \end{aligned}</script><p>令上式等于0即可得：</p>
 <script type="math/tex; mode=display">\mu_k^{(i+1)}=\cfrac{\sum_{j=1}^{N}\gamma_{jk}y_j}{\sum_{j=1}^{N}\gamma_{jk}}</script><p>$Q(\theta,\theta^{(i)})$关于$\sigma_k$求偏导（此时$k$是固定的）：</p>
 <script type="math/tex; mode=display">\begin{aligned}
