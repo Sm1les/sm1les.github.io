@@ -14,7 +14,7 @@
 <meta property="og:description" content="在推导EM算法之前先学习一下Jensen不等式[1]，Jensen不等式的定义如下：若$f$是凸函数，则 f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)其中$t\in [0,1]$。同理，若$f$是凹函数，则只需将上式的$\leq$换成$\geq$即可。 将上式中的$t$推广到$n$个同样成立，即 f(t_1 x_1 + t_2x_2+...+t_nx_n)">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.sm1les.com/2019/03/13/expectation-maximization/em.png">
-<meta property="og:updated_time" content="2019-04-24T12:20:50.582Z">
+<meta property="og:updated_time" content="2019-04-25T08:09:45.260Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EM算法">
 <meta name="twitter:description" content="在推导EM算法之前先学习一下Jensen不等式[1]，Jensen不等式的定义如下：若$f$是凸函数，则 f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)其中$t\in [0,1]$。同理，若$f$是凹函数，则只需将上式的$\leq$换成$\geq$即可。 将上式中的$t$推广到$n$个同样成立，即 f(t_1 x_1 + t_2x_2+...+t_nx_n)">
@@ -146,12 +146,12 @@ Q(\theta,\theta^{(i)})&=\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta) \\
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\sum_{z_{jk}}P(z_{jk}\vert y_j,\theta^{(i)}){z_{jk}}(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\} \quad(此处\sum_{z_{jk}}表示遍历z_{jk}的两种取值情况：0和1)\\
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{P(z_{jk}=1\vert y_j,\theta^{(i)})\cdot 1 \cdot (\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))+P(z_{jk}=0\vert y_j,\theta^{(i)})\cdot 0 \cdot (\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\} \\
 &=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{P(z_{jk}=1\vert y_j,\theta^{(i)})(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\}\\    
-\end{aligned}</script><p>其中$P(z_{jk}=1\vert y_j,\theta^{(i)})$表示在给定$\theta=\theta^{(i)}$的条件下，某个观测数据$y_j$是由第$k$个分模型生成的概率，称为分模型$k$对观测数据$y_j$的响应度。由<strong>贝叶斯定理</strong>可进一步推得<sup><a href="#ref4">[4]</a></sup>：</p>
+\end{aligned}</script><p>其中$P(z_{jk}=1\vert y_j,\theta^{(i)})$表示在给定$\theta=\theta^{(i)}=(\alpha_1^{(i)},\alpha_2^{(i)},…,\alpha_K^{(i)};\theta_1^{(i)},\theta_2^{(i)},…,\theta_K^{(i)})$的条件下，某个观测数据$y_j$是由第$k$个分模型生成的概率，称为分模型$k$对观测数据$y_j$的响应度。由<strong>贝叶斯定理</strong>可进一步推得<sup><a href="#ref4">[4]</a></sup>：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 P(z_{jk}=1\vert y_j,\theta^{(i)})&=\cfrac{P(y_j\vert z_{jk}=1,\theta^{(i)})\cdot P(z_{jk}=1,\theta^{(i)})}{P(y_j,\theta^{(i)})} \\
-&=\cfrac{P(y_j\vert z_{jk}=1,\theta^{(i)})\cdot P(z_{jk}=1,\theta^{(i)})}{\sum_{l=1}^{K}\alpha_l\phi(y_j\vert \theta_l^{(i)})} \\
-&=\cfrac{\phi(y_j\vert \theta_k^{(i)})\cdot \alpha_k}{\sum_{l=1}^{K}\alpha_l\phi(y_j\vert \theta_l^{(i)})} \\
-&=\cfrac{\alpha_k\cdot \phi(y_j\vert \theta_k^{(i)})}{\sum_{l=1}^{K}\alpha_l\phi(y_j\vert \theta_l^{(i)})}
+&=\cfrac{P(y_j\vert z_{jk}=1,\theta^{(i)})\cdot P(z_{jk}=1,\theta^{(i)})}{\sum_{l=1}^{K}\alpha_l^{(i)}\phi(y_j\vert \theta_l^{(i)})} \\
+&=\cfrac{\phi(y_j\vert \theta_k^{(i)})\cdot \alpha_k^{(i)}}{\sum_{l=1}^{K}\alpha_l^{(i)}\phi(y_j\vert \theta_l^{(i)})} \\
+&=\cfrac{\alpha_k^{(i)}\cdot \phi(y_j\vert \theta_k^{(i)})}{\sum_{l=1}^{K}\alpha_l^{(i)}\phi(y_j\vert \theta_l^{(i)})}
 \end{aligned}</script><p>$P(z_{jk}=1\vert y_j,\theta^{(i)})$也可以看做是<strong>某个</strong>$z_{jk}$的期望<strong>（注意不是所有的，因为$z_{jk}$一共有$N\times K$个，每个$z_{jk}$均为一个独立的随机变量，此处说的只是其中某一个，例如$z_{12}$的期望值）</strong>，证明如下：由于每个$z_{jk}$均为$0-1$随机变量，所以对于某个$z_{jk}$来说，其期望为：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 E[z_{jk}]&=\sum_{z_{jk}}\left(P(z_{jk}\vert y_j,\theta^{(i)})\cdot z_{jk}\right) \\
