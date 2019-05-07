@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://www.sm1les.com/2019/04/10/hidden-markov-model/hmm.png">
 <meta property="og:image" content="http://www.sm1les.com/2019/04/10/hidden-markov-model/hmm-forward.png">
 <meta property="og:image" content="http://www.sm1les.com/2019/04/10/hidden-markov-model/hmm-backward.png">
-<meta property="og:updated_time" content="2019-04-16T12:39:23.434Z">
+<meta property="og:updated_time" content="2019-05-07T06:03:50.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="概率图模型——隐马尔可夫模型">
 <meta name="twitter:description" content="隐马尔可夫模型的定义[1]隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为状态序列；每个状态生成一个观测，而由此产生的观测的随机序列，称为观测序列，序列的每一个位置又可以看作是一个时刻。其形式定义如下：   $Q">
@@ -197,7 +197,7 @@ P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
 \sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})+\eta\cdot 1&=0 
 \end{aligned}</script>解得：<script type="math/tex; mode=display">\eta=-\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})</script>将其代回式（B.3）可得：<script type="math/tex; mode=display">\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)-\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\cdot b_{jk}=0</script><script type="math/tex; mode=display">b_{jk}=\cfrac{\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)}{\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})}</script><script type="math/tex; mode=display">b_{jk}=\cfrac{\sum_{t=1,o_t=v_k}^T\gamma_t(j)}{\sum_{t=1}^{T}\gamma_t(j)}</script>其中，$\gamma_t(j)$由式（A.1）给出。</li>
 </ol>
-<h3 id="预测问题"><a href="#预测问题" class="headerlink" title="预测问题"></a>预测问题</h3><h5 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h5><p>近似算法思想：在每个时刻$t$选择在该时刻最有可能出现的概率$i_t^*$，从而得到一个状态序列$I^*=(i_1^*,i_2^*,…,i_T^*)$，将它作为预测的结果。具体算法如下：<br><br>给定隐马尔可夫模型$\lambda$和观测序列$O$，在时刻$t$处于状态$q_i$的概率$\gamma_t(i)$是</p>
+<h3 id="预测问题"><a href="#预测问题" class="headerlink" title="预测问题"></a>预测问题</h3><h5 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h5><p>近似算法思想：在每个时刻$t$选择在该时刻最有可能出现的状态$i_t^*$，从而得到一个状态序列$I^*=(i_1^*,i_2^*,…,i_T^*)$，将它作为预测的结果。具体算法如下：<br><br>给定隐马尔可夫模型$\lambda$和观测序列$O$，在时刻$t$处于状态$q_i$的概率$\gamma_t(i)$是</p>
 <script type="math/tex; mode=display">\gamma_t(i)=\cfrac{\alpha_t(i)\beta_t(i)}{P(O\vert\lambda)}=\cfrac{\alpha_t(i)\beta_t(i)}{\sum_{j=1}^N\alpha_t(j)\beta_t(j)}</script><p>在每一时刻$t$最有可能的状态$i_t^*$是</p>
 <script type="math/tex; mode=display">i_t^*=\arg\max\limits_{1\leq i \leq N}[\gamma_t(i)],\quad t=1,2,...,T</script><p>从而得到状态序列$I^*=(i_1^*,i_2^*,…,i_T^*)$。<br><br>近似算法的优点是计算简单，其缺点是不能保证预测的状态序列整体是最有可能的状态序列，因为预测的序列可能有实际不发生的部分，也即可能存在状态转移概率$a_{i^*j^*}=0$的相邻状态$i^*$和$j^*$出现。<strong>尽管如此，近似算法仍然是有用的。</strong></p>
 <h5 id="维特比算法"><a href="#维特比算法" class="headerlink" title="维特比算法"></a>维特比算法</h5><p>维特比算法实际是用<strong>动态规划</strong>解隐马尔可夫模型预测问题，即用动态规划求概率最大路径，这时一条路径对应着一个状态序列。具体算法如下：<br><br>定义在时刻$t$状态为$i$的所有单个路径$(i_1,i_2,…,i_t)$中概率最大值为</p>
