@@ -169,7 +169,7 @@ P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
     <link href="http://www.sm1les.com/2019/03/13/expectation-maximization/"/>
     <id>http://www.sm1les.com/2019/03/13/expectation-maximization/</id>
     <published>2019-03-13T07:51:10.000Z</published>
-    <updated>2019-05-15T03:22:55.552Z</updated>
+    <updated>2019-05-15T07:41:59.535Z</updated>
     
     <content type="html"><![CDATA[<p>在推导EM算法之前先学习一下<strong>Jensen不等式<sup><a href="#ref1">[1]</a></sup></strong>，Jensen不等式的定义如下：若<br>$f$是<strong>凸函数</strong>，则</p>
 <script type="math/tex; mode=display">f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)</script><p>其中$t\in [0,1]$。同理，若$f$是<strong>凹函数</strong>，则只需将上式的$\leq$换成$\geq$即可。</p>
@@ -272,35 +272,35 @@ Q(\theta,\theta^{(i)})&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}(\ln\alpha
 <script type="math/tex; mode=display">\cfrac{N}{-\beta}=1\Rightarrow -\beta=N\Rightarrow \alpha_{k}^{(i+1)}=\cfrac{\sum_{j=1}^{N}\gamma_{jk}}{N}</script><h3 id="EM算法在三硬币模型中的应用-2-6"><a href="#EM算法在三硬币模型中的应用-2-6" class="headerlink" title="EM算法在三硬币模型中的应用[2][6]"></a>EM算法在三硬币模型中的应用<sup><a href="#ref2">[2]</a></sup><sup><a href="#ref6">[6]</a></sup></h3><p><a href="#ref2">[2]</a>中例9.1（三硬币模型）使用EM算法求解的具体推导过程如下：</p>
 <h5 id="1-EM算法E步：确定-Q-函数"><a href="#1-EM算法E步：确定-Q-函数" class="headerlink" title="1.EM算法E步：确定$Q$函数"></a>1.EM算法E步：确定$Q$函数</h5><script type="math/tex; mode=display">
 \begin{aligned} Q(\theta|\theta^{(i)})&=\sum_Z P(Z|Y,\theta^{(i)})\ln P(Y,Z|\theta) \\
-&=\sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\ln\left[ \prod_{j=1}^N P(y_j,z_j|\theta) \right] \right\} \\
-&=\sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\left[ \sum_{j=1}^N\ln P(y_j,z_j|\theta) \right] \right\} \\
-&=\sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\left[\ln P(y_1,z_1|\theta) + \sum_{j=2}^N\ln P(y_j,z_j|\theta) \right] \right\} \\
-&=\sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) + \prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\left[\sum_{j=2}^N\ln P(y_j,z_j|\theta) \right] \right\} \\
-&=\sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} + \sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\left[\sum_{j=2}^N\ln P(y_j,z_j|\theta) \right] \right\} \\
-&=\sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} + \sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_2,z_2|\theta) \right\}+...+\sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_N,z_N|\theta) \right\}   \\
-\end{aligned}</script><p>单独考察$\sum\limits_{z_1,z_2,…,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} $：</p>
+&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\ln\left[ \prod_{j=1}^n P(y_j,z_j|\theta) \right] \right\} \\
+&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\left[ \sum_{j=1}^n\ln P(y_j,z_j|\theta) \right] \right\} \\
+&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\left[\ln P(y_1,z_1|\theta) + \sum_{j=2}^n\ln P(y_j,z_j|\theta) \right] \right\} \\
+&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) + \prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\left[\sum_{j=2}^n\ln P(y_j,z_j|\theta) \right] \right\} \\
+&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} + \sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\left[\sum_{j=2}^n\ln P(y_j,z_j|\theta) \right] \right\} \\
+&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} + \sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_2,z_2|\theta) \right\}+...+\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_n,z_n|\theta) \right\}   \\
+\end{aligned}</script><p>单独考察$\sum\limits_{z_1,z_2,…,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} $：</p>
 <script type="math/tex; mode=display">\begin{aligned} 
-&=\sum\limits_{z_1,z_2,...,z_N}\left\{\prod_{j=2}^NP(z_j|y_j,\theta^{(i)})\cdot P(z_1|y_1,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} \\
-&=\sum\limits_{z_2,...,z_N}\left\{\prod_{j=2}^NP(z_j|y_j,\theta^{(i)})\cdot P(z_1=1|y_1,\theta^{(i)})\cdot\ln P(y_1,z_1=1|\theta) \right\} + \sum\limits_{z_2,...,z_N}\left\{\prod_{j=2}^NP(z_j|y_j,\theta^{(i)})\cdot P(z_1=0|y_1,\theta^{(i)})\cdot\ln P(y_1,z_1=0|\theta) \right\}\\
-&=P(z_1=1|y_1,\theta^{(i)})\ln P(y_1,z_1=1|\theta)\sum\limits_{z_2,...,z_N}\left\{\prod_{j=2}^NP(z_j|y_j,\theta^{(i)}) \right\} + P(z_1=0|y_1,\theta^{(i)})\ln P(y_1,z_1=0|\theta) \sum\limits_{z_2,...,z_N}\left\{\prod_{j=2}^NP(z_j|y_j,\theta^{(i)})\right\}\\
-&=\left[P(z_1=1|y_1,\theta^{(i)})\ln P(y_1,z_1=1|\theta)+ P(z_1=0|y_1,\theta^{(i)})\ln P(y_1,z_1=0|\theta) \right]\sum\limits_{z_2,...,z_N}\left\{\prod_{j=2}^NP(z_j|y_j,\theta^{(i)}) \right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \sum\limits_{z_2,...,z_N}\left\{\prod_{j=2}^NP(z_j|y_j,\theta^{(i)}) \right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \sum\limits_{z_2,...,z_N}\left[\prod_{j=3}^NP(z_j|y_j,\theta^{(i)})\cdot P(z_2|y_2,\theta^{(i)}) \right] \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\sum\limits_{z_3,...,z_N}\left[\prod_{j=3}^NP(z_j|y_j,\theta^{(i)})\cdot P(z_2=1|y_2,\theta^{(i)}) \right]+\sum\limits_{z_3,...,z_N}\left[\prod_{j=3}^NP(z_j|y_j,\theta^{(i)})\cdot P(z_2=0|y_2,\theta^{(i)}) \right]\right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{P(z_2=1|y_2,\theta^{(i)}) \sum\limits_{z_3,...,z_N}\left[\prod_{j=3}^NP(z_j|y_j,\theta^{(i)})\right]+P(z_2=0|y_2,\theta^{(i)})\sum\limits_{z_3,...,z_N}\left[\prod_{j=3}^NP(z_j|y_j,\theta^{(i)}) \right]\right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\left[P(z_2=1|y_2,\theta^{(i)}) + P(z_2=0|y_2,\theta^{(i)}) \right]\sum\limits_{z_3,...,z_N}\left[\prod_{j=3}^NP(z_j|y_j,\theta^{(i)})\right]\right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\sum_{z_2}P(z_2|y_2,\theta^{(i)}) \sum\limits_{z_3,...,z_N}\left[\prod_{j=3}^NP(z_j|y_j,\theta^{(i)})\right]\right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\sum_{z_2}P(z_2|y_2,\theta^{(i)})\times\sum_{z_3}P(z_3|y_3,\theta^{(i)})\times...\times\sum_{z_N}P(z_N|y_N,\theta^{(i)})\right\} \\
+&=\sum\limits_{z_1,z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_1|y_1,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} \\
+&=\sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_1=1|y_1,\theta^{(i)})\cdot\ln P(y_1,z_1=1|\theta) \right\} + \sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_1=0|y_1,\theta^{(i)})\cdot\ln P(y_1,z_1=0|\theta) \right\}\\
+&=P(z_1=1|y_1,\theta^{(i)})\ln P(y_1,z_1=1|\theta)\sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)}) \right\} + P(z_1=0|y_1,\theta^{(i)})\ln P(y_1,z_1=0|\theta) \sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)})\right\}\\
+&=\left[P(z_1=1|y_1,\theta^{(i)})\ln P(y_1,z_1=1|\theta)+ P(z_1=0|y_1,\theta^{(i)})\ln P(y_1,z_1=0|\theta) \right]\sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)}) \right\} \\
+&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)}) \right\} \\
+&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \sum\limits_{z_2,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_2|y_2,\theta^{(i)}) \right] \\
+&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_2=1|y_2,\theta^{(i)}) \right]+\sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_2=0|y_2,\theta^{(i)}) \right]\right\} \\
+&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{P(z_2=1|y_2,\theta^{(i)}) \sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\right]+P(z_2=0|y_2,\theta^{(i)})\sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)}) \right]\right\} \\
+&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\left[P(z_2=1|y_2,\theta^{(i)}) + P(z_2=0|y_2,\theta^{(i)}) \right]\sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\right]\right\} \\
+&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\sum_{z_2}P(z_2|y_2,\theta^{(i)}) \sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\right]\right\} \\
+&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\sum_{z_2}P(z_2|y_2,\theta^{(i)})\times\sum_{z_3}P(z_3|y_3,\theta^{(i)})\times...\times\sum_{z_n}P(z_n|y_n,\theta^{(i)})\right\} \\
 &=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta)\times \left\{1\times1\times...\times1\right\} \\
 &=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta)  \\
 \end{aligned}</script><p>所以</p>
-<script type="math/tex; mode=display">\sum\limits_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} =\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta)</script><p>则</p>
+<script type="math/tex; mode=display">\sum\limits_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} =\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta)</script><p>则</p>
 <script type="math/tex; mode=display">
 \begin{aligned} 
-Q(\theta|\theta^{(i)})&=\sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} + \sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_2,z_2|\theta) \right\}+...+\sum_{z_1,z_2,...,z_N}\left\{\prod_{j=1}^NP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_N,z_N|\theta) \right\}   \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) + \sum_{z_2}P(z_2|y_2,\theta^{(i)})\ln P(y_2,z_2|\theta) +...+\sum_{z_N}P(z_N|y_N,\theta^{(i)})\ln P(y_N,z_N|\theta)  \\
-&=\sum_{j=1}^N\left[ \sum_{z_j}P(z_j|y_j,\theta^{(i)})\ln P(y_j,z_j|\theta) \right] \\
-&=\sum_{j=1}^N\left[  P(z_j=1|y_j,\theta^{(i)})\ln P(y_j,z_j=1|\theta) + P(z_j=0|y_j,\theta^{(i)})\ln P(y_j,z_j=0|\theta)\right]
+Q(\theta|\theta^{(i)})&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} + \sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_2,z_2|\theta) \right\}+...+\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_n,z_n|\theta) \right\}   \\
+&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) + \sum_{z_2}P(z_2|y_2,\theta^{(i)})\ln P(y_2,z_2|\theta) +...+\sum_{z_n}P(z_n|y_n,\theta^{(i)})\ln P(y_n,z_n|\theta)  \\
+&=\sum_{j=1}^n\left[ \sum_{z_j}P(z_j|y_j,\theta^{(i)})\ln P(y_j,z_j|\theta) \right] \\
+&=\sum_{j=1}^n\left[  P(z_j=1|y_j,\theta^{(i)})\ln P(y_j,z_j=1|\theta) + P(z_j=0|y_j,\theta^{(i)})\ln P(y_j,z_j=0|\theta)\right]
 \end{aligned}</script><p>由于</p>
 <script type="math/tex; mode=display">
 \begin{cases} 
@@ -312,39 +312,39 @@ P(z_j=1|y_j,\theta^{(i)})=\cfrac{P(z_j=1,y_j|\theta^{(i)})}{P(y_j|\theta^{(i)})}
 P(z_j=0|y_j,\theta^{(i)})=\cfrac{P(z_j=0,y_j|\theta^{(i)})}{P(y_j|\theta^{(i)})}=\cfrac{(1-\pi^{(i)} )[q^{(i)}]^{y_j}(1-q^{(i)})^{1-y_j}}{\pi^{(i)} [p^{(i)}]^{y_j} (1-p^{(i)})^{1-y_j}+(1-\pi^{(i)} )[q^{(i)}]^{y_j}(1-q^{(i)})^{1-y_j}}=(1-\mu_j^{(i+1)}) \\
 \end{cases}</script><p>所以</p>
 <script type="math/tex; mode=display">
-Q(\theta|\theta^{(i)})=\sum_{j=1}^N\left\{  \mu_j^{(i+1)}\ln\left[\pi p^{y_j}(1-p)^{1-y_j} \right]+ (1-\mu_j^{(i+1)})\ln\left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right]\right\}</script><h5 id="2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1"><a href="#2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1" class="headerlink" title="2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$"></a>2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$</h5><p>对Q函数关于$\pi$求一阶偏导数，并令一阶偏导数等于0：</p>
+Q(\theta|\theta^{(i)})=\sum_{j=1}^n\left\{  \mu_j^{(i+1)}\ln\left[\pi p^{y_j}(1-p)^{1-y_j} \right]+ (1-\mu_j^{(i+1)})\ln\left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right]\right\}</script><h5 id="2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1"><a href="#2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1" class="headerlink" title="2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$"></a>2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$</h5><p>对Q函数关于$\pi$求一阶偏导数，并令一阶偏导数等于0：</p>
 <script type="math/tex; mode=display">\begin{aligned} 
-\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial \pi}&=\sum_{j=1}^N\cfrac{\partial}{\partial \pi}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
-&=\sum_{j=1}^N\left\{\mu_{j}^{(i+1)}\frac{p^{y_j}(1-p)^{1-y_j}}{\pi p^{y_j}(1-p)^{1-y_j}}+(1-\mu_{j}^{(i+1)})\frac{-q^{y_j}(1-q)^{1-y_j}}{(1-\pi )q^{y_j}(1-q)^{1-y_j}} \right\}\\
-&=\sum_{j=1}^N\left\{\frac{\mu_{j}^{(i+1)}(1-\pi)p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi (1-\pi) p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}+\frac{(\mu_{j}^{(i+1)}-1) \pi p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi(1-\pi )p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}} \right\}\\
-&=\sum_{j=1}^N\left\{\frac{\mu_{j}^{(i+1)}p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}-\pi p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi (1-\pi) p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}} \right\}\\
-&=\sum_{j=1}^N\left[ \cfrac{\mu_{j}^{(i+1)}-\pi }{\pi (1-\pi)}\right] \\
-&=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}-\sum_{j=1}^N\pi }{\pi (1-\pi)} \\
-&=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}-n\pi }{\pi (1-\pi)} 
+\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial \pi}&=\sum_{j=1}^n\cfrac{\partial}{\partial \pi}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
+&=\sum_{j=1}^n\left\{\mu_{j}^{(i+1)}\frac{p^{y_j}(1-p)^{1-y_j}}{\pi p^{y_j}(1-p)^{1-y_j}}+(1-\mu_{j}^{(i+1)})\frac{-q^{y_j}(1-q)^{1-y_j}}{(1-\pi )q^{y_j}(1-q)^{1-y_j}} \right\}\\
+&=\sum_{j=1}^n\left\{\frac{\mu_{j}^{(i+1)}(1-\pi)p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi (1-\pi) p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}+\frac{(\mu_{j}^{(i+1)}-1) \pi p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi(1-\pi )p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}} \right\}\\
+&=\sum_{j=1}^n\left\{\frac{\mu_{j}^{(i+1)}p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}-\pi p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi (1-\pi) p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}} \right\}\\
+&=\sum_{j=1}^n\left[ \cfrac{\mu_{j}^{(i+1)}-\pi }{\pi (1-\pi)}\right] \\
+&=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}-\sum_{j=1}^n\pi }{\pi (1-\pi)} \\
+&=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}-n\pi }{\pi (1-\pi)} 
 \end{aligned}</script><p>令上式等于0可得：</p>
-<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial \pi}=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}-n\pi }{\pi (1-\pi)} =0</script><script type="math/tex; mode=display">\sum_{j=1}^N\mu_{j}^{(i+1)}-n\pi =0</script><script type="math/tex; mode=display">n\pi =\sum_{j=1}^N\mu_{j}^{(i+1)}</script><script type="math/tex; mode=display">\pi =\cfrac{1}{n}\sum_{j=1}^N\mu_{j}^{(i+1)}\Rightarrow \pi^{(i+1)} =\cfrac{1}{n}\sum_{j=1}^N\mu_{j}^{(i+1)}</script><p>对Q函数关于p求一阶偏导数，并令一阶偏导数等于0：</p>
+<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial \pi}=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}-n\pi }{\pi (1-\pi)} =0</script><script type="math/tex; mode=display">\sum_{j=1}^n\mu_{j}^{(i+1)}-n\pi =0</script><script type="math/tex; mode=display">n\pi =\sum_{j=1}^n\mu_{j}^{(i+1)}</script><script type="math/tex; mode=display">\pi =\cfrac{1}{n}\sum_{j=1}^n\mu_{j}^{(i+1)}\Rightarrow \pi^{(i+1)} =\cfrac{1}{n}\sum_{j=1}^n\mu_{j}^{(i+1)}</script><p>对Q函数关于p求一阶偏导数，并令一阶偏导数等于0：</p>
 <script type="math/tex; mode=display">\begin{aligned} 
-\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial p}&=\sum_{j=1}^N\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
-&=\sum_{j=1}^N\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]\right\}\\
-&=\sum_{j=1}^N\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\left[\ln\pi + {y_j}\ln p + (1-y_j)\ln(1-p)\right]\right\}\\
-&=\sum_{j=1}^N\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln\pi + \mu_{j}^{(i+1)}{y_j}\ln p + \mu_{j}^{(i+1)}(1-y_j)\ln(1-p)\right\}\\
-&=\sum_{j=1}^N\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}{y_j}\ln p + \mu_{j}^{(i+1)}(1-y_j)\ln(1-p)\right\}\\
-&=\sum_{j=1}^N\left\{\cfrac{\mu_{j}^{(i+1)}{y_j}}{p} + \cfrac{(-1)\cdot\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\right\}\\
-&=\sum_{j=1}^N\cfrac{\mu_{j}^{(i+1)}{y_j}}{p} -\sum_{j=1}^N \cfrac{\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\\
-&=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j}}{p} -\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\\
+\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial p}&=\sum_{j=1}^n\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
+&=\sum_{j=1}^n\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]\right\}\\
+&=\sum_{j=1}^n\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\left[\ln\pi + {y_j}\ln p + (1-y_j)\ln(1-p)\right]\right\}\\
+&=\sum_{j=1}^n\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln\pi + \mu_{j}^{(i+1)}{y_j}\ln p + \mu_{j}^{(i+1)}(1-y_j)\ln(1-p)\right\}\\
+&=\sum_{j=1}^n\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}{y_j}\ln p + \mu_{j}^{(i+1)}(1-y_j)\ln(1-p)\right\}\\
+&=\sum_{j=1}^n\left\{\cfrac{\mu_{j}^{(i+1)}{y_j}}{p} + \cfrac{(-1)\cdot\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\right\}\\
+&=\sum_{j=1}^n\cfrac{\mu_{j}^{(i+1)}{y_j}}{p} -\sum_{j=1}^n \cfrac{\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\\
+&=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j}}{p} -\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\\
 \end{aligned}</script><p>令上式等于0可得：</p>
-<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial p}=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j}}{p} -\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}=0</script><script type="math/tex; mode=display">\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j}}{p} =\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}</script><script type="math/tex; mode=display">(1-p)\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j} =p\sum_{j=1}^N\mu_{j}^{(i+1)}(1-y_j)</script><script type="math/tex; mode=display">\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j} -p\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j} =p\sum_{j=1}^N\mu_{j}^{(i+1)}-p\sum_{j=1}^N\mu_{j}^{(i+1)}y_j</script><script type="math/tex; mode=display">\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j}=p\sum_{j=1}^N\mu_{j}^{(i+1)}</script><script type="math/tex; mode=display">p=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j} }{\sum_{j=1}^N\mu_{j}^{(i+1)}}\Rightarrow p^{(i+1)}=\cfrac{\sum_{j=1}^N\mu_{j}^{(i+1)}{y_j} }{\sum_{j=1}^N\mu_{j}^{(i+1)}}</script><p>对Q函数关于q求一阶偏导数，并令一阶偏导数等于0：</p>
+<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial p}=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j}}{p} -\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}=0</script><script type="math/tex; mode=display">\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j}}{p} =\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}</script><script type="math/tex; mode=display">(1-p)\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j} =p\sum_{j=1}^n\mu_{j}^{(i+1)}(1-y_j)</script><script type="math/tex; mode=display">\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j} -p\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j} =p\sum_{j=1}^n\mu_{j}^{(i+1)}-p\sum_{j=1}^n\mu_{j}^{(i+1)}y_j</script><script type="math/tex; mode=display">\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j}=p\sum_{j=1}^n\mu_{j}^{(i+1)}</script><script type="math/tex; mode=display">p=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j} }{\sum_{j=1}^n\mu_{j}^{(i+1)}}\Rightarrow p^{(i+1)}=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j} }{\sum_{j=1}^n\mu_{j}^{(i+1)}}</script><p>对Q函数关于q求一阶偏导数，并令一阶偏导数等于0：</p>
 <script type="math/tex; mode=display">\begin{aligned} 
-\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial q}&=\sum_{j=1}^N\cfrac{\partial}{\partial q}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
-&=\sum_{j=1}^N\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right]\right\}\\
-&=\sum_{j=1}^N\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\left[\ln(1-\pi )+{y_j}\ln q+(1-y_j)\ln(1-q)\right]\right\}\\
-&=\sum_{j=1}^N\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\ln(1-\pi )+(1-\mu_{j}^{(i+1)}){y_j}\ln q+(1-\mu_{j}^{(i+1)})(1-y_j)\ln(1-q)\right\}\\
-&=\sum_{j=1}^N\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)}){y_j}\ln q+(1-\mu_{j}^{(i+1)})(1-y_j)\ln(1-q)\right\}\\
-&=\sum_{j=1}^N\left\{\cfrac{(1-\mu_{j}^{(i+1)}){y_j}}{q}+\cfrac{(-1)\cdot(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\right\}\\
-&=\sum_{j=1}^N\cfrac{(1-\mu_{j}^{(i+1)}){y_j}}{q}-\sum_{j=1}^N\cfrac{(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\\
-&=\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}}{q}-\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\\
+\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial q}&=\sum_{j=1}^n\cfrac{\partial}{\partial q}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
+&=\sum_{j=1}^n\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right]\right\}\\
+&=\sum_{j=1}^n\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\left[\ln(1-\pi )+{y_j}\ln q+(1-y_j)\ln(1-q)\right]\right\}\\
+&=\sum_{j=1}^n\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\ln(1-\pi )+(1-\mu_{j}^{(i+1)}){y_j}\ln q+(1-\mu_{j}^{(i+1)})(1-y_j)\ln(1-q)\right\}\\
+&=\sum_{j=1}^n\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)}){y_j}\ln q+(1-\mu_{j}^{(i+1)})(1-y_j)\ln(1-q)\right\}\\
+&=\sum_{j=1}^n\left\{\cfrac{(1-\mu_{j}^{(i+1)}){y_j}}{q}+\cfrac{(-1)\cdot(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\right\}\\
+&=\sum_{j=1}^n\cfrac{(1-\mu_{j}^{(i+1)}){y_j}}{q}-\sum_{j=1}^n\cfrac{(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\\
+&=\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}}{q}-\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\\
 \end{aligned}</script><p>令上式等于0可得：</p>
-<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial q}=\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}}{q}-\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}=0</script><script type="math/tex; mode=display">\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}}{q}=\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}</script><script type="math/tex; mode=display">(1-q)\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^N(1-\mu_{j}^{(i+1)})(1-y_j)</script><script type="math/tex; mode=display">\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}-q\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^N(1-\mu_{j}^{(i+1)})-q\sum_{j=1}^N(1-\mu_{j}^{(i+1)})y_j</script><script type="math/tex; mode=display">\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^N(1-\mu_{j}^{(i+1)})</script><script type="math/tex; mode=display">q=\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}}{\sum_{j=1}^N(1-\mu_{j}^{(i+1)})}\Rightarrow q^{(i+1)}=\cfrac{\sum_{j=1}^N(1-\mu_{j}^{(i+1)}){y_j}}{\sum_{j=1}^N(1-\mu_{j}^{(i+1)})}</script><p>【注】：</p>
+<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial q}=\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}}{q}-\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}=0</script><script type="math/tex; mode=display">\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}}{q}=\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}</script><script type="math/tex; mode=display">(1-q)\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^n(1-\mu_{j}^{(i+1)})(1-y_j)</script><script type="math/tex; mode=display">\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}-q\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^n(1-\mu_{j}^{(i+1)})-q\sum_{j=1}^n(1-\mu_{j}^{(i+1)})y_j</script><script type="math/tex; mode=display">\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^n(1-\mu_{j}^{(i+1)})</script><script type="math/tex; mode=display">q=\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}}{\sum_{j=1}^n(1-\mu_{j}^{(i+1)})}\Rightarrow q^{(i+1)}=\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}}{\sum_{j=1}^n(1-\mu_{j}^{(i+1)})}</script><p>【注】：</p>
 <ul>
 <li>上述“M步”中求极大化时直接就求偏导令其等于0进行求解，求出来的解一定是极大值点吗？不会是极小值点吗？不应该先做凹凸性判断吗？但是做凹凸性判断时$\sigma_k$的二阶偏导正负性无法判断呀。。。难道另有隐情？为何参考文献里都没提？挖坑待填。。。</li>
 </ul>
