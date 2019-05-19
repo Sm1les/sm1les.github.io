@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://www.sm1les.com/2019/04/10/hidden-markov-model/hmm.png">
 <meta property="og:image" content="http://www.sm1les.com/2019/04/10/hidden-markov-model/hmm-forward.png">
 <meta property="og:image" content="http://www.sm1les.com/2019/04/10/hidden-markov-model/hmm-backward.png">
-<meta property="og:updated_time" content="2019-05-07T13:26:07.838Z">
+<meta property="og:updated_time" content="2019-05-19T04:20:43.503Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="概率图模型——隐马尔可夫模型">
 <meta name="twitter:description" content="隐马尔可夫模型的定义[1]隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为状态序列；每个状态生成一个观测，而由此产生的观测的随机序列，称为观测序列，序列的每一个位置又可以看作是一个时刻。其形式定义如下：   $Q">
@@ -124,18 +124,18 @@ P(O\vert\lambda)&=\sum_{I}P(O\vert I,\lambda)P(I\vert\lambda) \\
 <script type="math/tex; mode=display">P(O\vert \lambda)=\sum_{i=1}^{N}P(o_1,o_2,...,o_T,i_T=q_i\vert \lambda)=\sum_{i=1}^{N}\alpha_T(i)</script><p>于是求解$P(O\vert \lambda)$的问题被转化为了求解前向概率$\alpha_T(i)$的问题。由前向概率的定义可知：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 \alpha_1(i)&=\pi_ib_{io_1}  \\
-\alpha_2(i)&=[\sum_j^{N}\alpha_1(j)a_{ji}]\times b_{io_2} \\
-\alpha_3(i)&=[\sum_j^{N}\alpha_2(j)a_{ji}]\times b_{io_3} \\
+\alpha_2(i)&=[\sum_{j=1}^{N}\alpha_1(j)a_{ji}]\times b_{io_2} \\
+\alpha_3(i)&=[\sum_{j=1}^{N}\alpha_2(j)a_{ji}]\times b_{io_3} \\
 \end{aligned}</script><p>依次此类推可得如下递推公式：</p>
-<script type="math/tex; mode=display">\alpha_{t+1}(i)=[\sum_j^{N}\alpha_t(j)a_{ji}]\times b_{io_{t+1}}</script><p>因此可以递推求得：</p>
-<script type="math/tex; mode=display">\alpha_{T}(i)=[\sum_j^{N}\alpha_{T-1}(j)a_{ji}]\times b_{io_{T}}</script><h5 id="后向算法"><a href="#后向算法" class="headerlink" title="后向算法"></a>后向算法</h5><p>同前向算法一样，首先定义<strong>后向概率</strong>：给定隐马尔可夫模型$\lambda$，定义在时刻$t$状态为$q_i$的条件下，从$t+1$到$T$的部分观测序列为$o_{t+1},o_{t+2},…,o_T$的概率为后向概率，记作：</p>
+<script type="math/tex; mode=display">\alpha_{t+1}(i)=[\sum_{j=1}^{N}\alpha_t(j)a_{ji}]\times b_{io_{t+1}}</script><p>因此可以递推求得：</p>
+<script type="math/tex; mode=display">\alpha_{T}(i)=[\sum_{j=1}^{N}\alpha_{T-1}(j)a_{ji}]\times b_{io_{T}}</script><h5 id="后向算法"><a href="#后向算法" class="headerlink" title="后向算法"></a>后向算法</h5><p>同前向算法一样，首先定义<strong>后向概率</strong>：给定隐马尔可夫模型$\lambda$，定义在时刻$t$状态为$q_i$的条件下，从$t+1$到$T$的部分观测序列为$o_{t+1},o_{t+2},…,o_T$的概率为后向概率，记作：</p>
 <script type="math/tex; mode=display">\beta_t(i)=P(o_{t+1},o_{t+2},...,o_T\vert i_t=q_i,\lambda)</script><p><center>
 <img src="./hmm-backward.png">
 </center><br>由后向概率的定义可知：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 \beta_T(i)&=1  \\
-\beta_{T-1}(i)&=\sum_j^{N}a_{ij}b_{jo_T}\beta_T(j) \\
-\beta_{T-2}(i)&=\sum_j^{N}a_{ij}b_{jo_{T-1}}\beta_{T-1}(j) \\
+\beta_{T-1}(i)&=\sum_{j=1}^{N}a_{ij}b_{jo_T}\beta_T(j) \\
+\beta_{T-2}(i)&=\sum_{j=1}^{N}a_{ij}b_{jo_{T-1}}\beta_{T-1}(j) \\
 \end{aligned}</script><p>依次类推可得递推公式：</p>
 <script type="math/tex; mode=display">\beta_t(i)=\sum_{j=1}^{N}a_{ij}b_{jo_{t+1}}\beta_{t+1}(j)</script><p>根据递推公式可求得$\beta_1(i)$，又</p>
 <script type="math/tex; mode=display">P(O\vert \lambda)=\sum_{i=1}^{N}\pi_ib_{io_1}\beta_1(i)</script><p>所以也可求得$P(O\vert \lambda)$。<br></p>
