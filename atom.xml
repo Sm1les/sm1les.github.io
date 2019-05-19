@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2019-05-19T04:20:43.503Z</updated>
+  <updated>2019-05-19T04:34:27.032Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.sm1les.com/2019/04/10/hidden-markov-model/"/>
     <id>http://www.sm1les.com/2019/04/10/hidden-markov-model/</id>
     <published>2019-04-10T12:03:50.000Z</published>
-    <updated>2019-05-19T04:20:43.503Z</updated>
+    <updated>2019-05-19T04:34:27.032Z</updated>
     
     <content type="html"><![CDATA[<h3 id="隐马尔可夫模型的定义-1"><a href="#隐马尔可夫模型的定义-1" class="headerlink" title="隐马尔可夫模型的定义[1]"></a>隐马尔可夫模型的定义<sup><a href="#ref1">[1]</a></sup></h3><p>隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为<strong>状态序列</strong>；每个状态生成一个观测，而由此产生的观测的随机序列，称为<strong>观测序列</strong>，序列的每一个位置又可以看作是一个时刻。其形式定义如下：</p>
 <p><center>
@@ -78,7 +78,7 @@ P(O\vert\lambda)&=\sum_{I}P(O\vert I,\lambda)P(I\vert\lambda) \\
 <p><strong>利用前向概率和后向概率，可以得到关于单个状态和两个状态概率的一些计算公式</strong>：</p>
 <ol>
 <li>给定模型参数$\lambda$和观测$O$，在时刻$t$处于状态$q_i$的概率，记<script type="math/tex; mode=display">\gamma_t(i)=P(i_t=q_i\vert O,\lambda)</script>可以通过前向概率和后向概率进行计算，推导如下：<script type="math/tex; mode=display">\gamma_t(i)=P(i_t=q_i\vert O,\lambda)=\cfrac{P(i_t=q_i,O\vert \lambda)}{P(O\vert\lambda)}</script>又由前向概率和后向概率的定义可知：<script type="math/tex; mode=display">\alpha_t(i)\beta_t(i)=P(i_t=q_i,O\vert\lambda)</script>所以<script type="math/tex; mode=display">\gamma_t(i)=\cfrac{P(i_t=q_i,O\vert \lambda)}{P(O\vert\lambda)}=\cfrac{P(i_t=q_i,O\vert \lambda)}{\sum_{j=1}^NP(i_t=q_j,O\vert \lambda)}=\cfrac{\alpha_t(i)\beta_t(i)}{\sum_{j=1}^N\alpha_t(j)\beta_t(j)} \tag{A.1}</script></li>
-<li>给定模型参数$\lambda$和观测$O$，在时刻$t$处于状态$q_i$且在时刻$t+1$处于状态$q_j$的概率，记<script type="math/tex; mode=display">\xi_t(i,j)=P(i_t=q_i,i_{t+1}=q_j\vert O,\lambda)</script>可以通过前向后向概率进行计算，推导如下：<script type="math/tex; mode=display">\xi_t(i,j)=\cfrac{P(i_t=q_i,i_{t+1}=q_j,O\vert\lambda)}{P(O\vert\lambda)}=\cfrac{P(i_t=q_i,i_{t+1}=q_j,O\vert\lambda)}{\sum_{i=1}^N\sum_{j=1}^NP(i_t=q_i,i_{t+1}=q_j,O\vert\lambda)}</script>而<script type="math/tex; mode=display">P(i_t=q_i,i_{t+1}=q_j,O\vert\lambda)=\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j)</script>所以<script type="math/tex; mode=display">\xi_t(i,j)=\cfrac{\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j)}{\sum_{i=1}^N\sum_{j=1}^N\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j)}\tag{A.2}</script></li>
+<li>给定模型参数$\lambda$和观测$O$，在时刻$t$处于状态$q_i$且在时刻$t+1$处于状态$q_j$的概率，记<script type="math/tex; mode=display">\xi_t(i,j)=P(i_t=q_i,i_{t+1}=q_j\vert O,\lambda)</script>可以通过前向后向概率进行计算，推导如下：<script type="math/tex; mode=display">\xi_t(i,j)=\cfrac{P(i_t=q_i,i_{t+1}=q_j,O\vert\lambda)}{P(O\vert\lambda)}=\cfrac{P(i_t=q_i,i_{t+1}=q_j,O\vert\lambda)}{\sum_{i=1}^N\sum_{j=1}^NP(i_t=q_i,i_{t+1}=q_j,O\vert\lambda)}</script>而<script type="math/tex; mode=display">P(i_t=q_i,i_{t+1}=q_j,O\vert\lambda)=\alpha_t(i)a_{ij}b_{jo_{t+1}}\beta_{t+1}(j)</script>所以<script type="math/tex; mode=display">\xi_t(i,j)=\cfrac{\alpha_t(i)a_{ij}b_{jo_{t+1}}\beta_{t+1}(j)}{\sum_{i=1}^N\sum_{j=1}^N\alpha_t(i)a_{ij}b_{jo_{t+1}}\beta_{t+1}(j)}\tag{A.2}</script></li>
 </ol>
 <h3 id="学习问题"><a href="#学习问题" class="headerlink" title="学习问题"></a>学习问题</h3><h5 id="监督学习方法"><a href="#监督学习方法" class="headerlink" title="监督学习方法"></a>监督学习方法</h5><p>假设已给出训练数据包含$S$个长度相同的观测序列和对应的状态序列$\{(O_1,I_1),(O_2,I_2),…,(O_S,I_S)\}$，那么可以利用极大似然估计法来估计隐马尔可夫模型的参数，具体方法如下：</p>
 <ul>
