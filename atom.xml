@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.sm1les.com/"/>
-  <updated>2019-05-19T04:34:27.032Z</updated>
+  <updated>2019-05-20T00:50:17.176Z</updated>
   <id>http://www.sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.sm1les.com/2019/04/10/hidden-markov-model/"/>
     <id>http://www.sm1les.com/2019/04/10/hidden-markov-model/</id>
     <published>2019-04-10T12:03:50.000Z</published>
-    <updated>2019-05-19T04:34:27.032Z</updated>
+    <updated>2019-05-20T00:50:17.176Z</updated>
     
     <content type="html"><![CDATA[<h3 id="隐马尔可夫模型的定义-1"><a href="#隐马尔可夫模型的定义-1" class="headerlink" title="隐马尔可夫模型的定义[1]"></a>隐马尔可夫模型的定义<sup><a href="#ref1">[1]</a></sup></h3><p>隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为<strong>状态序列</strong>；每个状态生成一个观测，而由此产生的观测的随机序列，称为<strong>观测序列</strong>，序列的每一个位置又可以看作是一个时刻。其形式定义如下：</p>
 <p><center>
@@ -122,7 +122,7 @@ P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
 \end{aligned}</script>由于$a_{ij}$满足约束$\sum_{j=1}^Na_{ij}=1$，同样利用拉格朗日乘子法，写出拉格朗日函数：<script type="math/tex; mode=display">\sum_{t=1}^{T-1}\sum_{i=1}^N\sum_{j=1}^N\ln a_{ij}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})+\eta\left(\sum_{j=1}^Na_{ij}-1\right)</script>对其关于$a_{ij}$求偏导并令结果为0：<script type="math/tex; mode=display">\cfrac{\partial}{\partial a_{ij}}\left[\sum_{t=1}^{T-1}\sum_{i=1}^N\sum_{j=1}^N\ln a_{ij}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})+\eta\left(\sum_{j=1}^Na_{ij}-1\right)\right]=0</script>得<script type="math/tex; mode=display">\sum_{t=1}^{T-1}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})+\eta a_{ij}=0\tag{B.2}</script>对上式关于$j$求和可得：<script type="math/tex; mode=display">\begin{aligned} 
 \sum_{j=1}^N\sum_{t=1}^{T-1}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})+\sum_{j=1}^N\eta a_{ij}&=0 \\
 \sum_{t=1}^{T-1}P(O,i_t=q_i\vert\bar{\lambda})+\eta\cdot 1&=0 \\
-\end{aligned}</script>解得：<script type="math/tex; mode=display">\eta=-\sum_{t=1}^{T-1}P(O,i_t=q_i\vert\bar{\lambda})</script>将其代回式（B.2）可得：<script type="math/tex; mode=display">\sum_{t=1}^{T-1}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})-\sum_{t=1}^{T-1}P(O,i_t=q_i\vert\bar{\lambda}) \cdot a_{ij}=0</script><script type="math/tex; mode=display">a_{ij}=\cfrac{\sum_{t=1}^{T-1}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})}{\sum_{t=1}^{T-1}P(O,i_t=q_i\vert\bar{\lambda})}</script><script type="math/tex; mode=display">a_{ij}=\cfrac{\sum_{t=1}^{T-1}\xi_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i)}</script>其中，$\xi_t(i,j)$由式（A.2）给出，$\gamma_t(i)$由式（A.1）给出。</li>
+\end{aligned}</script>解得：<script type="math/tex; mode=display">\eta=-\sum_{t=1}^{T-1}P(O,i_t=q_i\vert\bar{\lambda})</script>将其代回式（B.2）可得：<script type="math/tex; mode=display">\sum_{t=1}^{T-1}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})-\sum_{t=1}^{T-1}P(O,i_t=q_i\vert\bar{\lambda}) \cdot a_{ij}=0</script><script type="math/tex; mode=display">a_{ij}=\cfrac{\sum_{t=1}^{T-1}P(O,i_t=q_i,i_{t+1}=q_j\vert\bar{\lambda})}{\sum_{t=1}^{T-1}P(O,i_t=q_i\vert\bar{\lambda})}</script>又因为此时观测序列O为已知量，所以<script type="math/tex; mode=display">a_{ij}=\cfrac{\sum_{t=1}^{T-1}P(i_t=q_i,i_{t+1}=q_j\vert O,\bar{\lambda})}{\sum_{t=1}^{T-1}P(i_t=q_i\vert O,\bar{\lambda})}=\cfrac{\sum_{t=1}^{T-1}\xi_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i)}</script>其中，$\xi_t(i,j)$由式（A.2）给出，$\gamma_t(i)$由式（A.1）给出。</li>
 <li>上述$Q$函数中的第3项可以写成：<script type="math/tex; mode=display">\begin{aligned}
 \sum_I P(O,I\vert\bar{\lambda})\left(\sum_{t=1}^{T}\ln b_{i_t o_t}\right)&=\sum_{t=1}^{T}\left\{\sum_{j=1}^N\left[\ln b_{jo_t}\cdot\left(\sum_{i_1,i_2,...,i_{t-1},i_{t+1},...,i_T}P(O,i_1,i_2,...,i_t=q_j,...,i_T\vert\bar{\lambda})\right)\right]\right\} \\
 &=\sum_{t=1}^{T}\left\{\sum_{j=1}^N\left[\ln b_{jo_t}\cdot P(O,i_t=q_j\vert\bar{\lambda})\right]\right\} \\
@@ -130,10 +130,10 @@ P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
 \end{aligned}</script>由于$b_{jk}$满足约束$\sum_{k=1}^M b_{jk}=1$，同样利用拉格朗日乘子法，写出拉格朗日函数：<script type="math/tex; mode=display">\sum_{t=1}^{T}\sum_{j=1}^N\ln b_{jo_t}P(O,i_t=q_j\vert\bar{\lambda})+\eta\left(\sum_{k=1}^M b_{jk}-1\right)</script>对其关于$b_{jk}$求偏导并令结果为0：<script type="math/tex; mode=display">\cfrac{\partial}{\partial b_{jk}}\left[\sum_{t=1}^{T}\sum_{j=1}^N\ln b_{jo_t}P(O,i_t=q_j\vert\bar{\lambda})+\eta\left(\sum_{k=1}^M b_{jk}-1\right)\right]=0</script>得<script type="math/tex; mode=display">\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)+\eta b_{jk}=0 \tag{B.3}</script>其中，$\mathbb{I}(o_t=v_k)$为指示函数。对上式关于$k$求和可得：<script type="math/tex; mode=display">\begin{aligned}
 \sum_{k=1}^M\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)+\sum_{k=1}^M\eta b_{jk}&=0 \\
 \sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})+\eta\cdot 1&=0 
-\end{aligned}</script>解得：<script type="math/tex; mode=display">\eta=-\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})</script>将其代回式（B.3）可得：<script type="math/tex; mode=display">\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)-\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\cdot b_{jk}=0</script><script type="math/tex; mode=display">b_{jk}=\cfrac{\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)}{\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})}</script><script type="math/tex; mode=display">b_{jk}=\cfrac{\sum_{t=1,o_t=v_k}^T\gamma_t(j)}{\sum_{t=1}^{T}\gamma_t(j)}</script>其中，$\gamma_t(j)$由式（A.1）给出。</li>
+\end{aligned}</script>解得：<script type="math/tex; mode=display">\eta=-\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})</script>将其代回式（B.3）可得：<script type="math/tex; mode=display">\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)-\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\cdot b_{jk}=0</script><script type="math/tex; mode=display">b_{jk}=\cfrac{\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})\mathbb{I}(o_t=v_k)}{\sum_{t=1}^{T}P(O,i_t=q_j\vert\bar{\lambda})}</script>又因为此时观测序列O为已知量，所以<script type="math/tex; mode=display">b_{jk}=\cfrac{\sum_{t=1}^{T}P(i_t=q_j\vert O,\bar{\lambda})\mathbb{I}(o_t=v_k)}{\sum_{t=1}^{T}P(i_t=q_j\vert O,\bar{\lambda})}=\cfrac{\sum_{t=1,o_t=v_k}^T\gamma_t(j)}{\sum_{t=1}^{T}\gamma_t(j)}</script>其中，$\gamma_t(j)$由式（A.1）给出。</li>
 </ol>
 <h3 id="预测问题"><a href="#预测问题" class="headerlink" title="预测问题"></a>预测问题</h3><h5 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h5><p>近似算法思想：在每个时刻$t$选择在该时刻最有可能出现的状态$i_t^*$，从而得到一个状态序列$I^*=(i_1^*,i_2^*,…,i_T^*)$，将它作为预测的结果。具体算法如下：<br><br>给定隐马尔可夫模型$\lambda$和观测序列$O$，在时刻$t$处于状态$q_i$的概率$\gamma_t(i)$是</p>
-<script type="math/tex; mode=display">\gamma_t(i)=\cfrac{\alpha_t(i)\beta_t(i)}{P(O\vert\lambda)}=\cfrac{\alpha_t(i)\beta_t(i)}{\sum_{j=1}^N\alpha_t(j)\beta_t(j)}</script><p>在每一时刻$t$最有可能的状态$i_t^*$是</p>
+<script type="math/tex; mode=display">\gamma_t(i)=\cfrac{\alpha_t(i)\beta_t(i)}{\sum_{j=1}^N\alpha_t(j)\beta_t(j)}</script><p>在每一时刻$t$最有可能的状态$i_t^*$是</p>
 <script type="math/tex; mode=display">i_t^*=\arg\max\limits_{1\leq i \leq N}[\gamma_t(i)],\quad t=1,2,...,T</script><p>从而得到状态序列$I^*=(i_1^*,i_2^*,…,i_T^*)$。<br><br>近似算法的优点是计算简单，其缺点是不能保证预测的状态序列整体是最有可能的状态序列，因为预测的序列可能有实际不发生的部分，也即可能存在状态转移概率$a_{i^*j^*}=0$的相邻状态$i^*$和$j^*$出现。<strong>尽管如此，近似算法仍然是有用的。</strong></p>
 <h5 id="维特比算法"><a href="#维特比算法" class="headerlink" title="维特比算法"></a>维特比算法</h5><p>维特比算法实际是用<strong>动态规划</strong>解隐马尔可夫模型预测问题，即用动态规划求概率最大路径，这时一条路径对应着一个状态序列。具体算法如下：<br><br>定义在时刻$t$状态为$q_i$的所有单个路径$(i_1,i_2,…,i_t)$中概率最大值为</p>
 <script type="math/tex; mode=display">\delta_t(i)=\max\limits_{i_1,i_2,..,i_{t-1}}P(o_1,...,o_t,i_1,...,i_{t-1},i_t=q_i),\quad i=1,2,...,N</script><p>由上述定义可知：</p>
