@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Sm1les&#39;s blog">
 <meta property="og:description" content="对于一般地约束优化问题： \begin{array}{ll} {\min } &amp; {f(\boldsymbol x)} \qquad\qquad\qquad\qquad\qquad\qquad (A.1)\\  {\text {s.t.}} &amp; {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\  {} &amp; {h_{j}(\boldsymb">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-22T12:14:55.068Z">
+<meta property="og:updated_time" content="2019-07-22T12:21:44.635Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="拉格朗日对偶函数及对偶问题">
 <meta name="twitter:description" content="对于一般地约束优化问题： \begin{array}{ll} {\min } &amp; {f(\boldsymbol x)} \qquad\qquad\qquad\qquad\qquad\qquad (A.1)\\  {\text {s.t.}} &amp; {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\  {} &amp; {h_{j}(\boldsymb">
@@ -88,7 +88,7 @@
 {\min } & {f(\boldsymbol x)} \qquad\qquad\qquad\qquad\qquad\qquad (A.1)\\ 
 {\text {s.t.}} & {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\ 
 {} & {h_{j}(\boldsymbol x)=0 \quad(j=1, \ldots, n)}
-\end{array}</script><p>其中，自变量$\boldsymbol x\in \mathbb{R}^n$。设优化问题（A.1）的定义域为$D=\boldsymbol{dom}  f \cap \bigcap\limits_{i=1}^{n}\boldsymbol{dom}  g_i \cap \bigcap\limits_{j=1}^{n}\boldsymbol{dom}  h_j $，可行集为$\tilde{D}=\{\boldsymbol x|\boldsymbol x\in D,g_i(\boldsymbol x) \leq 0,h_j(\boldsymbol x) = 0\}$，最优值为$p^*=\min\{f(\tilde{\boldsymbol x})\}$。由拉格朗日函数的定义可知优化问题（A.1）的拉格朗日函数为</p>
+\end{array}</script><p>其中，自变量$\boldsymbol x\in \mathbb{R}^n$。设优化问题（A.1）的定义域为$D=\boldsymbol{dom}  f \cap \bigcap\limits_{i=1}^{m}\boldsymbol{dom}  g_i \cap \bigcap\limits_{j=1}^{n}\boldsymbol{dom}  h_j $，可行集为$\tilde{D}=\{\boldsymbol x|\boldsymbol x\in D,g_i(\boldsymbol x) \leq 0,h_j(\boldsymbol x) = 0\}$，最优值为$p^*=\min\{f(\tilde{\boldsymbol x})\}$。由拉格朗日函数的定义可知优化问题（A.1）的拉格朗日函数为</p>
 <script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{n}\lambda_j h_j(\boldsymbol x)</script><p>其中$\boldsymbol \mu=(\mu_1,\mu_2,…,\mu_m)^T,\boldsymbol \lambda=(\lambda_1,\lambda_2,…,\lambda_n)^T$为拉格朗日乘子向量。</p>
 <h3 id="拉格朗日对偶函数"><a href="#拉格朗日对偶函数" class="headerlink" title="拉格朗日对偶函数"></a>拉格朗日对偶函数</h3><p>定义优化问题（A.1）的拉格朗日对偶函数$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$为$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$关于$\boldsymbol x$的下确界，也即</p>
 <script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D}L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D} \left( f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{n}\lambda_j h_j(\boldsymbol x) \right)</script><p>对偶函数$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$有如下重要性质：</p>
@@ -180,7 +180,7 @@ g_i(\boldsymbol x^*)\leq0\\
         <li>
           <span class="label">更新日期:</span>
           <a href="/2018/12/11/lagrange-duality/" class="article-date">
-  <time datetime="2019-07-22T12:14:55.068Z" itemprop="dateUpdated">2019-07-22</time>
+  <time datetime="2019-07-22T12:21:44.635Z" itemprop="dateUpdated">2019-07-22</time>
 </a>
 
         </li>
