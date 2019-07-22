@@ -624,7 +624,7 @@ p(y|\boldsymbol x;\boldsymbol w) &= yp_1(\boldsymbol{x};\boldsymbol w)+(1-y)p_0(
     <link href="http://sm1les.com/2018/12/11/lagrange-duality/"/>
     <id>http://sm1les.com/2018/12/11/lagrange-duality/</id>
     <published>2018-12-11T07:36:48.000Z</published>
-    <updated>2019-07-22T12:04:18.028Z</updated>
+    <updated>2019-07-22T12:14:55.068Z</updated>
     
     <content type="html"><![CDATA[<p>对于一般地约束优化问题：</p>
 <script type="math/tex; mode=display">\begin{array}{ll}
@@ -632,21 +632,19 @@ p(y|\boldsymbol x;\boldsymbol w) &= yp_1(\boldsymbol{x};\boldsymbol w)+(1-y)p_0(
 {\text {s.t.}} & {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\ 
 {} & {h_{j}(\boldsymbol x)=0 \quad(j=1, \ldots, n)}
 \end{array}</script><p>其中，自变量$\boldsymbol x\in \mathbb{R}^n$。设优化问题（A.1）的定义域为$D=\boldsymbol{dom}  f \cap \bigcap\limits_{i=1}^{n}\boldsymbol{dom}  g_i \cap \bigcap\limits_{j=1}^{n}\boldsymbol{dom}  h_j $，可行集为$\tilde{D}=\{\boldsymbol x|\boldsymbol x\in D,g_i(\boldsymbol x) \leq 0,h_j(\boldsymbol x) = 0\}$，最优值为$p^*=\min\{f(\tilde{\boldsymbol x})\}$。由拉格朗日函数的定义可知优化问题（A.1）的拉格朗日函数为</p>
-<script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{n}\lambda_j h_j(\boldsymbol x)</script><p>其中$\boldsymbol \mu=(\mu_1,\mu_2,…,\mu_n)^T,\boldsymbol \lambda=(\lambda_1,\lambda_2,…,\lambda_m)^T$为拉格朗日乘子向量。</p>
+<script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{n}\lambda_j h_j(\boldsymbol x)</script><p>其中$\boldsymbol \mu=(\mu_1,\mu_2,…,\mu_m)^T,\boldsymbol \lambda=(\lambda_1,\lambda_2,…,\lambda_n)^T$为拉格朗日乘子向量。</p>
 <h3 id="拉格朗日对偶函数"><a href="#拉格朗日对偶函数" class="headerlink" title="拉格朗日对偶函数"></a>拉格朗日对偶函数</h3><p>定义优化问题（A.1）的拉格朗日对偶函数$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$为$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$关于$\boldsymbol x$的下确界，也即</p>
 <script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D}L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D} \left( f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{n}\lambda_j h_j(\boldsymbol x) \right)</script><p>对偶函数$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$有如下重要性质：</p>
 <ul>
 <li>对偶函数$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$是一族关于$(\boldsymbol \mu,\boldsymbol \lambda)$的仿射函数的逐点下确界，所以无论优化问题（A.1）是否是凸优化问题，其对偶函数$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$恒为<strong>凹函数</strong>（证明参见<a href="#ref1">[1]</a> § 3.2.3）；</li>
-<li><p>当$\boldsymbol \mu \succeq 0$时，$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$构成了优化问题（A.1）最优值$p^*$的下界，也即</p>
-<script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)\leq p^*</script><p>【证明】：设$\tilde{\boldsymbol x}\in\tilde{D}$是优化问题（A.1）的可行点，那么当$\boldsymbol \mu \succeq 0$时</p>
-<script type="math/tex; mode=display">\sum_{i=1}^{n}\mu_i g_i(\tilde{\boldsymbol x})+\sum_{j=1}^{m}\lambda_j h_j(\tilde{\boldsymbol x}) \leq 0</script><p>这是因为左边第一项非正而第二项恒为0。根据此不等式可以进一步推得</p>
-<script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D}L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda) \leq L(\tilde{\boldsymbol x},\boldsymbol \mu,\boldsymbol \lambda) \leq f(\tilde{\boldsymbol x})\leq \min\{f(\tilde{\boldsymbol x})\}=p^*</script><script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda) \leq P^*</script><p>所以，当$\boldsymbol \mu \succeq 0$时，$\Gamma (\boldsymbol \mu,\boldsymbol \lambda) \leq p^*$恒成立，证毕。那么$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$构成的最好下界是什么呢？</p>
+<li>当$\boldsymbol \mu \succeq 0$时，$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$构成了优化问题（A.1）最优值$p^*$的下界，也即<script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)\leq p^*</script>【证明】：设$\tilde{\boldsymbol x}\in\tilde{D}$是优化问题（A.1）的可行点，那么当$\boldsymbol \mu \succeq 0$时<script type="math/tex; mode=display">\sum_{i=1}^{n}\mu_i g_i(\tilde{\boldsymbol x})+\sum_{j=1}^{m}\lambda_j h_j(\tilde{\boldsymbol x}) \leq 0</script>这是因为左边第一项非正而第二项恒为0。根据此不等式可以进一步推得<script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D}L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda) \leq L(\tilde{\boldsymbol x},\boldsymbol \mu,\boldsymbol \lambda) \leq f(\tilde{\boldsymbol x})\leq \min\{f(\tilde{\boldsymbol x})\}=p^*</script><script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda) \leq P^*</script>所以，当$\boldsymbol \mu \succeq 0$时，$\Gamma (\boldsymbol \mu,\boldsymbol \lambda) \leq p^*$恒成立，证毕。那么$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$构成的最好下界是什么呢？</li>
+</ul>
 <h3 id="拉格朗日对偶问题"><a href="#拉格朗日对偶问题" class="headerlink" title="拉格朗日对偶问题"></a>拉格朗日对偶问题</h3><p>定义求对偶函数最大值的优化问题为拉格朗日对偶问题，也即</p>
 <script type="math/tex; mode=display">\begin{array}{ll}
 {\max } & {\Gamma (\boldsymbol \mu,\boldsymbol \lambda)} \qquad\qquad\qquad\qquad\qquad\qquad (B.1)\\ 
 {\text {s.t.}} & {\boldsymbol \mu \succeq 0} 
 \end{array}</script><p>设优化问题（B.1）的最优值为$d^*$，显然$d^* \leq p^*$，此时称为“弱对偶性”成立，若$d^* = p^*$，则称为“强对偶性”成立。对偶问题有如下重要性质：</p>
-</li>
+<ul>
 <li><p>对偶问题恒为<strong>凸优化问题</strong>，因为对偶函数$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$恒为<strong>凹函数</strong>（加个负号即可转为凸函数），约束条件$\boldsymbol \mu \succeq 0$恒为凸集。这也就是为什么不直接求解主问题转而去求解对偶问题的主要原因；</p>
 </li>
 <li><p>当主问题（A.1）满足某些<strong>充分条件（sufficient conditions）</strong><sup><a href="#ref2">[2]</a></sup>时，强对偶性成立。常见的充分条件有<strong>Slater条件</strong><sup><a href="#ref3">[3]</a></sup>：“可行集$\tilde{D}$中存在一点在使得等式约束成立的同时也使得<strong>所有</strong>不等式约束<strong>严格成立</strong>”（证明参见<a href="#ref1">[1]</a> § 5.3.2）。Slater条件也是KKT条件中的约束限制条件之一；</p>
@@ -694,8 +692,10 @@ g_i(\boldsymbol x^*)\leq0\\
 \end{aligned}</script><p>其中，（B.6.1）是由$\Gamma(\boldsymbol \mu,\boldsymbol \lambda)$的定义推得；（B.6.2）是由</p>
 <script type="math/tex; mode=display">\mathop{\inf}_{\boldsymbol x∈D} \left( f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i^* g_i(\boldsymbol x^*)+\sum_{j=1}^{n}\lambda_j^* h_j(\boldsymbol x) \right)=\min\{L(\boldsymbol x ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )\}=L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )</script><p>推得；（B.6.3）是由$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$的定义推得；（B.6.4）是由（B.5.2）和（B.5.5）推得。因此，由（B.6）可知，$\boldsymbol x^*$和$(\boldsymbol \mu^*,\boldsymbol \lambda^*)$是主问题（A.1）和对偶问题（B.1）的最优解，且强对偶性成立，证毕。</p>
 </li>
-<li><p>综合上述两条证明可知：若主问题（A.1）为凸优化问题，且$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$一阶偏导连续，那么KKT条件即为强对偶性成立的<strong>充要条件</strong>。</p>
-</li>
+</ul>
+<p>【注】：</p>
+<ul>
+<li>综合上述两条证明可知：若主问题（A.1）为凸优化问题，且$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$一阶偏导连续，那么KKT条件即为强对偶性成立的<strong>充要条件</strong>。</li>
 </ul>
 <h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王书宁 译.《凸优化》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Strong_duality#Sufficient_conditions" target="_blank" rel="noopener">Strong duality</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank" rel="noopener">Slater’s condition</a></span><br><span id="ref4">[4] <a href="https://inst.eecs.berkeley.edu/~ee227a/fa10/login/l_dual_strong.html" target="_blank" rel="noopener">Strong Duality - EECS</a></span></p>
 ]]></content>
@@ -722,7 +722,7 @@ g_i(\boldsymbol x^*)\leq0\\
     <link href="http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/"/>
     <id>http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/</id>
     <published>2018-12-08T09:03:27.000Z</published>
-    <updated>2019-07-22T12:02:45.575Z</updated>
+    <updated>2019-07-22T12:12:49.041Z</updated>
     
     <content type="html"><![CDATA[<p>对于一般地约束优化问题</p>
 <script type="math/tex; mode=display">\begin{array}{ll}
@@ -739,7 +739,7 @@ g_i(\boldsymbol x^*)\leq0\\
 & \mu_i^* g_i(\boldsymbol x^*)=0 &(5)
 \end{aligned}
 \right.</script><p>其中$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$为拉格朗日函数</p>
-<script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x)</script><p>以上5条即为<strong>KKT条件</strong>，其中条件(2)和(3)为约束条件显然成立，条件(1)、(4)、(5)成立的<strong>简单证明</strong>（严格数学证明参见<a href="#ref1">[1]</a> § 4.2.1）如下：</p>
+<script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{n}\lambda_j h_j(\boldsymbol x)</script><p>以上5条即为<strong>KKT条件</strong>，其中条件(2)和(3)为约束条件显然成立，条件(1)、(4)、(5)成立的<strong>简单证明</strong>（严格数学证明参见<a href="#ref1">[1]</a> § 4.2.1）如下：</p>
 <p><center>
 <img src="./Inequality_constraint_diagram.png" width="60%" height="60%">
 </center><br>由约束条件：$g_i(\boldsymbol x) \leq 0$可知，$\boldsymbol x^*$一定满足$g_i(\boldsymbol x^*) \lt 0$或者$g_i(\boldsymbol x^*) = 0$，下面对这两种情形分别进行讨论：</p>

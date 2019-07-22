@@ -14,7 +14,7 @@
 <meta property="og:description" content="对于一般地约束优化问题 \begin{array}{ll} {\min } &amp; {f(\boldsymbol x)} \\  {\text {s.t.}} &amp; {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\  {} &amp; {h_{j}(\boldsymbol x)=0 \quad(j=1, \ldots, n)} \end{array}其">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/Inequality_constraint_diagram.png">
-<meta property="og:updated_time" content="2019-07-22T12:02:45.575Z">
+<meta property="og:updated_time" content="2019-07-22T12:12:49.041Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KKT条件（Karush–Kuhn–Tucker conditions）">
 <meta name="twitter:description" content="对于一般地约束优化问题 \begin{array}{ll} {\min } &amp; {f(\boldsymbol x)} \\  {\text {s.t.}} &amp; {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\  {} &amp; {h_{j}(\boldsymbol x)=0 \quad(j=1, \ldots, n)} \end{array}其">
@@ -100,7 +100,7 @@
 & \mu_i^* g_i(\boldsymbol x^*)=0 &(5)
 \end{aligned}
 \right.</script><p>其中$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$为拉格朗日函数</p>
-<script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x)</script><p>以上5条即为<strong>KKT条件</strong>，其中条件(2)和(3)为约束条件显然成立，条件(1)、(4)、(5)成立的<strong>简单证明</strong>（严格数学证明参见<a href="#ref1">[1]</a> § 4.2.1）如下：</p>
+<script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{n}\lambda_j h_j(\boldsymbol x)</script><p>以上5条即为<strong>KKT条件</strong>，其中条件(2)和(3)为约束条件显然成立，条件(1)、(4)、(5)成立的<strong>简单证明</strong>（严格数学证明参见<a href="#ref1">[1]</a> § 4.2.1）如下：</p>
 <p><center>
 <img src="./Inequality_constraint_diagram.png" width="60%" height="60%">
 </center><br>由约束条件：$g_i(\boldsymbol x) \leq 0$可知，$\boldsymbol x^*$一定满足$g_i(\boldsymbol x^*) \lt 0$或者$g_i(\boldsymbol x^*) = 0$，下面对这两种情形分别进行讨论：</p>
@@ -142,7 +142,7 @@
         <li>
           <span class="label">更新日期:</span>
           <a href="/2018/12/08/karush-kuhn-tucker-conditions/" class="article-date">
-  <time datetime="2019-07-22T12:02:45.575Z" itemprop="dateUpdated">2019-07-22</time>
+  <time datetime="2019-07-22T12:12:49.041Z" itemprop="dateUpdated">2019-07-22</time>
 </a>
 
         </li>
