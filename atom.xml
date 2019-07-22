@@ -722,7 +722,7 @@ g_i(\boldsymbol x^*)\leq0\\
     <link href="http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/"/>
     <id>http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/</id>
     <published>2018-12-08T09:03:27.000Z</published>
-    <updated>2019-07-22T12:12:49.041Z</updated>
+    <updated>2019-07-22T12:19:36.935Z</updated>
     
     <content type="html"><![CDATA[<p>对于一般地约束优化问题</p>
 <script type="math/tex; mode=display">\begin{array}{ll}
@@ -753,7 +753,7 @@ g_i(\boldsymbol x^*)\leq0\\
 <li>若在$\boldsymbol x^*$处约束限制条件<strong>不成立</strong>，则局部解$\boldsymbol x^*$<strong>不一定</strong>满足KKT条件（证明参见<a href="#ref1">[1]</a> § 4.2.1）;</li>
 <li>满足KKT条件的点$\boldsymbol x^*$不一定是局部可行解（证明参见<a href="#ref1">[1]</a> § 4.2.1）；</li>
 <li>若上述优化问题是<strong>凸优化</strong>问题，也即目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，那么此时KKT条件为局部可行解$\boldsymbol x^*$的<strong>充分条件</strong>，同时局部可行解$\boldsymbol x^*$也为<strong>全局可行解</strong>（证明参见<a href="#ref1">[1]</a> § 4.4），特别地，此时若在$\boldsymbol x^*$处约束限制条件也成立，那么KKT条件即升级为<strong>充要条件=充分条件+必要条件</strong>；</li>
-<li>由<a href="2018/12/11/lagrange-duality">《 拉格朗日对偶函数及对偶问题》</a>可知，只要上述优化问题是凸优化问题，无论在$\boldsymbol x^*$处约束限制条件是否成立，KKT条件都是全局最优解$\boldsymbol x^*$的充要条件。</li>
+<li>由<a href="/2018/12/11/lagrange-duality">《 拉格朗日对偶函数及对偶问题》</a>可知，只要上述优化问题是凸优化问题，无论在$\boldsymbol x^*$处约束限制条件是否成立，KKT条件都是全局最优解$\boldsymbol x^*$的充要条件。</li>
 </ul>
 <h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王燕军. 《最优化基础理论与方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions#Regularity_conditions_(or_constraint_qualifications)" target="_blank" rel="noopener">Karush–Kuhn–Tucker conditions</a></span></p>
 ]]></content>
