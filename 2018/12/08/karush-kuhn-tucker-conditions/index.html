@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>Karush–Kuhn–Tucker（简称KKT）条件 | Sm1les&#39;s blog</title>
+  <title>KKT条件（Karush–Kuhn–Tucker conditions） | Sm1les&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="对于带不等式约束的优化问题： \begin{aligned} \min \quad f(\boldsymbol x) \\ s.t.  \quad g_i(\boldsymbol x) &amp;\leq 0 \quad (i=1,...,n) \\ h_j(\boldsymbol x) &amp;= 0 \quad (j=1,...,m) \end{aligned}若$f(\boldsymbol x),g_i(">
+  <meta name="description" content="对于一般地约束优化问题 \begin{array}{ll} {\min } &amp; {f(\boldsymbol x)} \\  {\text {s.t.}} &amp; {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\  {} &amp; {h_{j}(\boldsymbol x)=0 \quad(j=1, \ldots, n)} \end{array}其">
 <meta name="keywords" content="KKT条件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Karush–Kuhn–Tucker（简称KKT）条件">
-<meta property="og:url" content="http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/index.html">
+<meta property="og:title" content="KKT条件（Karush–Kuhn–Tucker conditions）">
+<meta property="og:url" content="http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/index.html">
 <meta property="og:site_name" content="Sm1les&#39;s blog">
-<meta property="og:description" content="对于带不等式约束的优化问题： \begin{aligned} \min \quad f(\boldsymbol x) \\ s.t.  \quad g_i(\boldsymbol x) &amp;\leq 0 \quad (i=1,...,n) \\ h_j(\boldsymbol x) &amp;= 0 \quad (j=1,...,m) \end{aligned}若$f(\boldsymbol x),g_i(">
+<meta property="og:description" content="对于一般地约束优化问题 \begin{array}{ll} {\min } &amp; {f(\boldsymbol x)} \\  {\text {s.t.}} &amp; {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\  {} &amp; {h_{j}(\boldsymbol x)=0 \quad(j=1, \ldots, n)} \end{array}其">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/Inequality_constraint_diagram.png">
-<meta property="og:updated_time" content="2019-04-19T10:29:33.975Z">
+<meta property="og:image" content="http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/Inequality_constraint_diagram.png">
+<meta property="og:updated_time" content="2019-07-22T12:02:45.575Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Karush–Kuhn–Tucker（简称KKT）条件">
-<meta name="twitter:description" content="对于带不等式约束的优化问题： \begin{aligned} \min \quad f(\boldsymbol x) \\ s.t.  \quad g_i(\boldsymbol x) &amp;\leq 0 \quad (i=1,...,n) \\ h_j(\boldsymbol x) &amp;= 0 \quad (j=1,...,m) \end{aligned}若$f(\boldsymbol x),g_i(">
-<meta name="twitter:image" content="http://www.sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/Inequality_constraint_diagram.png">
+<meta name="twitter:title" content="KKT条件（Karush–Kuhn–Tucker conditions）">
+<meta name="twitter:description" content="对于一般地约束优化问题 \begin{array}{ll} {\min } &amp; {f(\boldsymbol x)} \\  {\text {s.t.}} &amp; {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\  {} &amp; {h_{j}(\boldsymbol x)=0 \quad(j=1, \ldots, n)} \end{array}其">
+<meta name="twitter:image" content="http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/Inequality_constraint_diagram.png">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -77,7 +77,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Karush–Kuhn–Tucker（简称KKT）条件
+      KKT条件（Karush–Kuhn–Tucker conditions）
     </h1>
   
 
@@ -85,35 +85,36 @@
     
     <div class="article-entry typo" itemprop="articleBody">
       
-        <p>对于带不等式约束的优化问题：</p>
-<script type="math/tex; mode=display">\begin{aligned}
-\min \quad f(\boldsymbol x) \\
-s.t.  \quad g_i(\boldsymbol x) &\leq 0 \quad (i=1,...,n) \\
-h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
-\end{aligned}</script><p>若$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$在$\boldsymbol x^*$处<strong>一阶可微</strong>，$\boldsymbol x^*$是优化问题的局部可行解（此时为极小值解），并且在$\boldsymbol x^*$处<strong>约束限制条件（constraint qualifications）</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref2">[2]</a></sup>成立，则存在$\boldsymbol \mu^*=(\mu_1^*,\mu_2^*,…,\mu_n^*)^T,\boldsymbol \lambda^*=(\lambda_1^*,\lambda_2^*,…,\lambda_m^*)^T,$使得：</p>
+        <p>对于一般地约束优化问题</p>
+<script type="math/tex; mode=display">\begin{array}{ll}
+{\min } & {f(\boldsymbol x)} \\ 
+{\text {s.t.}} & {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\ 
+{} & {h_{j}(\boldsymbol x)=0 \quad(j=1, \ldots, n)}
+\end{array}</script><p>其中，自变量$\boldsymbol x\in \mathbb{R}^n$。设$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$具有连续的一阶偏导数，$\boldsymbol x^*$是优化问题的局部可行解。若在$\boldsymbol x^*$处<strong>约束限制条件（constraint qualifications or regularity conditions）</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref2">[2]</a></sup>成立，则一定存在$\boldsymbol \mu^*=(\mu_1^*,\mu_2^*,…,\mu_m^*)^T,\boldsymbol \lambda^*=(\lambda_1^*,\lambda_2^*,…,\lambda_n^*)^T,$使得</p>
 <script type="math/tex; mode=display">\left\{
 \begin{aligned}
-& \nabla L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )=\nabla f(\boldsymbol  x^* )+\sum_{i=1}^{n}\mu_i^* \nabla g_i(\boldsymbol x^* )+\sum_{j=1}^{m}\lambda_j^* \nabla h_j(\boldsymbol x^*)=0 &(1) \\
+& \nabla_{\boldsymbol x} L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )=\nabla f(\boldsymbol  x^* )+\sum_{i=1}^{m}\mu_i^* \nabla g_i(\boldsymbol x^* )+\sum_{j=1}^{n}\lambda_j^* \nabla h_j(\boldsymbol x^*)=0 &(1) \\
 & h_j(\boldsymbol x^*)=0 &(2) \\
 & g_i(\boldsymbol x^*) \leq 0 &(3) \\
 & \mu_i^* \geq 0 &(4)\\
 & \mu_i^* g_i(\boldsymbol x^*)=0 &(5)
 \end{aligned}
-\right.</script><p>其中$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$为拉格朗日函数：</p>
-<script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x)</script><p>以上5条即为KKT条件，其中条件(2)和(3)为约束条件显然成立，条件(1)、(4)、(5)成立的<strong>简单证明</strong>如下：</p>
+\right.</script><p>其中$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$为拉格朗日函数</p>
+<script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{n}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{m}\lambda_j h_j(\boldsymbol x)</script><p>以上5条即为<strong>KKT条件</strong>，其中条件(2)和(3)为约束条件显然成立，条件(1)、(4)、(5)成立的<strong>简单证明</strong>（严格数学证明参见<a href="#ref1">[1]</a> § 4.2.1）如下：</p>
 <p><center>
 <img src="./Inequality_constraint_diagram.png" width="60%" height="60%">
-</center><br>由约束条件：$g_i(\boldsymbol x) \leq 0$可知，$\boldsymbol x^*$一定满足$g_i(\boldsymbol x^*) \lt 0$或者$g_i(\boldsymbol x^*) = 0$（也即条件(3)），对这两种情形进行讨论：</p>
+</center><br>由约束条件：$g_i(\boldsymbol x) \leq 0$可知，$\boldsymbol x^*$一定满足$g_i(\boldsymbol x^*) \lt 0$或者$g_i(\boldsymbol x^*) = 0$，下面对这两种情形分别进行讨论：</p>
 <ul>
-<li><strong>当$g_i(\boldsymbol x^*) \lt 0$时（如上左图）：</strong><br>此时极小值点在$g_i(\boldsymbol x) \lt 0$这个区域内，等价于<strong>无不等式约束条件</strong>的最优化问题，所以$\mu_i^* = 0$。</li>
-<li><strong>当$g_i(\boldsymbol x^*) = 0$时（如上右图）：</strong><br>此时极小值点在$g_i(\boldsymbol x) = 0$这个边界上，等价于<strong>仅含等式约束条件</strong>的最优化问题，所以根据拉格朗日乘子法的原理可知，此时$f(\boldsymbol  x)$和$ g_i(\boldsymbol  x)=0$在极小值点处相切，梯度（正梯度）平行，即$\nabla f(\boldsymbol  x^*)+\mu_i^* \nabla g_i(\boldsymbol  x^*)=0 \quad (\mu_i^*∈\boldsymbol R)$。易知$g_i(\boldsymbol x)=0$这个边界上的梯度都是向外的，所以$\nabla f(\boldsymbol x^*)$必然和$\nabla g_i(\boldsymbol x^*)$的方向相反（如果不相反的话极小值点就不会在边界上取到而是在$g_i(\boldsymbol x) \lt 0$内取），所以$\nabla f(\boldsymbol  x^*)$和$\nabla g_i(\boldsymbol  x^*)$异号，也即$\mu_i^* \gt 0$。</li>
+<li><strong>当$g_i(\boldsymbol x^*) \lt 0$时：</strong><br>此时极小值点在$g_i(\boldsymbol x) \lt 0$这个区域内（如上图左部所示），所以$g_i(\boldsymbol x) \leq 0$这个约束可以忽略，那么此时的优化问题等价于<strong>仅含等式约束</strong>的优化问题，所以$\mu_i^* = 0$。</li>
+<li><strong>当$g_i(\boldsymbol x^*) = 0$时：</strong><br>此时极小值点在$g_i(\boldsymbol x) = 0$这个边界上，所以约束$g_i(\boldsymbol x) \leq 0$等价于约束$g_i(\boldsymbol x) = 0$，那么此时的优化问题同样等价于<strong>仅含等式约束</strong>的最优化问题。根据拉格朗日乘子法的原理可知，此时$f(\boldsymbol  x)$和$ g_i(\boldsymbol  x)=0$在极小值点处相切（如上图右部所示），梯度（正梯度）平行，即$\nabla f(\boldsymbol  x^*)+\mu_i^* \nabla g_i(\boldsymbol  x^*)=0 \quad (\mu_i^*\in \mathbb{R})$。易知$g_i(\boldsymbol x)=0$这个边界上的梯度都是向外的，而$\nabla f(\boldsymbol x^*)$一定和$\nabla g_i(\boldsymbol x^*)$的方向相反（如果不相反的话极小值点就不会在边界上取到而是在$g_i(\boldsymbol x) \lt 0$内取），所以$\nabla f(\boldsymbol  x^*)$和$\nabla g_i(\boldsymbol  x^*)$异号，那么$\mu_i^*$一定大于0。</li>
 </ul>
-<p>综上，条件(4)：$\mu_i^* \geq 0$恒成立；当$g_i(\boldsymbol x^*) \lt 0$时$\mu_i^* = 0$， $g_i(\boldsymbol x^*) = 0$时$\mu_i^* \gt 0$，所以条件(5)：$\mu_i^* g_i(\boldsymbol x^*)=0$恒成立；$\lambda_j$为拉格朗日乘子，由拉格朗日乘子法的原理可知，$\lambda_j$取值无要求，所以总存在$\lambda_j^*$使得条件(1)恒成立。<br>【注】：</p>
+<p>综上，当$g_i(\boldsymbol x^*) \lt 0$时$\mu_i^* = 0$， $g_i(\boldsymbol x^*) = 0$时$\mu_i^* \gt 0$，所以条件(4)、(5)恒成立；由于对$\lambda_j$取值无要求，所以总存在$\lambda_j^*$使得条件(1)恒成立。<br>【注】：</p>
 <ul>
-<li>若局部可行解$\boldsymbol x^*$不满足<strong>约束限制条件（constraint qualifications）</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref2">[2]</a></sup>，则<strong>不一定</strong>满足KKT条件，也就是说约束限制条件仅是充分条件，而不是充要条件，例如上述优化问题强对偶性成立时（不一定通过Slater条件得到），$\boldsymbol x^*$也满足KKT条件；</li>
-<li>KKT条件是局部可行解$\boldsymbol x^*$的一个<strong>必要条件</strong>；</li>
-<li>对于上述优化问题，若目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，则称该优化问题为<strong>凸优化</strong>，此时KKT条件升级为<strong>充要条件</strong>，$\boldsymbol x^*$升级为<strong>全局可行解</strong>；</li>
-<li>以上部分论述的严格数学证明参见<a href="#ref1">[1]</a> § 4.2</li>
+<li>若在$\boldsymbol x^*$处约束限制条件<strong>成立</strong>，则KKT条件是局部可行解$\boldsymbol x^*$的<strong>必要条件</strong>；</li>
+<li>若在$\boldsymbol x^*$处约束限制条件<strong>不成立</strong>，则局部解$\boldsymbol x^*$<strong>不一定</strong>满足KKT条件（证明参见<a href="#ref1">[1]</a> § 4.2.1）;</li>
+<li>满足KKT条件的点$\boldsymbol x^*$不一定是局部可行解（证明参见<a href="#ref1">[1]</a> § 4.2.1）；</li>
+<li>若上述优化问题是<strong>凸优化</strong>问题，也即目标函数$f(\boldsymbol x)$是凸函数，不等式约束$g_i(\boldsymbol x)$是凸函数，等式约束$h_j(\boldsymbol x)$是仿射函数，那么此时KKT条件为局部可行解$\boldsymbol x^*$的<strong>充分条件</strong>，同时局部可行解$\boldsymbol x^*$也为<strong>全局可行解</strong>（证明参见<a href="#ref1">[1]</a> § 4.4），特别地，此时若在$\boldsymbol x^*$处约束限制条件也成立，那么KKT条件即升级为<strong>充要条件=充分条件+必要条件</strong>；</li>
+<li>由<a href="2018/12/11/lagrange-duality">《 拉格朗日对偶函数及对偶问题》</a>可知，只要上述优化问题是凸优化问题，无论在$\boldsymbol x^*$处约束限制条件是否成立，KKT条件都是全局最优解$\boldsymbol x^*$的充要条件。</li>
 </ul>
 <h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王燕军. 《最优化基础理论与方法》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions#Regularity_conditions_(or_constraint_qualifications)" target="_blank" rel="noopener">Karush–Kuhn–Tucker conditions</a></span></p>
 
@@ -123,15 +124,31 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
     <footer class="article-footer">
       <ul class="article-meta">
         <li>
-          <span class="label">Published Date:</span>
+          <span class="label">本文作者：Sm1les</span>
+        </li>
+        <li>
+          <span class="label">本文链接：<a href="http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/">http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/</a></span>
+        </li>
+        <li>
+          <span class="label">版权声明：本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0 许可协议</a>进行许可，转载请注明出处！</span>
+        </li>
+        <li>
+          <span class="label">发布日期:</span>
           <a href="/2018/12/08/karush-kuhn-tucker-conditions/" class="article-date">
   <time datetime="2018-12-08T09:03:27.000Z" itemprop="datePublished">2018-12-08</time>
 </a>
 
         </li>
+        <li>
+          <span class="label">更新日期:</span>
+          <a href="/2018/12/08/karush-kuhn-tucker-conditions/" class="article-date">
+  <time datetime="2019-07-22T12:02:45.575Z" itemprop="dateUpdated">2019-07-22</time>
+</a>
+
+        </li>
         
           <li>
-            <span class="label">Category:</span>
+            <span class="label">分类:</span>
             
   <div class="article-category">
     <a class="article-category-link" href="/categories/最优化/">最优化</a>
@@ -142,7 +159,7 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
         
         
           <li>
-            <span class="label">Tag:</span>
+            <span class="label">标签:</span>
             
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KKT条件/">KKT条件</a></li></ul>
 
@@ -161,7 +178,7 @@ h_j(\boldsymbol x) &= 0 \quad (j=1,...,m)
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          拉格朗日对偶性
+          拉格朗日对偶函数及对偶问题
         
       </div>
     </a>

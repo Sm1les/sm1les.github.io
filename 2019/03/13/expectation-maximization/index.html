@@ -1,24 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>EM算法 | Sm1les&#39;s blog</title>
+  <title>EM算法的两种推导方式 | Sm1les&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在推导EM算法之前先学习一下Jensen不等式[1]，Jensen不等式的定义如下：若$f$是凸函数，则 f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)其中$t\in [0,1]$。同理，若$f$是凹函数，则只需将上式的$\leq$换成$\geq$即可。 将上式中的$t$推广到$n$个同样成立，即 f(t_1 x_1 + t_2x_2+...+t_nx_n)">
-<meta name="keywords" content="EM算法">
+  <meta name="description" content="EM算法有两种常见的推导方式，一种是李航老师在《统计学习方法》里面给出的，另一种是吴恩达老师在CS229课上讲到的，两种推导方式各有千秋，但都殊途同归，下面对这两种推导方式进行一个总结。由于两种推导方式里都用到了一个经典的不等式——Jensen不等式[1]，所以下面先铺垫一下Jensen不等式。Jensen不等式的定义如下：若$f$是凸函数，则 f\left(t x_1 + (1-t)x_2\ri">
+<meta name="keywords" content="EM算法,Jensen不等式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="EM算法">
-<meta property="og:url" content="http://www.sm1les.com/2019/03/13/expectation-maximization/index.html">
+<meta property="og:title" content="EM算法的两种推导方式">
+<meta property="og:url" content="http://sm1les.com/2019/03/13/expectation-maximization/index.html">
 <meta property="og:site_name" content="Sm1les&#39;s blog">
-<meta property="og:description" content="在推导EM算法之前先学习一下Jensen不等式[1]，Jensen不等式的定义如下：若$f$是凸函数，则 f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)其中$t\in [0,1]$。同理，若$f$是凹函数，则只需将上式的$\leq$换成$\geq$即可。 将上式中的$t$推广到$n$个同样成立，即 f(t_1 x_1 + t_2x_2+...+t_nx_n)">
+<meta property="og:description" content="EM算法有两种常见的推导方式，一种是李航老师在《统计学习方法》里面给出的，另一种是吴恩达老师在CS229课上讲到的，两种推导方式各有千秋，但都殊途同归，下面对这两种推导方式进行一个总结。由于两种推导方式里都用到了一个经典的不等式——Jensen不等式[1]，所以下面先铺垫一下Jensen不等式。Jensen不等式的定义如下：若$f$是凸函数，则 f\left(t x_1 + (1-t)x_2\ri">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.sm1les.com/2019/03/13/expectation-maximization/em.png">
-<meta property="og:updated_time" content="2019-05-15T07:41:59.535Z">
+<meta property="og:updated_time" content="2019-07-22T01:59:19.471Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="EM算法">
-<meta name="twitter:description" content="在推导EM算法之前先学习一下Jensen不等式[1]，Jensen不等式的定义如下：若$f$是凸函数，则 f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)其中$t\in [0,1]$。同理，若$f$是凹函数，则只需将上式的$\leq$换成$\geq$即可。 将上式中的$t$推广到$n$个同样成立，即 f(t_1 x_1 + t_2x_2+...+t_nx_n)">
-<meta name="twitter:image" content="http://www.sm1les.com/2019/03/13/expectation-maximization/em.png">
+<meta name="twitter:title" content="EM算法的两种推导方式">
+<meta name="twitter:description" content="EM算法有两种常见的推导方式，一种是李航老师在《统计学习方法》里面给出的，另一种是吴恩达老师在CS229课上讲到的，两种推导方式各有千秋，但都殊途同归，下面对这两种推导方式进行一个总结。由于两种推导方式里都用到了一个经典的不等式——Jensen不等式[1]，所以下面先铺垫一下Jensen不等式。Jensen不等式的定义如下：若$f$是凸函数，则 f\left(t x_1 + (1-t)x_2\ri">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -77,7 +75,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      EM算法
+      EM算法的两种推导方式
     </h1>
   
 
@@ -85,184 +83,117 @@
     
     <div class="article-entry typo" itemprop="articleBody">
       
-        <p>在推导EM算法之前先学习一下<strong>Jensen不等式<sup><a href="#ref1">[1]</a></sup></strong>，Jensen不等式的定义如下：若<br>$f$是<strong>凸函数</strong>，则</p>
-<script type="math/tex; mode=display">f(t x_1 + (1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)</script><p>其中$t\in [0,1]$。同理，若$f$是<strong>凹函数</strong>，则只需将上式的$\leq$换成$\geq$即可。</p>
-<p>将上式中的$t$推广到$n$个同样成立，即</p>
-<script type="math/tex; mode=display">f(t_1 x_1 + t_2x_2+...+t_nx_n)\leq t_1f(x_1)+t_2f(x_2)+...+t_nf(t_n)</script><p>其中$t_1,t_2,…,t_n\in[0,1],t_1+t_2+…+t_n=1$。</p>
-<p>上式在概率论中通常以如下形式出现：</p>
-<script type="math/tex; mode=display">\varphi(E[X])\leq E[\varphi(X)]</script><p>其中$X$是一个随机变量，$\varphi$为凸函数，$E[X]$为随机变量$X$的期望。</p>
-<h3 id="EM（Expectation-Maximization）算法的导出-2"><a href="#EM（Expectation-Maximization）算法的导出-2" class="headerlink" title="EM（Expectation Maximization）算法的导出[2]"></a>EM（Expectation Maximization）算法的导出<sup><a href="#ref2">[2]</a></sup></h3><p>我们面对一个含有隐变量的概率模型，目标是极大化观测数据（不完全数据）$Y$关于参数$\theta$的对数似然函数，即极大化</p>
-<script type="math/tex; mode=display">L(\theta)=\ln P(Y\vert \theta)=\ln \sum_Z P(Y,Z\vert\theta)=\ln \left(\sum_Z P(Y\vert Z,\theta)P(Z\vert \theta)\right)</script><p>注意到这一极大化的主要困难是上式中有未观测数据$Z$并有包含和（$Z$为离散型时）或者积分（$Z$为连续型时）的对数。EM算法采用的是通过迭代逐步近似极大化$L(\theta)$：假设在第$i$次迭代后$\theta$的估计值是$\theta^{(i)}$，我们希望新的估计值$\theta$能使$L(\theta)$增加，即$L(\theta)&gt;L(\theta^{(i)})$，并逐步达到极大值。为此，考虑两者的差：</p>
+        <p>EM算法有两种常见的推导方式，一种是李航老师在《统计学习方法》里面给出的，另一种是吴恩达老师在CS229课上讲到的，两种推导方式各有千秋，但都殊途同归，下面对这两种推导方式进行一个总结。由于两种推导方式里都用到了一个经典的不等式——Jensen不等式<sup><a href="#ref1">[1]</a></sup>，所以下面先铺垫一下Jensen不等式。Jensen不等式的定义如下：<br>若$f$是<strong>凸函数</strong>，则</p>
+<script type="math/tex; mode=display">f\left(t x_1 + (1-t)x_2\right)\leq tf(x_1)+(1-t)f(x_2)</script><p>其中$t\in [0,1]$，若将$x$推广到$n$个时同样成立，即</p>
+<script type="math/tex; mode=display">f(t_1 x_1 + t_2x_2+...+t_nx_n)\leq t_1f(x_1)+t_2f(x_2)+...+t_nf(t_n)</script><p>其中$t_1,t_2,…,t_n\in[0,1],t_1+t_2+…+t_n=1$。此不等式在概率论中通常以如下形式出现</p>
+<script type="math/tex; mode=display">\varphi(E[X])\leq E[\varphi(X)]</script><p>其中$X$是一个随机变量，$\varphi$为凸函数，$E[X]$为随机变量$X$的期望。同理，若$f$和$\varphi$是<strong>凹函数</strong>，则只需将不等式中的$\leq$换成$\geq$即可。</p>
+<h3 id="EM算法的由来"><a href="#EM算法的由来" class="headerlink" title="EM算法的由来"></a>EM算法的由来</h3><p>假设现有一批独立同分布的样本数据$\{x_1,x_2,…,x_m\}$，它们是由某个含有隐变量的模型$p(x,z;\theta)$生成，现尝试用极大似然估计法估计此模型的参数。由对数似然函数的定义可知此时的对数似然函数为（假设$z$为离散型）</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+LL(\theta) &=\sum_{i=1}^{m} \ln p(x_i; \theta) \\ 
+&=\sum_{i=1}^{m} \ln \sum_{z_i} p(x_i, z_i; \theta) 
+\end{aligned}</script><p>显然，此时$LL(\theta)$里含有未知的隐变量$z$以及和（$z$为离散型时）或者积分（$z$为连续型时）的对数，因此无法按照传统方法直接求出使得$LL(\theta)$达到最大值的模型参数$\theta$，而EM算法则给出了一种迭代的方法来完成对$LL(\theta)$的极大化。下面给出EM算法的两种推导方式：</p>
+<h3 id="《统计学习方法》版-2"><a href="#《统计学习方法》版-2" class="headerlink" title="《统计学习方法》版[2]"></a>《统计学习方法》版<sup><a href="#ref2">[2]</a></sup></h3><p>设$X=\{x_1,x_2,…,x_m\},Z=\{z_1,z_2,…,z_m\}$，则对数似然函数可以改写为</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+LL(\theta)&=\ln P(X\vert \theta)\\
+&=\ln \sum_Z P(X,Z\vert\theta)\\
+&=\ln \left(\sum_Z P(X\vert Z,\theta)P(Z\vert \theta)\right)
+\end{aligned}</script><p>EM算法采用的是通过迭代逐步近似极大化$L(\theta)$：假设第$t$次迭代时$\theta$的估计值是$\theta^{(t)}$，我们希望第$t+1$次迭代时的$\theta$能使$LL(\theta)$增大，也即$LL(\theta)&gt;LL(\theta^{(t)})$。为此，考虑两者的差</p>
 <script type="math/tex; mode=display">\begin{aligned}
-L(\theta)-L(\theta^{(i)})&=\ln \left(\sum_Z P(Y\vert Z,\theta)P(Z\vert \theta)\right)-\ln P(Y\vert\theta^{(i)}) \\
-&=\ln \left(\sum_Z P(Z\vert Y,\theta^{(i)}) \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}\right)-\ln P(Y\vert\theta^{(i)})
-\end{aligned}</script><p>注意，上式中采用的是和参考文献<a href="#ref3">[3]</a>一样上下同时乘以$P(Z\vert Y,\theta^{(i)})$，而参考文献<a href="#ref2">[2]</a>中一开始上下同乘的是$P(Y\vert Z,\theta^{(i)})$，而后续却用的是$P(Z\vert Y,\theta^{(i)})$，不知是另有原由还是作者笔误，暂不知晓，接着由上述Jensen不等式以及$\ln$函数为<strong>凹函数</strong>可得：</p>
+LL(\theta)-LL(\theta^{(t)})&=\ln \left(\sum_Z P(X\vert Z,\theta)P(Z\vert \theta)\right)-\ln P(X\vert\theta^{(t)}) \\
+&=\ln \left(\sum_Z P(Z\vert X,\theta^{(t)}) \cfrac{P(X\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert X,\theta^{(t)})}\right)-\ln P(X\vert\theta^{(t)})
+\end{aligned}</script><p>由上述Jensen不等式可得</p>
 <script type="math/tex; mode=display">\begin{aligned}
-L(\theta)-L(\theta^{(i)})&=\ln \left(\sum_Z P(Z\vert Y,\theta^{(i)}) \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}\right)-\ln P(Y\vert\theta^{(i)})  \\
-&\geq \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}-\ln P(Y\vert\theta^{(i)}) \\
-&= \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}-1\cdot \ln P(Y\vert\theta^{(i)}) \\
-&= \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})}-\sum_Z P(Z\vert Y,\theta^{(i)})\cdot \ln P(Y\vert\theta^{(i)}) \\
-&=\sum_Z P(Z\vert Y,\theta^{(i)}) \left( \ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})} - \ln P(Y\vert\theta^{(i)}) \right)\\
-&= \sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})P(Y\vert\theta^{(i)})}
+LL(\theta)-LL(\theta^{(t)})
+&\geq \sum_Z P(Z\vert X,\theta^{(t)})\ln \cfrac{P(X\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert X,\theta^{(t)})}-\ln P(X\vert\theta^{(t)}) \\
+&= \sum_Z P(Z\vert X,\theta^{(t)})\ln \cfrac{P(X\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert X,\theta^{(t)})}-1\cdot \ln P(X\vert\theta^{(t)}) \\
+&= \sum_Z P(Z\vert X,\theta^{(t)})\ln \cfrac{P(X\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert X,\theta^{(t)})}-\sum_Z P(Z\vert X,\theta^{(t)})\cdot \ln P(X\vert\theta^{(t)}) \\
+&=\sum_Z P(Z\vert X,\theta^{(t)}) \left( \ln \cfrac{P(X\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert X,\theta^{(t)})} - \ln P(X\vert\theta^{(t)}) \right)\\
+&= \sum_Z P(Z\vert X,\theta^{(t)})\ln \cfrac{P(X\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert X,\theta^{(t)})P(X\vert\theta^{(t)})}
 \end{aligned}</script><p>令</p>
-<script type="math/tex; mode=display">B(\theta,\theta^{(i)})=L(\theta^{(i)})+\sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})P(Y\vert\theta^{(i)})}</script><p>则</p>
-<script type="math/tex; mode=display">L(\theta)\geq B(\theta,\theta^{(i)})</script><p>即函数$B(\theta,\theta^{(i)})$是$L(\theta)$的一个下界，此时若设$\theta^{(i+1)}$使得$B(\theta,\theta^{(i)})$达到极大，也即</p>
-<script type="math/tex; mode=display">B(\theta^{(i+1)},\theta^{(i)}) \geq B(\theta^{(i)},\theta^{(i)})</script><p>由于$L(\theta^{(i)})=B(\theta^{(i)},\theta^{(i)})$，所以可以进一步推得：</p>
-<script type="math/tex; mode=display">L(\theta^{(i+1)})\geq B(\theta^{(i+1)},\theta^{(i)})\geq B(\theta^{(i)},\theta^{(i)})=L(\theta^{(i)})</script><script type="math/tex; mode=display">L(\theta^{(i+1)})\geq L(\theta^{(i)})</script><p><center>
-<img src="./em.png" width="60%" height="60%"><br>
-此图是对上述不等式的直观解释
-</center><br>因此，任何可以使$B(\theta,\theta^{(i)})$增大的$\theta$，也可以使$L(\theta)$增大，于是问题就转化为了求解能使得$B(\theta,\theta^{(i)})$达到极大的$\theta^{(i+1)}$，即</p>
+<script type="math/tex; mode=display">B(\theta,\theta^{(t)})=LL(\theta^{(t)})+\sum_Z P(Z\vert X,\theta^{(t)})\ln \cfrac{P(X\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert X,\theta^{(t)})P(X\vert\theta^{(t)})}</script><p>则</p>
+<script type="math/tex; mode=display">LL(\theta)\geq B(\theta,\theta^{(t)})</script><p>即$B(\theta,\theta^{(t)})$是$LL(\theta)$的下界，此时若设$\theta^{(t+1)}$能使得$B(\theta,\theta^{(t)})$达到极大，也即</p>
+<script type="math/tex; mode=display">B(\theta^{(t+1)},\theta^{(t)}) \geq B(\theta,\theta^{(t)})</script><p>由于$LL(\theta^{(t)})=B(\theta^{(t)},\theta^{(t)})$，那么可以进一步推得</p>
+<script type="math/tex; mode=display">LL(\theta^{(t+1)})\geq B(\theta^{(t+1)},\theta^{(t)})\geq B(\theta^{(t)},\theta^{(t)})=LL(\theta^{(t)})</script><script type="math/tex; mode=display">LL(\theta^{(t+1)})\geq LL(\theta^{(t)})</script><p>因此，任何能使得$B(\theta,\theta^{(t)})$增大的$\theta$，也可以使得$LL(\theta)$增大，于是问题就转化为了求解能使得$B(\theta,\theta^{(t)})$达到极大的$\theta^{(t+1)}$，即</p>
 <script type="math/tex; mode=display">\begin{aligned}
-\theta^{(i+1)}&=\mathop{\arg\max}_{\theta}B(\theta,\theta^{(i)}) \\
-&=\mathop{\arg\max}_{\theta}\left( L(\theta^{(i)})+\sum_Z P(Z\vert Y,\theta^{(i)})\ln \cfrac{P(Y\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert Y,\theta^{(i)})P(Y\vert\theta^{(i)})}\right)
-\end{aligned}</script><p>略去对$\theta$的极大化而言是常数的项：</p>
+\theta^{(t+1)}&=\mathop{\arg\max}_{\theta}B(\theta,\theta^{(t)}) \\
+&=\mathop{\arg\max}_{\theta}\left( LL(\theta^{(t)})+\sum_Z P(Z\vert X,\theta^{(t)})\ln \cfrac{P(X\vert Z,\theta)P(Z\vert \theta)}{P(Z\vert X,\theta^{(t)})P(X\vert\theta^{(t)})}\right)
+\end{aligned}</script><p>略去对$\theta$极大化而言是常数的项：</p>
 <script type="math/tex; mode=display">\begin{aligned}
-\theta^{(i+1)}&=\mathop{\arg\max}_{\theta}\left(\sum_Z P(Z\vert Y,\theta^{(i)})\ln\left( P(Y\vert Z,\theta)P(Z\vert \theta)\right)\right) \\
-&=\mathop{\arg\max}_{\theta}\left(\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta)\right) \\
-&=\mathop{\arg\max}_{\theta}Q(\theta,\theta^{(i)})
-\end{aligned}</script><p>到此即完成了EM算法的一次迭代，求出的$\theta^{(i+1)}$作为下一次迭代的初始$\theta^{(i)}$。综上可以总结出EM算法的“E步”和“M步”分别为：</p>
-<p><strong>E步：</strong>计算完全数据的对数似然函数$\ln P(Y,Z\vert \theta)$关于在给定观测数据$Y$和当前参数$\theta^{(i)}$下对未观测数据$Z$的条件概率分布$ P(Z\vert Y,\theta^{(i)})$的期望，也即$Q$函数：</p>
-<script type="math/tex; mode=display">Q(\theta,\theta^{(i)})=E_Z[\ln P(Y,Z\vert \theta)\vert Y,\theta^{(i)}]=\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta)</script><p><strong>M步：</strong>求使得$Q$函数到达极大的$\theta^{(i+1)}$。<br>EM算法的基本思想可以总结为<sup><a href="#ref4">[4]</a></sup>：若参数$\theta$已知，则可根据观测数据$Y$推断出最优隐变量$Z$的值（E步）；反之，若$Z$的值已知，则可方便地对参数$\theta$做极大似然估计（M步）。</p>
-<h3 id="EM算法在高斯混合模型中的应用-2-3-5"><a href="#EM算法在高斯混合模型中的应用-2-3-5" class="headerlink" title="EM算法在高斯混合模型中的应用[2][3][5]"></a>EM算法在高斯混合模型中的应用<sup><a href="#ref2">[2]</a></sup><sup><a href="#ref3">[3]</a></sup><sup><a href="#ref5">[5]</a></sup></h3><p>高斯混合模型（Gaussian Mixture Model，GMM）定义如下：</p>
-<script type="math/tex; mode=display">P(y|\theta)=\sum_{k=1}^{K}\alpha_k\phi(y\vert \theta_k)</script><p>其中$\alpha_k$是系数，$\alpha_k\geq0,\sum_{k=1}^{K}\alpha_k=1$，$\theta_k=(\mu_k,\sigma_k^2)$，$\phi(y\vert \theta_k)$为高斯分布密度：</p>
-<script type="math/tex; mode=display">\phi(y\vert \theta_k) =\cfrac{1}{\sqrt{2\pi}\sigma_k}\exp\left(-\cfrac{(y-\mu_k)^2}{2\sigma_k^2}\right)</script><p>假设观测数据$y_1,y_2,…,y_N$由上述高斯混合模型生成，现用EM算法来估计其参数$\theta=(\alpha_1,\alpha_2,…,\alpha_K;\theta_1,\theta_2,…,\theta_K)$。</p>
-<h5 id="1-明确隐变量，写出完全数据的对数似然函数"><a href="#1-明确隐变量，写出完全数据的对数似然函数" class="headerlink" title="1.明确隐变量，写出完全数据的对数似然函数"></a>1.明确隐变量，写出完全数据的对数似然函数</h5><p>假设观测数据$y_j$是这样产生的：首先依概率$\alpha_k$选择第$k$个高斯分布分模型$\phi(y\vert \theta_k)$，接着由该分模型生成观测数据$y_j$，此时观测数据$y_j$（其中$j=1,2,…,N$）是已知的，反映观测数据$y_j$来自第$k$个分模型的数据是未知的，我们用隐变量$z_{jk}$来表示，其定义如下：</p>
-<script type="math/tex; mode=display">
-z_{jk} = \left\{ \begin{array}{rcl}
-1 & 第j个观测数据y_j来自第k个分模型 \\ 
- 0 & 否则 \\
-\end{array}\right.</script><p>所以$z_{jk}$是一个0-1随机变量。确定了未观测数据的表示形式后便可以写出完全数据的对数似然函数：</p>
-<script type="math/tex; mode=display">\begin{aligned}
-\ln P(Y,Z\vert \theta)&=\ln\left( P(Y\vert Z,\theta)P(Z\vert \theta)\right) \\
-&=\ln\left( \prod_{j=1}^{N}\left( \prod_{k=1}^{K} [\phi(y_j\vert\theta_k)]^{z_{jk}}\times \prod_{k=1}^{K} \alpha_{k}^{z_{jk}}\right)\right) \\
-&=\ln\left( \prod_{j=1}^{N}\left( \prod_{k=1}^{K} [\phi(y_j\vert\theta_k)]^{z_{jk}} \alpha_{k}^{z_{jk}}\right)\right) \\
-&=\ln\left( \prod_{j=1}^{N}\prod_{k=1}^{K}[\alpha_{k}\phi(y_j\vert\theta_k)]^{z_{jk}}\right) \\
-&= \sum_{j=1}^{N}\sum_{k=1}^{K}\ln\left([\alpha_{k}\phi(y_j\vert\theta_k)]^{z_{jk}}\right) \\
-&= \sum_{j=1}^{N}\sum_{k=1}^{K}{z_{jk}}\ln(\alpha_{k}\phi(y_j\vert\theta_k)) \\
-&= \sum_{j=1}^{N}\sum_{k=1}^{K}{z_{jk}}(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k)) \\
-\end{aligned}</script><h5 id="2-EM算法E步：确定-Q-函数"><a href="#2-EM算法E步：确定-Q-函数" class="headerlink" title="2.EM算法E步：确定$Q$函数"></a>2.EM算法E步：确定$Q$函数</h5><script type="math/tex; mode=display">\begin{aligned}
-Q(\theta,\theta^{(i)})&=\sum_Z P(Z\vert Y,\theta^{(i)})\ln P(Y,Z\vert \theta) \\
-&=\sum_Z P(Z\vert Y,\theta^{(i)})\left\{\sum_{j=1}^{N}\sum_{k=1}^{K}{z_{jk}}(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\}\\
-&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\sum_{z_{jk}}P(z_{jk}\vert y_j,\theta^{(i)}){z_{jk}}(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\} \quad(此处\sum_{z_{jk}}表示遍历z_{jk}的两种取值情况：0和1)\\
-&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{P(z_{jk}=1\vert y_j,\theta^{(i)})\cdot 1 \cdot (\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))+P(z_{jk}=0\vert y_j,\theta^{(i)})\cdot 0 \cdot (\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\} \\
-&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{P(z_{jk}=1\vert y_j,\theta^{(i)})(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\}\\    
-\end{aligned}</script><p>其中$P(z_{jk}=1\vert y_j,\theta^{(i)})$表示在给定$\theta=\theta^{(i)}=(\alpha_1^{(i)},\alpha_2^{(i)},…,\alpha_K^{(i)};\theta_1^{(i)},\theta_2^{(i)},…,\theta_K^{(i)})$的条件下，某个观测数据$y_j$是由第$k$个分模型生成的概率，称为分模型$k$对观测数据$y_j$的响应度。由<strong>贝叶斯定理</strong>可进一步推得<sup><a href="#ref4">[4]</a></sup>：</p>
-<script type="math/tex; mode=display">\begin{aligned}
-P(z_{jk}=1\vert y_j,\theta^{(i)})&=\cfrac{P(y_j\vert z_{jk}=1,\theta^{(i)})\cdot P(z_{jk}=1,\theta^{(i)})}{P(y_j,\theta^{(i)})} \\
-&=\cfrac{P(y_j\vert z_{jk}=1,\theta^{(i)})\cdot P(z_{jk}=1,\theta^{(i)})}{\sum_{l=1}^{K}\alpha_l^{(i)}\phi(y_j\vert \theta_l^{(i)})} \\
-&=\cfrac{\phi(y_j\vert \theta_k^{(i)})\cdot \alpha_k^{(i)}}{\sum_{l=1}^{K}\alpha_l^{(i)}\phi(y_j\vert \theta_l^{(i)})} \\
-&=\cfrac{\alpha_k^{(i)}\cdot \phi(y_j\vert \theta_k^{(i)})}{\sum_{l=1}^{K}\alpha_l^{(i)}\phi(y_j\vert \theta_l^{(i)})}
-\end{aligned}</script><p>$P(z_{jk}=1\vert y_j,\theta^{(i)})$也可以看做是<strong>某个</strong>$z_{jk}$的期望<strong>（注意不是所有的，因为$z_{jk}$一共有$N\times K$个，每个$z_{jk}$均为一个独立的随机变量，此处说的只是其中某一个，例如$z_{12}$的期望值）</strong>，证明如下：由于每个$z_{jk}$均为$0-1$随机变量，所以对于某个$z_{jk}$来说，其期望为：</p>
-<script type="math/tex; mode=display">\begin{aligned}
-E[z_{jk}]&=\sum_{z_{jk}}\left(P(z_{jk}\vert y_j,\theta^{(i)})\cdot z_{jk}\right) \\
-&=P(z_{jk}=1\vert y_j,\theta^{(i)})\cdot 1 + P(z_{jk}=0\vert y_j,\theta^{(i)})\cdot 0\\
-&=P(z_{jk}=1\vert y_j,\theta^{(i)})\\
-\end{aligned}</script><p>证毕。现将$P(z_{jk}=1\vert y_j,\theta^{(i)})$简记为$\gamma_{jk}$，则：</p>
-<script type="math/tex; mode=display">\begin{aligned}
-Q(\theta,\theta^{(i)})&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}(\ln\alpha_{k}+\ln\phi(y_j\vert\theta_k))\right\} \\
-&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}\ln\alpha_{k}+\gamma_{jk}\ln\phi(y_j\vert\theta_k)\right\} \\
-&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}\ln\alpha_{k}+\gamma_{jk}\ln\left(\cfrac{1}{\sqrt{2\pi}\sigma_k}\exp\left(-\cfrac{(y_j-\mu_k)^2}{2\sigma_k^2}\right)\right)\right\} \\
-&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}\ln\alpha_{k}+\gamma_{jk}\left(\ln\cfrac{1}{\sqrt{2\pi}}-\ln \sigma_k-\cfrac{(y_j-\mu_k)^2}{2\sigma_k^2}\right)\right\} \\
-&=\sum_{j=1}^{N}\sum_{k=1}^{K}\left\{\gamma_{jk}\ln\alpha_{k}+\gamma_{jk}\ln\cfrac{1}{\sqrt{2\pi}}-\gamma_{jk}\ln \sigma_k-\gamma_{jk}\cfrac{(y_j-\mu_k)^2}{2\sigma_k^2}\right\}
-\end{aligned}</script><h5 id="3-EM算法M步：求使得-Q-函数达到极大的-theta-i-1"><a href="#3-EM算法M步：求使得-Q-函数达到极大的-theta-i-1" class="headerlink" title="3.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$"></a>3.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$</h5><p>$Q(\theta,\theta^{(i)})$关于$\mu_k$求偏导（此时$k$是固定的）：</p>
-<script type="math/tex; mode=display">\begin{aligned}
-\cfrac{\partial{Q(\theta,\theta^{(i)})}}{\partial{\mu_k}}&=\sum_{j=1}^{N}\left\{0+0-0-\cfrac{\gamma_{jk}}{2\sigma_k^2}\cdot 2 \cdot(y_j-\mu_k)\cdot(-1)\right\} \\
-&=\sum_{j=1}^{N}\left\{\cfrac{\gamma_{jk}}{\sigma_k^2}\cdot(y_j-\mu_k)\right\} \\
-&=\cfrac{1}{\sigma_k^2}\sum_{j=1}^{N}\gamma_{jk}y_j-\cfrac{\mu_k}{\sigma_k^2}\sum_{j=1}^{N}\gamma_{jk} \\
-\end{aligned}</script><p>令上式等于0即可得：</p>
-<script type="math/tex; mode=display">\mu_k^{(i+1)}=\cfrac{\sum_{j=1}^{N}\gamma_{jk}y_j}{\sum_{j=1}^{N}\gamma_{jk}}</script><p>$Q(\theta,\theta^{(i)})$关于$\sigma_k$求偏导（此时$k$是固定的）：</p>
-<script type="math/tex; mode=display">\begin{aligned}
-\cfrac{\partial{Q(\theta,\theta^{(i)})}}{\partial{\sigma_k}}&=\sum_{j=1}^{N}\left\{0+0-\gamma_{jk}\sigma_k^{-1}-\gamma_{jk}(y_j-\mu_k)^2\cdot\cfrac{1}{2}\cdot-2\cdot\sigma_k^{-3} \right\} \\
-&=\sum_{j=1}^{N}\left\{\gamma_{jk}(y_j-\mu_k)^2\sigma_k^{-3}-\gamma_{jk}\sigma_k^{-1} \right\} \\
-&=\sigma_k^{-3}\sum_{j=1}^{N}\gamma_{jk}(y_j-\mu_k)^2-\sigma_k^{-1}\sum_{j=1}^{N}\gamma_{jk} \\
-\end{aligned}</script><p>令上式等于0即可得：</p>
-<script type="math/tex; mode=display">[\sigma_k^{(i+1)}]^{2}=\cfrac{\sum_{j=1}^{N}\gamma_{jk}(y_j-\mu_k)^2}{\sum_{j=1}^{N}\gamma_{jk}}</script><p>求$\alpha_k^{(i+1)}$时需要注意，此时存在约束$\sum_{k=1}^{K}\alpha_k^{(i+1)}=1$，因此考虑使用拉格朗日乘子法，首先构造拉格朗日函数：</p>
-<script type="math/tex; mode=display">L(\theta,\beta)=Q(\theta,\theta^{(i)})+\beta(\sum_{k=1}^{K}\alpha_k-1)</script><p>对$L(\theta,\beta)$关于$\sigma_k$求偏导（此时$k$是固定的）：</p>
-<script type="math/tex; mode=display">\begin{aligned}
-\cfrac{\partial{L(\theta,\beta)}}{\partial{\alpha_k}}&=\cfrac{\sum_{j=1}^{N}\gamma_{jk}}{\alpha_{k}}+\beta \\
-\end{aligned}</script><p>令上式等于0即可得：</p>
-<script type="math/tex; mode=display">\alpha_{k}^{(i+1)}=\cfrac{\sum_{j=1}^{N}\gamma_{jk}}{-\beta}</script><p>又由约束条件可得：</p>
-<script type="math/tex; mode=display">\sum_{k=1}^{K}\alpha_k^{(i+1)}=\cfrac{\sum_{k=1}^{K}\sum_{j=1}^{N}\gamma_{jk}}{-\beta}=1</script><p>其中$\sum_{k=1}^{K}\sum_{j=1}^{N}\gamma_{jk}=\sum_{j=1}^{N}\sum_{k=1}^{K}\gamma_{jk}=\sum_{j=1}^{N}1=N$，所以</p>
-<script type="math/tex; mode=display">\cfrac{N}{-\beta}=1\Rightarrow -\beta=N\Rightarrow \alpha_{k}^{(i+1)}=\cfrac{\sum_{j=1}^{N}\gamma_{jk}}{N}</script><h3 id="EM算法在三硬币模型中的应用-2-6"><a href="#EM算法在三硬币模型中的应用-2-6" class="headerlink" title="EM算法在三硬币模型中的应用[2][6]"></a>EM算法在三硬币模型中的应用<sup><a href="#ref2">[2]</a></sup><sup><a href="#ref6">[6]</a></sup></h3><p><a href="#ref2">[2]</a>中例9.1（三硬币模型）使用EM算法求解的具体推导过程如下：</p>
-<h5 id="1-EM算法E步：确定-Q-函数"><a href="#1-EM算法E步：确定-Q-函数" class="headerlink" title="1.EM算法E步：确定$Q$函数"></a>1.EM算法E步：确定$Q$函数</h5><script type="math/tex; mode=display">
-\begin{aligned} Q(\theta|\theta^{(i)})&=\sum_Z P(Z|Y,\theta^{(i)})\ln P(Y,Z|\theta) \\
-&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\ln\left[ \prod_{j=1}^n P(y_j,z_j|\theta) \right] \right\} \\
-&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\left[ \sum_{j=1}^n\ln P(y_j,z_j|\theta) \right] \right\} \\
-&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\left[\ln P(y_1,z_1|\theta) + \sum_{j=2}^n\ln P(y_j,z_j|\theta) \right] \right\} \\
-&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) + \prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\left[\sum_{j=2}^n\ln P(y_j,z_j|\theta) \right] \right\} \\
-&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} + \sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\left[\sum_{j=2}^n\ln P(y_j,z_j|\theta) \right] \right\} \\
-&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} + \sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_2,z_2|\theta) \right\}+...+\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_n,z_n|\theta) \right\}   \\
-\end{aligned}</script><p>单独考察$\sum\limits_{z_1,z_2,…,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} $：</p>
+\theta^{(t+1)}&=\mathop{\arg\max}_{\theta}\left(\sum_Z P(Z\vert X,\theta^{(t)})\ln\left( P(X\vert Z,\theta)P(Z\vert \theta)\right)\right) \\
+&=\mathop{\arg\max}_{\theta}\left(\sum_Z P(Z\vert X,\theta^{(t)})\ln P(X,Z\vert \theta)\right) \\
+&=\mathop{\arg\max}_{\theta}Q(\theta,\theta^{(t)})
+\end{aligned}</script><p>到此即完成了EM算法的一次迭代，求出的$\theta^{(t+1)}$作为下一次迭代的初始$\theta^{(t)}$。综上所述即可总结出EM算法的“E步”和“M步”分别为：</p>
+<p><strong>E步：</strong>计算完全数据的对数似然函数$\ln P(X,Z\vert \theta)$关于在给定观测数据$X$和当前参数$\theta^{(t)}$下对未观测数据$Z$的条件概率分布$ P(Z\vert X,\theta^{(t)})$的期望，也即$Q(\theta,\theta^{(t)})$：</p>
+<script type="math/tex; mode=display">Q(\theta,\theta^{(t)})=E_Z[\ln P(X,Z\vert \theta)\vert X,\theta^{(t)}]=\sum_Z P(Z\vert X,\theta^{(t)})\ln P(X,Z\vert \theta)</script><p><strong>M步：</strong>求使得$Q(\theta,\theta^{(t)})$达到极大的$\theta^{(t+1)}$。</p>
+<h3 id="CS229版-3"><a href="#CS229版-3" class="headerlink" title="CS229版[3]"></a>CS229版<sup><a href="#ref3">[3]</a></sup></h3><p>设$z_i$的概率质量函数为$Q_i(z_i)$，则$LL(\theta)$可以作如下恒等变形</p>
 <script type="math/tex; mode=display">\begin{aligned} 
-&=\sum\limits_{z_1,z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_1|y_1,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} \\
-&=\sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_1=1|y_1,\theta^{(i)})\cdot\ln P(y_1,z_1=1|\theta) \right\} + \sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_1=0|y_1,\theta^{(i)})\cdot\ln P(y_1,z_1=0|\theta) \right\}\\
-&=P(z_1=1|y_1,\theta^{(i)})\ln P(y_1,z_1=1|\theta)\sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)}) \right\} + P(z_1=0|y_1,\theta^{(i)})\ln P(y_1,z_1=0|\theta) \sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)})\right\}\\
-&=\left[P(z_1=1|y_1,\theta^{(i)})\ln P(y_1,z_1=1|\theta)+ P(z_1=0|y_1,\theta^{(i)})\ln P(y_1,z_1=0|\theta) \right]\sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)}) \right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \sum\limits_{z_2,...,z_n}\left\{\prod_{j=2}^nP(z_j|y_j,\theta^{(i)}) \right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \sum\limits_{z_2,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_2|y_2,\theta^{(i)}) \right] \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_2=1|y_2,\theta^{(i)}) \right]+\sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\cdot P(z_2=0|y_2,\theta^{(i)}) \right]\right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{P(z_2=1|y_2,\theta^{(i)}) \sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\right]+P(z_2=0|y_2,\theta^{(i)})\sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)}) \right]\right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\left[P(z_2=1|y_2,\theta^{(i)}) + P(z_2=0|y_2,\theta^{(i)}) \right]\sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\right]\right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\sum_{z_2}P(z_2|y_2,\theta^{(i)}) \sum\limits_{z_3,...,z_n}\left[\prod_{j=3}^nP(z_j|y_j,\theta^{(i)})\right]\right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) \left\{\sum_{z_2}P(z_2|y_2,\theta^{(i)})\times\sum_{z_3}P(z_3|y_3,\theta^{(i)})\times...\times\sum_{z_n}P(z_n|y_n,\theta^{(i)})\right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta)\times \left\{1\times1\times...\times1\right\} \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta)  \\
+LL(\theta) &=\sum_{i=1}^{m} \ln p(x_i; \theta) \\ 
+&=\sum_{i=1}^{m} \ln \sum_{z_i} p(x_i, z_i; \theta) \\
+&=\sum_{i=1}^{m} \ln \sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)} \\
+\end{aligned}</script><p>其中$\sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}$可以看做是对$\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}$关于$z_i$求期望，也即</p>
+<script type="math/tex; mode=display">\sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=E_{z_i}\left[\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\right]</script><p>那么由Jensen不等式可得</p>
+<script type="math/tex; mode=display">\ln\left(E_{z_i}\left[\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\right]\right)\geq E_{z_i}\left[\ln\left(\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\right)\right]</script><script type="math/tex; mode=display">\ln\sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\geq \sum_{z_i} Q_i(z_i)\ln\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}</script><p>将此式代入$LL(\theta)$可得</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+LL(\theta) &=\sum_{i=1}^{m} \ln \sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)} \\
+&\geq \sum_{i=1}^{m}\sum_{z_i} Q_i(z_i)\ln\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}
+\end{aligned}</script><p>若令$B(\theta)=\sum\limits_{i=1}^{m}\sum\limits_{z_i} Q_i(z_i)\ln\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}$，则此时$B(\theta)$为$LL(\theta)$的下界函数，因此想要极大化$LL(\theta)$可以通过极大化$B(\theta)$来间接极大化$LL(\theta)$，然而对于$B(\theta)$而言，$LL(\theta)$就是其上界，所以极大化$B(\theta)$最理想的状态就是使其等于$LL(\theta)$。根据Jensen不等式的性质可知，当且仅当$\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}$恒等于某个<strong>常量</strong>$c$时，不等式才能取到等号，也即</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+LL(\theta)&=\sum_{i=1}^{m} \ln \sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\qquad(A.1)\\
+&=\sum_{i=1}^{m}\sum_{z_i} Q_i(z_i)\ln\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\\
+&=B(\theta) \\
+&s.t.\quad\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=c
+\end{aligned}</script><p>因此，任意选取满足$\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=c$的$Q_i(z_i)$都能使得$B(\theta)$达到最大值，由于$Q_i(z_i)$是$z_i$的概率质量函数，所以$Q_i(z_i)$同时也满足约束$0\leq Q_i(z_i)\leq 1,\sum\limits_{z_i} Q_i(z_i)=1$，那么可以推得</p>
+<script type="math/tex; mode=display">\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=c</script><script type="math/tex; mode=display">p(x_i, z_i; \theta)=c\cdot Q_i(z_i)</script><script type="math/tex; mode=display">\sum_{z_i}p(x_i, z_i; \theta)=c\cdot \sum_{z_i}Q_i(z_i)</script><script type="math/tex; mode=display">\sum_{z_i}p(x_i, z_i; \theta)=c</script><script type="math/tex; mode=display">\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=\sum_{z_i}p(x_i, z_i; \theta)</script><script type="math/tex; mode=display">Q_i(z_i)=\cfrac{p(x_i, z_i; \theta)}{\sum\limits_{z_i}p(x_i, z_i; \theta)}=\cfrac{p(x_i, z_i; \theta)}{p(x_i; \theta)}=p(z_i|x_i; \theta)</script><p>所以，当且仅当$Q_i(z_i)=p(z_i|x_i; \theta)$时$B(\theta)$取到最大值。若将$Q_i(z_i)=p(z_i|x_i; \theta)$代回$LL(\theta)$可以推得如下结论</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+LL(\theta) &=\sum_{i=1}^{m} \ln \sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)} &\qquad(A.2.1)\\
+&=\sum_{i=1}^{m} \ln \sum_{z_i}p(z_i|x_i; \theta)\cfrac{p(x_i, z_i; \theta)}{p(z_i|x_i; \theta)} &\qquad(A.2.2)\\
+&=\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta)\ln\cfrac{p(x_i, z_i; \theta)}{p(z_i|x_i; \theta)}&\qquad(A.2.3)\\
+&=\max\{B(\theta)\} &\qquad(A.2.4)\\
+&\geq B(\theta)&\qquad(A.2.5)\\
+&=\sum\limits_{i=1}^{m}\sum\limits_{z_i} Q_i(z_i)\ln\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}&\qquad(A.2.6)
+\end{aligned}</script><p>其中，（A.2.3）由（A.1）推得。假设<strong>已知</strong>第$t$次迭代的参数为$\theta^{(t)}$，而第$t+1$次迭代的参数$\theta^{(t+1)}$通过如下方式求得</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+\theta^{(t+1)}&=\arg\max_{\theta}\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i;\theta^{(t)})\ln\cfrac{p(x_i, z_i; \theta)}{p(z_i|x_i; \theta^{(t)})} \qquad(A.3) \\
+&=\arg\max_{\theta}\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i;\theta^{(t)})\ln p(x_i, z_i; \theta)
+\end{aligned}</script><p>那么可以推得</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+LL(\theta^{(t+1)}) &=\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta^{(t+1)})\ln\cfrac{p(x_i, z_i; \theta^{(t+1)})}{p(z_i|x_i; \theta^{(t+1)})} &\qquad(A.4.1)\\
+&\geq \sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta^{(t)})\ln\cfrac{p(x_i, z_i; \theta^{(t+1)})}{p(z_i|x_i; \theta^{(t)})} &\qquad(A.4.2)\\
+&\geq \sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta^{(t)})\ln\cfrac{p(x_i, z_i; \theta^{(t)})}{p(z_i|x_i; \theta^{(t)})} &\qquad(A.4.3)\\
+&=LL(\theta^{(t)})&\qquad(A.4.4)
+\end{aligned}</script><p>其中，（A.4.1）由（A.2）推得；（A.4.2）由（A.2）推得；（A.4.3）由（A.3）推得；（A.4.4）由（A.2）推得。所以，若令</p>
+<script type="math/tex; mode=display">Q(\theta,\theta^{(t)})=\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta^{(t)})\ln p(x_i, z_i; \theta)</script><p>那么由（A.4）可知，凡是能使得$Q(\theta,\theta^{(t)})$达到极大的$\theta^{(t+1)}$一定能使得$LL(\theta^{(t+1)})\geq LL(\theta^{(t)})$。综上所述即可总结出EM算法的“E步”和“M步”分别为：</p>
+<p><strong>E步：</strong>令$Q_i(z_i)=p(z_i|x_i; \theta)$并写出$Q(\theta,\theta^{(t)})$；</p>
+<p><strong>M步：</strong>求使得$Q(\theta,\theta^{(t)})$到达极大的$\theta^{(t+1)}$。</p>
+<h3 id="证明两种推导方式中的Q函数相等"><a href="#证明两种推导方式中的Q函数相等" class="headerlink" title="证明两种推导方式中的Q函数相等"></a>证明两种推导方式中的Q函数相等</h3><script type="math/tex; mode=display">
+\begin{aligned} Q(\theta|\theta^{(t)})&=\sum_Z P(Z|X,\theta^{(t)})\ln P(X,Z|\theta) \\
+&=\sum_{z_1,z_2,...,z_m}\left\{\prod_{i=1}^mP(z_i|x_i,\theta^{(t)})\ln\left[ \prod_{i=1}^m P(x_i,z_i|\theta) \right] \right\} \\
+&=\sum_{z_1,z_2,...,z_m}\left\{\prod_{i=1}^mP(z_i|x_i,\theta^{(t)})\left[ \sum_{i=1}^m\ln P(x_i,z_i|\theta) \right] \right\} \\
+&=\sum_{z_1,z_2,...,z_m}\left\{\prod_{i=1}^mP(z_i|x_i,\theta^{(t)})\left[\ln P(x_1,z_1|\theta) + \ln P(x_2,z_2|\theta) +...+ \ln P(x_m,z_m|\theta)\right] \right\} \\
+&=\sum_{z_1,z_2,...,z_m}\left[\prod_{i=1}^mP(z_i|x_i,\theta^{(t)})\cdot\ln P(x_1,z_1|\theta) \right]+...+\sum_{z_1,z_2,...,z_m}\left[\prod_{i=1}^mP(z_i|x_i,\theta^{(t)})\cdot\ln P(x_m,z_m|\theta) \right]  \\
+\end{aligned}</script><p>其中$\sum\limits_{z_1,z_2,…,z_m}\left[\prod\limits_{i=1}^mP(z_i|x_i,\theta^{(t)})\cdot\ln P(x_1,z_1|\theta) \right] $可作如下恒等变形：</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+&=\sum\limits_{z_1,z_2,...,z_m}\left[\prod_{i=2}^mP(z_i|x_i,\theta^{(t)})\cdot P(z_1|x_1,\theta^{(t)})\cdot\ln P(x_1,z_1|\theta) \right] \\
+&=\sum_{z_1}\sum\limits_{z_2,...,z_m}\left[\prod_{i=2}^mP(z_i|x_i,\theta^{(t)})\cdot P(z_1|x_1,\theta^{(t)})\cdot\ln P(x_1,z_1|\theta) \right] \\
+&=\sum_{z_1}P(z_1|x_1,\theta^{(t)})\ln P(x_1,z_1|\theta) \sum\limits_{z_2,...,z_m}\left[\prod_{i=2}^mP(z_i|x_i,\theta^{(t)}) \right] \\
+&=\sum_{z_1}P(z_1|x_1,\theta^{(t)})\ln P(x_1,z_1|\theta)\sum\limits_{z_2,...,z_m}\left[\prod_{i=3}^mP(z_i|x_i,\theta^{(t)})\cdot P(z_2|x_2,\theta^{(t)}) \right] \\
+&=\sum_{z_1}P(z_1|x_1,\theta^{(t)})\ln P(x_1,z_1|\theta) \left\{\sum\limits_{z_2}\sum\limits_{z_3,...,z_m}\left[\prod_{i=3}^mP(z_i|x_i,\theta^{(t)})\cdot P(z_2|x_2,\theta^{(t)}) \right]\right\} \\
+&=\sum_{z_1}P(z_1|x_1,\theta^{(t)})\ln P(x_1,z_1|\theta) \left\{\sum_{z_2}P(z_2|x_2,\theta^{(t)}) \sum\limits_{z_3,...,z_m}\left[\prod_{i=3}^mP(z_i|x_i,\theta^{(t)})\right]\right\} \\
+&=\sum_{z_1}P(z_1|x_1,\theta^{(t)})\ln P(x_1,z_1|\theta) \left\{\sum_{z_2}P(z_2|x_2,\theta^{(t)})\times\sum_{z_3}P(z_3|x_3,\theta^{(t)})\times...\times\sum_{z_m}P(z_m|x_m,\theta^{(t)})\right\} \\
+&=\sum_{z_1}P(z_1|x_1,\theta^{(t)})\ln P(x_1,z_1|\theta)\times \left\{1\times1\times...\times1\right\} \\
+&=\sum_{z_1}P(z_1|x_1,\theta^{(t)})\ln P(x_1,z_1|\theta)  \\
 \end{aligned}</script><p>所以</p>
-<script type="math/tex; mode=display">\sum\limits_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} =\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta)</script><p>则</p>
-<script type="math/tex; mode=display">
-\begin{aligned} 
-Q(\theta|\theta^{(i)})&=\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_1,z_1|\theta) \right\} + \sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_2,z_2|\theta) \right\}+...+\sum_{z_1,z_2,...,z_n}\left\{\prod_{j=1}^nP(z_j|y_j,\theta^{(i)})\cdot\ln P(y_n,z_n|\theta) \right\}   \\
-&=\sum_{z_1}P(z_1|y_1,\theta^{(i)})\ln P(y_1,z_1|\theta) + \sum_{z_2}P(z_2|y_2,\theta^{(i)})\ln P(y_2,z_2|\theta) +...+\sum_{z_n}P(z_n|y_n,\theta^{(i)})\ln P(y_n,z_n|\theta)  \\
-&=\sum_{j=1}^n\left[ \sum_{z_j}P(z_j|y_j,\theta^{(i)})\ln P(y_j,z_j|\theta) \right] \\
-&=\sum_{j=1}^n\left[  P(z_j=1|y_j,\theta^{(i)})\ln P(y_j,z_j=1|\theta) + P(z_j=0|y_j,\theta^{(i)})\ln P(y_j,z_j=0|\theta)\right]
-\end{aligned}</script><p>由于</p>
-<script type="math/tex; mode=display">
-\begin{cases} 
-P(y_j,z_j=1|\theta)=\pi p^{y_j}(1-p)^{1-y_j} \\
-P(y_j,z_j=0|\theta)=(1-\pi )q^{y_j}(1-q)^{1-y_j} 
-\end{cases}</script><script type="math/tex; mode=display">
-\begin{cases} 
-P(z_j=1|y_j,\theta^{(i)})=\cfrac{P(z_j=1,y_j|\theta^{(i)})}{P(y_j|\theta^{(i)})}=\cfrac{\pi^{(i)} [p^{(i)}]^{y_j} (1-p^{(i)})^{1-y_j}}{\pi^{(i)} [p^{(i)}]^{y_j} (1-p^{(i)})^{1-y_j}+(1-\pi^{(i)} )[q^{(i)}]^{y_j}(1-q^{(i)})^{1-y_j}}=\mu_j^{(i+1)} \\
-P(z_j=0|y_j,\theta^{(i)})=\cfrac{P(z_j=0,y_j|\theta^{(i)})}{P(y_j|\theta^{(i)})}=\cfrac{(1-\pi^{(i)} )[q^{(i)}]^{y_j}(1-q^{(i)})^{1-y_j}}{\pi^{(i)} [p^{(i)}]^{y_j} (1-p^{(i)})^{1-y_j}+(1-\pi^{(i)} )[q^{(i)}]^{y_j}(1-q^{(i)})^{1-y_j}}=(1-\mu_j^{(i+1)}) \\
-\end{cases}</script><p>所以</p>
-<script type="math/tex; mode=display">
-Q(\theta|\theta^{(i)})=\sum_{j=1}^n\left\{  \mu_j^{(i+1)}\ln\left[\pi p^{y_j}(1-p)^{1-y_j} \right]+ (1-\mu_j^{(i+1)})\ln\left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right]\right\}</script><h5 id="2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1"><a href="#2-EM算法M步：求使得-Q-函数达到极大的-theta-i-1" class="headerlink" title="2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$"></a>2.EM算法M步：求使得$Q$函数达到极大的$\theta^{(i+1)}$</h5><p>对Q函数关于$\pi$求一阶偏导数，并令一阶偏导数等于0：</p>
+<script type="math/tex; mode=display">\sum\limits_{z_1,z_2,...,z_m}\left[\prod_{i=1}^mP(z_i|x_i,\theta^{(t)})\cdot\ln P(x_1,z_1|\theta) \right]=\sum_{z_1}P(z_1|x_1,\theta^{(t)})\ln P(x_1,z_1|\theta)</script><p>同理可得</p>
 <script type="math/tex; mode=display">\begin{aligned} 
-\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial \pi}&=\sum_{j=1}^n\cfrac{\partial}{\partial \pi}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
-&=\sum_{j=1}^n\left\{\mu_{j}^{(i+1)}\frac{p^{y_j}(1-p)^{1-y_j}}{\pi p^{y_j}(1-p)^{1-y_j}}+(1-\mu_{j}^{(i+1)})\frac{-q^{y_j}(1-q)^{1-y_j}}{(1-\pi )q^{y_j}(1-q)^{1-y_j}} \right\}\\
-&=\sum_{j=1}^n\left\{\frac{\mu_{j}^{(i+1)}(1-\pi)p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi (1-\pi) p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}+\frac{(\mu_{j}^{(i+1)}-1) \pi p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi(1-\pi )p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}} \right\}\\
-&=\sum_{j=1}^n\left\{\frac{\mu_{j}^{(i+1)}p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}-\pi p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}}{\pi (1-\pi) p^{y_j}(1-p)^{1-y_j}q^{y_j}(1-q)^{1-y_j}} \right\}\\
-&=\sum_{j=1}^n\left[ \cfrac{\mu_{j}^{(i+1)}-\pi }{\pi (1-\pi)}\right] \\
-&=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}-\sum_{j=1}^n\pi }{\pi (1-\pi)} \\
-&=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}-n\pi }{\pi (1-\pi)} 
-\end{aligned}</script><p>令上式等于0可得：</p>
-<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial \pi}=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}-n\pi }{\pi (1-\pi)} =0</script><script type="math/tex; mode=display">\sum_{j=1}^n\mu_{j}^{(i+1)}-n\pi =0</script><script type="math/tex; mode=display">n\pi =\sum_{j=1}^n\mu_{j}^{(i+1)}</script><script type="math/tex; mode=display">\pi =\cfrac{1}{n}\sum_{j=1}^n\mu_{j}^{(i+1)}\Rightarrow \pi^{(i+1)} =\cfrac{1}{n}\sum_{j=1}^n\mu_{j}^{(i+1)}</script><p>对Q函数关于p求一阶偏导数，并令一阶偏导数等于0：</p>
+\sum\limits_{z_1,z_2,...,z_m}\left[\prod_{i=1}^mP(z_i|x_i,\theta^{(t)})\cdot\ln P(x_2,z_2|\theta) \right] &=\sum_{z_2}P(z_2|x_2,\theta^{(t)})\ln P(x_2,z_2|\theta) \\
+&\vdots\\
+\sum\limits_{z_1,z_2,...,z_m}\left[\prod_{i=1}^mP(z_i|x_i,\theta^{(t)})\cdot\ln P(x_m,z_m|\theta) \right] &=\sum_{z_m}P(z_m|x_m,\theta^{(t)})\ln P(x_m,z_m|\theta)
+\end{aligned}</script><p>将上式代入$Q(\theta|\theta^{(t)})$可得</p>
 <script type="math/tex; mode=display">\begin{aligned} 
-\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial p}&=\sum_{j=1}^n\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
-&=\sum_{j=1}^n\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]\right\}\\
-&=\sum_{j=1}^n\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\left[\ln\pi + {y_j}\ln p + (1-y_j)\ln(1-p)\right]\right\}\\
-&=\sum_{j=1}^n\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}\ln\pi + \mu_{j}^{(i+1)}{y_j}\ln p + \mu_{j}^{(i+1)}(1-y_j)\ln(1-p)\right\}\\
-&=\sum_{j=1}^n\cfrac{\partial}{\partial p}\left\{\mu_{j}^{(i+1)}{y_j}\ln p + \mu_{j}^{(i+1)}(1-y_j)\ln(1-p)\right\}\\
-&=\sum_{j=1}^n\left\{\cfrac{\mu_{j}^{(i+1)}{y_j}}{p} + \cfrac{(-1)\cdot\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\right\}\\
-&=\sum_{j=1}^n\cfrac{\mu_{j}^{(i+1)}{y_j}}{p} -\sum_{j=1}^n \cfrac{\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\\
-&=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j}}{p} -\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}\\
-\end{aligned}</script><p>令上式等于0可得：</p>
-<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial p}=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j}}{p} -\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}=0</script><script type="math/tex; mode=display">\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j}}{p} =\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}(1-y_j)}{(1-p)}</script><script type="math/tex; mode=display">(1-p)\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j} =p\sum_{j=1}^n\mu_{j}^{(i+1)}(1-y_j)</script><script type="math/tex; mode=display">\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j} -p\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j} =p\sum_{j=1}^n\mu_{j}^{(i+1)}-p\sum_{j=1}^n\mu_{j}^{(i+1)}y_j</script><script type="math/tex; mode=display">\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j}=p\sum_{j=1}^n\mu_{j}^{(i+1)}</script><script type="math/tex; mode=display">p=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j} }{\sum_{j=1}^n\mu_{j}^{(i+1)}}\Rightarrow p^{(i+1)}=\cfrac{\sum_{j=1}^n\mu_{j}^{(i+1)}{y_j} }{\sum_{j=1}^n\mu_{j}^{(i+1)}}</script><p>对Q函数关于q求一阶偏导数，并令一阶偏导数等于0：</p>
-<script type="math/tex; mode=display">\begin{aligned} 
-\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial q}&=\sum_{j=1}^n\cfrac{\partial}{\partial q}\left\{\mu_{j}^{(i+1)}\ln \left[\pi p^{y_j}(1-p)^{1-y_j}\right]+(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right] \right\}\\
-&=\sum_{j=1}^n\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\ln \left[(1-\pi )q^{y_j}(1-q)^{1-y_j}\right]\right\}\\
-&=\sum_{j=1}^n\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\left[\ln(1-\pi )+{y_j}\ln q+(1-y_j)\ln(1-q)\right]\right\}\\
-&=\sum_{j=1}^n\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)})\ln(1-\pi )+(1-\mu_{j}^{(i+1)}){y_j}\ln q+(1-\mu_{j}^{(i+1)})(1-y_j)\ln(1-q)\right\}\\
-&=\sum_{j=1}^n\cfrac{\partial}{\partial q}\left\{(1-\mu_{j}^{(i+1)}){y_j}\ln q+(1-\mu_{j}^{(i+1)})(1-y_j)\ln(1-q)\right\}\\
-&=\sum_{j=1}^n\left\{\cfrac{(1-\mu_{j}^{(i+1)}){y_j}}{q}+\cfrac{(-1)\cdot(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\right\}\\
-&=\sum_{j=1}^n\cfrac{(1-\mu_{j}^{(i+1)}){y_j}}{q}-\sum_{j=1}^n\cfrac{(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\\
-&=\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}}{q}-\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}\\
-\end{aligned}</script><p>令上式等于0可得：</p>
-<script type="math/tex; mode=display">\cfrac{\partial Q(\theta|\theta^{(i)})}{\partial q}=\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}}{q}-\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}=0</script><script type="math/tex; mode=display">\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}}{q}=\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)})(1-y_j)}{(1-q)}</script><script type="math/tex; mode=display">(1-q)\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^n(1-\mu_{j}^{(i+1)})(1-y_j)</script><script type="math/tex; mode=display">\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}-q\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^n(1-\mu_{j}^{(i+1)})-q\sum_{j=1}^n(1-\mu_{j}^{(i+1)})y_j</script><script type="math/tex; mode=display">\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}=q\sum_{j=1}^n(1-\mu_{j}^{(i+1)})</script><script type="math/tex; mode=display">q=\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}}{\sum_{j=1}^n(1-\mu_{j}^{(i+1)})}\Rightarrow q^{(i+1)}=\cfrac{\sum_{j=1}^n(1-\mu_{j}^{(i+1)}){y_j}}{\sum_{j=1}^n(1-\mu_{j}^{(i+1)})}</script><p>【注】：</p>
-<ul>
-<li>上述“M步”中求极大化时直接就求偏导令其等于0进行求解，求出来的解一定是极大值点吗？不会是极小值点吗？不应该先做凹凸性判断吗？但是做凹凸性判断时$\sigma_k$的二阶偏导正负性无法判断呀。。。难道另有隐情？为何参考文献里都没提？挖坑待填。。。</li>
-</ul>
-<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality" target="_blank" rel="noopener">Jensen’s inequality</a></span><br><span id="ref2">[2] 李航.《统计学习方法》</span><br><span id="ref3">[3] cs229-notes8</span><br><span id="ref4">[4] 周志华.《机器学习》</span><br><span id="ref5">[5] <a href="http://alexkong.net/2014/07/GMM-and-EM/" target="_blank" rel="noopener">高斯混合模型和期望最大化算法</a></span><br><span id="ref6">[6] <a href="http://www.cnblogs.com/Determined22/p/5776791.html" target="_blank" rel="noopener">NLP —— 图模型（零）：EM算法简述及简单示例（三硬币模型）</a></span></p>
+Q(\theta|\theta^{(t)})&=\sum_{z_1,z_2,...,z_m}\left[\prod_{i=1}^mP(z_i|x_i,\theta^{(t)})\cdot\ln P(x_1,z_1|\theta) \right]+...+\sum_{z_1,z_2,...,z_m}\left[\prod_{i=1}^mP(z_i|x_i,\theta^{(t)})\cdot\ln P(x_m,z_m|\theta) \right]  \\
+&=\sum_{z_1}P(z_1|x_1,\theta^{(t)})\ln P(x_1,z_1|\theta) +...+\sum_{z_m}P(z_m|x_m,\theta^{(t)})\ln P(x_m,z_m|\theta) \\
+&=\sum_{i=1}^m\sum_{z_i}P(z_i|x_i,\theta^{(t)})\ln P(x_i,z_i|\theta)\\
+\end{aligned}</script><h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality" target="_blank" rel="noopener">Jensen’s inequality</a></span><br><span id="ref2">[2] 李航.《统计学习方法》第9章</span><br><span id="ref3">[3] Andrew Ng.CS229-notes8&lt;/a&gt;</span></p>
 
       
       
@@ -270,15 +201,31 @@ Q(\theta|\theta^{(i)})=\sum_{j=1}^n\left\{  \mu_j^{(i+1)}\ln\left[\pi p^{y_j}(1-
     <footer class="article-footer">
       <ul class="article-meta">
         <li>
-          <span class="label">Published Date:</span>
+          <span class="label">本文作者：Sm1les</span>
+        </li>
+        <li>
+          <span class="label">本文链接：<a href="http://sm1les.com/2019/03/13/expectation-maximization/">http://sm1les.com/2019/03/13/expectation-maximization/</a></span>
+        </li>
+        <li>
+          <span class="label">版权声明：本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0 许可协议</a>进行许可，转载请注明出处！</span>
+        </li>
+        <li>
+          <span class="label">发布日期:</span>
           <a href="/2019/03/13/expectation-maximization/" class="article-date">
   <time datetime="2019-03-13T07:51:10.000Z" itemprop="datePublished">2019-03-13</time>
 </a>
 
         </li>
+        <li>
+          <span class="label">更新日期:</span>
+          <a href="/2019/03/13/expectation-maximization/" class="article-date">
+  <time datetime="2019-07-22T01:59:19.471Z" itemprop="dateUpdated">2019-07-22</time>
+</a>
+
+        </li>
         
           <li>
-            <span class="label">Category:</span>
+            <span class="label">分类:</span>
             
   <div class="article-category">
     <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
@@ -289,9 +236,9 @@ Q(\theta|\theta^{(i)})=\sum_{j=1}^n\left\{  \mu_j^{(i+1)}\ln\left[\pi p^{y_j}(1-
         
         
           <li>
-            <span class="label">Tag:</span>
+            <span class="label">标签:</span>
             
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EM算法/">EM算法</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EM算法/">EM算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jensen不等式/">Jensen不等式</a></li></ul>
 
 
           </li>
