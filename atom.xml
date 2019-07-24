@@ -300,24 +300,24 @@ Q(\theta|\theta^{(t)})&=\sum_{z_1,z_2,...,z_m}\left[\prod_{i=1}^mP(z_i|x_i,\thet
   </entry>
   
   <entry>
-    <title>梯度下降法与牛顿法</title>
+    <title>泰勒公式视角下的梯度下降法和牛顿法</title>
     <link href="http://sm1les.com/2019/03/01/gradient-descent-and-newton-method/"/>
     <id>http://sm1les.com/2019/03/01/gradient-descent-and-newton-method/</id>
     <published>2019-03-01T03:21:35.000Z</published>
-    <updated>2019-04-07T05:35:53.332Z</updated>
+    <updated>2019-07-24T01:39:31.716Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="梯度下降法的泰勒公式推导-1-："><a href="#梯度下降法的泰勒公式推导-1-：" class="headerlink" title="梯度下降法的泰勒公式推导[1]："></a>梯度下降法的泰勒公式推导<sup><a href="#ref1">[1]</a></sup>：</h3><p>梯度下降法的目标是使得$f(x_t+\Delta x )&lt;f(x_t)$，由泰勒公式可知，$f(x)$在$x_t$点的一阶泰勒展开为：</p>
+    <content type="html"><![CDATA[<h3 id="泰勒公式视角下的梯度下降法-1-："><a href="#泰勒公式视角下的梯度下降法-1-：" class="headerlink" title="泰勒公式视角下的梯度下降法[1]："></a>泰勒公式视角下的梯度下降法<sup><a href="#ref1">[1]</a></sup>：</h3><p>梯度下降法的目标是使得$f(x_t+\Delta x )&lt;f(x_t)$，由泰勒公式可知，$f(x)$在$x_t$点的一阶泰勒展开为：</p>
 <script type="math/tex; mode=display">f(x) = f(x_t)+f’(x_t)(x-x_t)</script><p>则</p>
 <script type="math/tex; mode=display">f(x_{t+1}) = f(x_t)+f’(x_t)(x_{t+1}-x_t)</script><p>又$x_{t+1}$可等价写作$x_t + \Delta x$，则上式可化为：</p>
 <script type="math/tex; mode=display">f(x_t + \Delta x) = f(x_t)+f’(x_t) \cdot \Delta x</script><p>所以要想使得$f(x_t+\Delta x)$&lt;$f(x_t)$，$f’(x_t)\cdot\Delta x$必须小于0，此时$f’(x_t)$为定值，$\Delta x$为可变部分，于是可以令$\Delta x = -\eta \cdot f’(x_t)$，其中$\eta&gt;0$，则</p>
 <script type="math/tex; mode=display">f’(x_t) \cdot \Delta x= -\eta(f’(x_t))^2<0</script><p>由此可以推得当$\Delta x = -\eta \cdot f’(x_t)$时，$f(x_t+\Delta x )&lt;f(x_t)$恒成立。</p>
-<h3 id="牛顿法的泰勒公式推导-2-："><a href="#牛顿法的泰勒公式推导-2-：" class="headerlink" title="牛顿法的泰勒公式推导[2]："></a>牛顿法的泰勒公式推导<sup><a href="#ref2">[2]</a></sup>：</h3><p>对于无约束的<strong>凸优化</strong>问题</p>
+<h3 id="泰勒公式视角下的牛顿法-2-："><a href="#泰勒公式视角下的牛顿法-2-：" class="headerlink" title="泰勒公式视角下的牛顿法[2]："></a>泰勒公式视角下的牛顿法<sup><a href="#ref2">[2]</a></sup>：</h3><p>对于无约束的<strong>凸优化</strong>问题</p>
 <script type="math/tex; mode=display">\min\limits_{\boldsymbol{x} \in \mathbb{R}^n}f(\boldsymbol{x})</script><p>其中$\boldsymbol{x}^*$为目标函数的最小值点，也是极小值点，牛顿法利用极小值点的必要条件</p>
-<script type="math/tex; mode=display">\nabla f(\boldsymbol{x}^*)=\boldsymbol{0}</script><p>从点$\boldsymbol{x}^t$开始，求$ f(\boldsymbol{x})$在$\boldsymbol{x}^t$点的二阶泰勒展开式的极小值点（仅当$\boldsymbol{x}^{t}$点的海赛矩阵（Hessian matrix）为正定矩阵时），作为下一次（第$t+1$次）的迭代值$\boldsymbol{x}^{t+1}$，直到某次迭代值$\boldsymbol{x}^{t+1}$使得$\parallel\nabla f(\boldsymbol{x}^{t+1})\parallel&lt;\epsilon$时停止迭代，其中$\epsilon$为自定义的精度要求，具体迭代步骤如下，由多元函数的泰勒展开式<sup><a href="#ref3">[3]</a></sup>可得$f(\boldsymbol{x})$在$\boldsymbol{x}^{t}$点的二阶泰勒展开式为：</p>
-<script type="math/tex; mode=display">f(\boldsymbol{x})=f(\boldsymbol{x}^t)+g_t^T \cdot (\boldsymbol{x}-\boldsymbol{x}^t)+\cfrac{1}{2}(\boldsymbol{x}-\boldsymbol{x}^t)^T \cdot H_t \cdot (\boldsymbol{x}-\boldsymbol{x}^t)</script><p>其中$g_t$为$f(\boldsymbol{x})$在$\boldsymbol{x}^{t}$点的梯度值，$H_t$为$f(\boldsymbol{x})$在$\boldsymbol{x}^{t}$点的海赛矩阵值。对上式求导并令其等于$\boldsymbol{0}$可得：</p>
+<script type="math/tex; mode=display">\nabla f(\boldsymbol{x}^*)=\boldsymbol{0}</script><p>从点$\boldsymbol{x}^t$开始，求$ f(\boldsymbol{x})$在$\boldsymbol{x}^t$点的二阶泰勒展开式的极小值点（仅当$\boldsymbol{x}^{t}$点的Hessian矩阵为正定矩阵时），作为下一次（第$t+1$次）的迭代值$\boldsymbol{x}^{t+1}$，直到某次迭代值$\boldsymbol{x}^{t+1}$使得$\parallel\nabla f(\boldsymbol{x}^{t+1})\parallel&lt;\epsilon$时停止迭代，其中$\epsilon$为自定义的精度要求，具体迭代步骤如下，由多元函数的泰勒展开式<sup><a href="#ref3">[3]</a></sup>可得$f(\boldsymbol{x})$在$\boldsymbol{x}^{t}$点的二阶泰勒展开式为：</p>
+<script type="math/tex; mode=display">f(\boldsymbol{x})=f(\boldsymbol{x}^t)+g_t^T \cdot (\boldsymbol{x}-\boldsymbol{x}^t)+\cfrac{1}{2}(\boldsymbol{x}-\boldsymbol{x}^t)^T \cdot H_t \cdot (\boldsymbol{x}-\boldsymbol{x}^t)</script><p>其中$g_t$为$f(\boldsymbol{x})$在$\boldsymbol{x}^{t}$点的梯度值，$H_t$为$f(\boldsymbol{x})$在$\boldsymbol{x}^{t}$点的Hessian矩阵。对上式求导并令其等于$\boldsymbol{0}$可得：</p>
 <script type="math/tex; mode=display">g_t + H_t \cdot (\boldsymbol{x}-\boldsymbol{x}^t)=\boldsymbol{0}</script><p>解得$\boldsymbol{x}=\boldsymbol{x}^t-H_t^{-1}g_t$，令其为下一次的迭代值，即$\boldsymbol{x}^{t+1}=\boldsymbol{x}^t-H_t^{-1}g_t$。<br>【注】：</p>
 <ul>
-<li>牛顿法是经典的求根方法，在最优化问题里，通常最值点也是极值点，所以目标函数$f(x)$的一阶导函数$f’(x)$在最值点处一定等于0，此时求目标函数$f(x)$最小值的问题转化为了求目标函数的一阶导函数$f’(x)$的根的问题<sup><a href="#ref4">[4]</a></sup>；</li>
+<li>牛顿法也是经典的求根算法，在求根时是一阶算法，在求最优化问题时是二阶算法，具体参见<sup><a href="#ref4">[4]</a></sup>；</li>
 <li>关于牛顿法和梯度下降法的效率对比：从本质上去看，牛顿法是二阶收敛，梯度下降是一阶收敛，所以牛顿法就更快。如果更通俗地说的话，比如你想找一条最短的路径走到一个盆地的最底部，梯度下降法每次只从你当前所处位置选一个坡度最大的方向走一步，牛顿法在选择方向时，不仅会考虑坡度是否够大，还会考虑你走了一步之后，坡度是否会变得更大。所以，可以说牛顿法比梯度下降法看得更远一点，能更快地走到最底部。（牛顿法目光更加长远，所以少走弯路；相对而言，梯度下降法只考虑了局部的最优，没有全局思想。）根据wiki上的解释，从几何上说，牛顿法就是用一个二次曲面去拟合你当前所处位置的局部曲面，而梯度下降法是用一个平面去拟合当前的局部曲面，通常情况下，二次曲面的拟合会比平面更好，所以牛顿法选择的下降路径会更符合真实的最优下降路径<sup><a href="#ref5">[5]</a></sup>。<center>
 <img src="./gdandnewton.jpg"><br>
 红色为牛顿法的迭代路径，绿色为梯度下降法的迭代路径
@@ -330,7 +330,7 @@ Q(\theta|\theta^{(t)})&=\sum_{z_1,z_2,...,z_m}\left[\prod_{i=1}^mP(z_i|x_i,\thet
     
     <summary type="html">
     
-      &lt;h3 id=&quot;梯度下降法的泰勒公式推导-1-：&quot;&gt;&lt;a href=&quot;#梯度下降法的泰勒公式推导-1-：&quot; class=&quot;headerlink&quot; title=&quot;梯度下降法的泰勒公式推导[1]：&quot;&gt;&lt;/a&gt;梯度下降法的泰勒公式推导&lt;sup&gt;&lt;a href=&quot;#ref1&quot;&gt;[1]&lt;/
+      &lt;h3 id=&quot;泰勒公式视角下的梯度下降法-1-：&quot;&gt;&lt;a href=&quot;#泰勒公式视角下的梯度下降法-1-：&quot; class=&quot;headerlink&quot; title=&quot;泰勒公式视角下的梯度下降法[1]：&quot;&gt;&lt;/a&gt;泰勒公式视角下的梯度下降法&lt;sup&gt;&lt;a href=&quot;#ref1&quot;&gt;[
     
     </summary>
     
@@ -340,6 +340,8 @@ Q(\theta|\theta^{(t)})&=\sum_{z_1,z_2,...,z_m}\left[\prod_{i=1}^mP(z_i|x_i,\thet
       <category term="梯度下降法" scheme="http://sm1les.com/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/"/>
     
       <category term="牛顿法" scheme="http://sm1les.com/tags/%E7%89%9B%E9%A1%BF%E6%B3%95/"/>
+    
+      <category term="泰勒公式" scheme="http://sm1les.com/tags/%E6%B3%B0%E5%8B%92%E5%85%AC%E5%BC%8F/"/>
     
   </entry>
   
