@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sm1les.com/"/>
-  <updated>2019-07-24T10:33:15.052Z</updated>
+  <updated>2019-07-24T12:27:27.870Z</updated>
   <id>http://sm1les.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>概率图模型——隐马尔可夫模型</title>
+    <title>隐马尔可夫模型及其三个基本问题</title>
     <link href="http://sm1les.com/2019/04/10/hidden-markov-model/"/>
     <id>http://sm1les.com/2019/04/10/hidden-markov-model/</id>
     <published>2019-04-10T12:03:50.000Z</published>
-    <updated>2019-07-24T10:33:15.052Z</updated>
+    <updated>2019-07-24T12:27:27.870Z</updated>
     
     <content type="html"><![CDATA[<h3 id="隐马尔可夫模型的定义-1"><a href="#隐马尔可夫模型的定义-1" class="headerlink" title="隐马尔可夫模型的定义[1]"></a>隐马尔可夫模型的定义<sup><a href="#ref1">[1]</a></sup></h3><p>隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为<strong>状态序列</strong>；每个状态生成一个观测，而由此产生的观测的随机序列，称为<strong>观测序列</strong>，序列的每一个位置又可以看作是一个时刻。其形式定义如下：</p>
 <p><center>
@@ -36,7 +36,7 @@
 <li>齐次马尔可夫性假设，即假设隐藏的马尔可夫链在任意时刻$t$的状态只依赖于其前一时刻的状态，与其他时刻的状态及观测无关，也与时刻$t$无关：<script type="math/tex; mode=display">P(i_t\vert i_{t-1},o_{t-1},...,i_1,o_1)=P(i_t\vert i_{t-1})</script></li>
 <li>观测独立性假设，即假设任意时刻的观测只依赖于该时刻的马尔可夫链的状态，与其他观测及状态无关：<script type="math/tex; mode=display">P(o_t\vert i_T,o_T,i_{T-1},o_{T-1},...,i_t,i_{t-1},o_{t-1},...,i_1,o_1)=P(o_t\vert i_t)</script></li>
 </ol>
-<h3 id="隐马尔可夫模型的3个基本问题"><a href="#隐马尔可夫模型的3个基本问题" class="headerlink" title="隐马尔可夫模型的3个基本问题"></a>隐马尔可夫模型的3个基本问题</h3><ol>
+<h3 id="隐马尔可夫模型的三个基本问题"><a href="#隐马尔可夫模型的三个基本问题" class="headerlink" title="隐马尔可夫模型的三个基本问题"></a>隐马尔可夫模型的三个基本问题</h3><ol>
 <li>概率计算问题：给定模型$\lambda=(A,B,\pi)$和观测序列$O=(o_1,o_2,…,o_T)$，计算在模型$\lambda$下观测序列$O$出现的概率$P(O\vert \lambda)$；</li>
 <li>学习问题：已知观测序列$O=(o_1,o_2,…,o_T)$，估计模型$\lambda=(A,B,\pi)$参数，使得在该模型下观测序列概率$P(O\vert \lambda)$最大，即用极大似然估计的方法估计参数；</li>
 <li>预测问题：也称为解码问题，已知模型$\lambda=(A,B,\pi)$和观测序列$O=(o_1,o_2,…,o_T)$，求对给定观测序列条件概率$P(I\vert O)$最大的状态序列$I=(i_1,i_2,…,i_T)$，即给定观测序列，求最有可能的对应的状态序列。</li>
@@ -155,8 +155,6 @@ P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
     
       <category term="机器学习" scheme="http://sm1les.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    
-      <category term="概率图模型" scheme="http://sm1les.com/tags/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/"/>
     
       <category term="隐马尔可夫模型" scheme="http://sm1les.com/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B/"/>
     
