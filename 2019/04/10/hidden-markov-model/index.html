@@ -13,14 +13,14 @@
 <meta property="og:site_name" content="Sm1les&#39;s blog">
 <meta property="og:description" content="隐马尔可夫模型的定义[1]隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为状态序列；每个状态生成一个观测，而由此产生的观测的随机序列，称为观测序列，序列的每一个位置又可以看作是一个时刻。其形式定义如下：   $Q">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://sm1les.com/2019/04/10/hidden-markov-model/hmm.png">
-<meta property="og:image" content="http://sm1les.com/2019/04/10/hidden-markov-model/hmm-forward.png">
-<meta property="og:image" content="http://sm1les.com/2019/04/10/hidden-markov-model/hmm-backward.png">
-<meta property="og:updated_time" content="2019-07-24T02:10:07.913Z">
+<meta property="og:image" content="http://sm1les.com/2019/04/10/hidden-markov-model/hmm.svg">
+<meta property="og:image" content="http://sm1les.com/2019/04/10/hidden-markov-model/hmm-forward.svg">
+<meta property="og:image" content="http://sm1les.com/2019/04/10/hidden-markov-model/hmm-backward.svg">
+<meta property="og:updated_time" content="2019-07-24T10:33:15.052Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="概率图模型——隐马尔可夫模型">
 <meta name="twitter:description" content="隐马尔可夫模型的定义[1]隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为状态序列；每个状态生成一个观测，而由此产生的观测的随机序列，称为观测序列，序列的每一个位置又可以看作是一个时刻。其形式定义如下：   $Q">
-<meta name="twitter:image" content="http://sm1les.com/2019/04/10/hidden-markov-model/hmm.png">
+<meta name="twitter:image" content="http://sm1les.com/2019/04/10/hidden-markov-model/hmm.svg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -89,7 +89,7 @@
       
         <h3 id="隐马尔可夫模型的定义-1"><a href="#隐马尔可夫模型的定义-1" class="headerlink" title="隐马尔可夫模型的定义[1]"></a>隐马尔可夫模型的定义<sup><a href="#ref1">[1]</a></sup></h3><p>隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为<strong>状态序列</strong>；每个状态生成一个观测，而由此产生的观测的随机序列，称为<strong>观测序列</strong>，序列的每一个位置又可以看作是一个时刻。其形式定义如下：</p>
 <p><center>
-<img src="./hmm.png">
+<img src="./hmm.svg">
 </center><br>$Q$是所有可能的状态的集合，$V$是所有可能的观测的集合：</p>
 <script type="math/tex; mode=display">Q=\{q_1,q_2,...,q_N\},V=\{v_1,v_2,...,v_M\}</script><p>其中，$N$是可能的状态数，$M$是可能的观测数。<br>$I$是长度为$T$的状态序列，$O$是对应的观测序列：</p>
 <script type="math/tex; mode=display">I=(i_1,i_2,...,i_T),O=(o_1,o_2,...,o_T)</script><p>$A$是<strong>状态转移概率矩阵</strong>：</p>
@@ -119,7 +119,7 @@ P(O\vert\lambda)&=\sum_{I}P(O\vert I,\lambda)P(I\vert\lambda) \\
 \end{aligned}</script><p>其中，$\sum_{i_1,i_2,…,i_T}$共有$N^T$种可能，计算$\pi_{i_1}b_{i_1o_1}a_{i_1i_2}b_{i_2o_2}\cdots a_{i_{T-1}i_T}b_{i_To_T}$的时间复杂度为$O(T)$，所以上式整体的时间复杂度为$O(TN^T)$，显然这种算法是不可行的。</p>
 <h5 id="前向算法"><a href="#前向算法" class="headerlink" title="前向算法"></a>前向算法</h5><p>首先定义<strong>前向概率</strong>：给定隐马尔可夫模型$\lambda$，定义到时刻$t$部分观测序列为$o_1,o_2,…,o_t$且状态为$q_i$的概率为前向概率，记作：</p>
 <script type="math/tex; mode=display">\alpha_t(i)=P(o_1,o_2,...,o_t,i_t=q_i\vert \lambda)</script><p><center>
-<img src="./hmm-forward.png">
+<img src="./hmm-forward.svg">
 </center><br>根据前向概率的定义可推得：</p>
 <script type="math/tex; mode=display">P(O\vert \lambda)=\sum_{i=1}^{N}P(o_1,o_2,...,o_T,i_T=q_i\vert \lambda)=\sum_{i=1}^{N}\alpha_T(i)</script><p>于是求解$P(O\vert \lambda)$的问题被转化为了求解前向概率$\alpha_T(i)$的问题。由前向概率的定义可知：</p>
 <script type="math/tex; mode=display">\begin{aligned}
@@ -130,7 +130,7 @@ P(O\vert\lambda)&=\sum_{I}P(O\vert I,\lambda)P(I\vert\lambda) \\
 <script type="math/tex; mode=display">\alpha_{t+1}(i)=[\sum_{j=1}^{N}\alpha_t(j)a_{ji}]\times b_{io_{t+1}}</script><p>因此可以递推求得：</p>
 <script type="math/tex; mode=display">\alpha_{T}(i)=[\sum_{j=1}^{N}\alpha_{T-1}(j)a_{ji}]\times b_{io_{T}}</script><h5 id="后向算法"><a href="#后向算法" class="headerlink" title="后向算法"></a>后向算法</h5><p>同前向算法一样，首先定义<strong>后向概率</strong>：给定隐马尔可夫模型$\lambda$，定义在时刻$t$状态为$q_i$的条件下，从$t+1$到$T$的部分观测序列为$o_{t+1},o_{t+2},…,o_T$的概率为后向概率，记作：</p>
 <script type="math/tex; mode=display">\beta_t(i)=P(o_{t+1},o_{t+2},...,o_T\vert i_t=q_i,\lambda)</script><p><center>
-<img src="./hmm-backward.png">
+<img src="./hmm-backward.svg">
 </center><br>由后向概率的定义可知：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 \beta_T(i)&=1  \\
@@ -235,7 +235,7 @@ P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
         <li>
           <span class="label">更新日期:</span>
           <a href="/2019/04/10/hidden-markov-model/" class="article-date">
-  <time datetime="2019-07-24T02:10:07.913Z" itemprop="dateUpdated">2019-07-24</time>
+  <time datetime="2019-07-24T10:33:15.052Z" itemprop="dateUpdated">2019-07-24</time>
 </a>
 
         </li>
