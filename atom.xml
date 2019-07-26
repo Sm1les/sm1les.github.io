@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sm1les.com/"/>
-  <updated>2019-07-24T12:27:27.870Z</updated>
+  <updated>2019-07-26T13:43:41.702Z</updated>
   <id>http://sm1les.com/</id>
   
   <author>
@@ -16,11 +16,64 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>隐马尔可夫模型及其三个基本问题</title>
+    <title>最大熵马尔可夫模型（MEMM）及其两个基本问题</title>
+    <link href="http://sm1les.com/2019/07/26/maximum-entropy-markov-model/"/>
+    <id>http://sm1les.com/2019/07/26/maximum-entropy-markov-model/</id>
+    <published>2019-07-26T13:42:34.000Z</published>
+    <updated>2019-07-26T13:43:41.702Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="最大熵马尔可夫模型的定义"><a href="#最大熵马尔可夫模型的定义" class="headerlink" title="最大熵马尔可夫模型的定义"></a>最大熵马尔可夫模型的定义</h3><p>最大熵马尔可夫模型（Maximum-entropy Markov model，MEMM）由Andrew McCallum，Dayne Freitag和Fernando Pereira三人于2000年提出<sup><a href="#ref1">[1]</a></sup>。它结合了隐马尔可夫模型（HMM）和最大熵模型（MEM）的共同特点，被广泛应用于处理序列标注问题。文献<a href="#ref1">[1]</a>中认为，在HMM中存在两个问题：</p>
+<ul>
+<li>在很多序列标注任务中，尤其当不能枚举观测序列时，需要用大量的特征来刻画观测序列。如在文本中识别一个未见的公司名字时，除了传统的单词识别方法以外，还需要用到很多特征信息，如大写字母、结尾词、词性、格式、在文本中的位置等。也就是说，我们需要用特征对观测序列进行参数化。</li>
+<li>在很多自然语言处理任务中，通常需要解决的问题是在已知观测序列的情况下求解状态序列，HMM采用生成式的联合概率模型，这种方法不适合处理用很多特征描述观测序列的情况。为此，MEMM直接采用判别式的条件概率模型$P(I|O)$，从而使观测序列可以用特征表示，借助最大熵框架进行特征选取。</li>
+</ul>
+<p>为了解决以上两个问题，MEMM在HMM的基础上做了两点改进：</p>
+<ul>
+<li>打破HMM的观测独立性假设：假设当前时刻的状态不仅依赖于前一时刻的状态也依赖于当前时刻的观测，从而导致当前时刻的观测和前一时刻的观测不再独立；</li>
+<li>采用最大熵分类器进行建模：对当前时刻的状态取值的概率用最大熵分类器进行建模；</li>
+</ul>
+<p>根据以上两点改进可知MEMM的定义如下：</p>
+<p><center>
+<img src="./memm.svg">
+</center><br>设$O$是长度为$T$的观测序列，$I$是对应的状态序列：</p>
+<script type="math/tex; mode=display">O=(o_1,o_2,...,o_T),I=(i_1,i_2,...,i_T)</script><p>则在已知观测序列$O$的条件下，状态序列为$I$的概率为</p>
+<script type="math/tex; mode=display">\begin{aligned}
+P(I|O)&=P(i_1,i_2,...,i_T|o_1,o_2,...,o_T)\\
+&=P(i_1|o_1)\prod_{t=2}^TP(i_t|i_{t-1},o_t)\\
+&=P(i_1|o_1)\prod_{t=2}^T\cfrac{1}{Z(o_t,i_{t-1})}\exp\left(\sum_{i=1}^n w_if_i(i_t,i_{t-1},o_t)\right)\\
+\end{aligned}</script><p>其中，$Z(o_t,i_{t-1}),f_i(i_t,i_{t-1},o_t),w_i$分别对应于最大熵模型中的归一化因子，特征函数和特征函数的权重。若在$i_1$前添加一个恒为常量的状态$i_0=START$，则上式可化简为</p>
+<script type="math/tex; mode=display">\begin{aligned}
+P(I|O)&=P(i_0=START,i_1,i_2,...,i_T|o_1,o_2,...,o_T)\\
+&=\prod_{t=1}^TP(i_t|i_{t-1},o_t)\\
+&=\prod_{t=1}^T\cfrac{1}{Z(o_t,i_{t-1})}\exp\left(\sum_{i=1}^n w_if_i(i_t,i_{t-1},o_t)\right)\\
+\end{aligned}</script><h3 id="MEMM的两个基本问题"><a href="#MEMM的两个基本问题" class="headerlink" title="MEMM的两个基本问题"></a>MEMM的两个基本问题</h3><ol>
+<li>学习问题：在给定观测序列$O=(o_1,o_2,…,o_T)$和状态序列$I=(i_1,i_2,…,i_T)$的条件下，估计模型参数$w_i(i=1,2,…,n)$，使得条件概率$P(I|O)$达到最大；</li>
+<li>预测问题：也称为解码问题，已知模型参数$w_i(i=1,2,…,n)$和观测序列$O=(o_1,o_2,…,o_T)$，求条件概率$P(I\vert O)$达到最大的状态序列$I=(i_1,i_2,…,i_T)$，即给定观测序列，求最有可能的对应的状态序列。</li>
+</ol>
+<h3 id="学习问题"><a href="#学习问题" class="headerlink" title="学习问题"></a>学习问题</h3><h3 id="预测问题"><a href="#预测问题" class="headerlink" title="预测问题"></a>预测问题</h3><h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] <a href="http://www.ai.mit.edu/courses/6.891-nlp/READINGS/maxent.pdf" target="_blank" rel="noopener">Mccallum A, Freitag D, Pereira F. Maximum Entropy Markov Models for Information Extraction and Segmentation[J]. Icml, 2000:591—598.</a></span></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;最大熵马尔可夫模型的定义&quot;&gt;&lt;a href=&quot;#最大熵马尔可夫模型的定义&quot; class=&quot;headerlink&quot; title=&quot;最大熵马尔可夫模型的定义&quot;&gt;&lt;/a&gt;最大熵马尔可夫模型的定义&lt;/h3&gt;&lt;p&gt;最大熵马尔可夫模型（Maximum-entropy Mark
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://sm1les.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="最大熵马尔可夫模型" scheme="http://sm1les.com/tags/%E6%9C%80%E5%A4%A7%E7%86%B5%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B/"/>
+    
+      <category term="MEMM" scheme="http://sm1les.com/tags/MEMM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>隐马尔可夫模型（HMM）及其三个基本问题</title>
     <link href="http://sm1les.com/2019/04/10/hidden-markov-model/"/>
     <id>http://sm1les.com/2019/04/10/hidden-markov-model/</id>
     <published>2019-04-10T12:03:50.000Z</published>
-    <updated>2019-07-24T12:27:27.870Z</updated>
+    <updated>2019-07-26T07:19:50.193Z</updated>
     
     <content type="html"><![CDATA[<h3 id="隐马尔可夫模型的定义-1"><a href="#隐马尔可夫模型的定义-1" class="headerlink" title="隐马尔可夫模型的定义[1]"></a>隐马尔可夫模型的定义<sup><a href="#ref1">[1]</a></sup></h3><p>隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为<strong>状态序列</strong>；每个状态生成一个观测，而由此产生的观测的随机序列，称为<strong>观测序列</strong>，序列的每一个位置又可以看作是一个时刻。其形式定义如下：</p>
 <p><center>
