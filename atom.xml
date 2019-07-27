@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sm1les.com/"/>
-  <updated>2019-07-27T10:05:27.834Z</updated>
+  <updated>2019-07-27T10:22:00.948Z</updated>
   <id>http://sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://sm1les.com/2019/07/26/maximum-entropy-markov-model/"/>
     <id>http://sm1les.com/2019/07/26/maximum-entropy-markov-model/</id>
     <published>2019-07-26T13:42:34.000Z</published>
-    <updated>2019-07-27T10:05:27.834Z</updated>
+    <updated>2019-07-27T10:22:00.948Z</updated>
     
     <content type="html"><![CDATA[<h3 id="最大熵马尔可夫模型的定义"><a href="#最大熵马尔可夫模型的定义" class="headerlink" title="最大熵马尔可夫模型的定义"></a>最大熵马尔可夫模型的定义</h3><p>最大熵马尔可夫模型（Maximum-entropy Markov model，MEMM）由Andrew McCallum，Dayne Freitag和Fernando Pereira三人于2000年提出<sup><a href="#ref1">[1]</a></sup>。它结合了隐马尔可夫模型（HMM）和最大熵模型（MEM），被广泛应用于处理序列标注问题。文献<a href="#ref1">[1]</a>中认为，在HMM中存在两个问题：</p>
 <ul>
