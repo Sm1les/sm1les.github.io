@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sm1les.com/"/>
-  <updated>2019-07-27T10:02:55.762Z</updated>
+  <updated>2019-07-27T10:05:27.834Z</updated>
   <id>http://sm1les.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://sm1les.com/2019/07/26/maximum-entropy-markov-model/"/>
     <id>http://sm1les.com/2019/07/26/maximum-entropy-markov-model/</id>
     <published>2019-07-26T13:42:34.000Z</published>
-    <updated>2019-07-27T10:02:55.762Z</updated>
+    <updated>2019-07-27T10:05:27.834Z</updated>
     
     <content type="html"><![CDATA[<h3 id="最大熵马尔可夫模型的定义"><a href="#最大熵马尔可夫模型的定义" class="headerlink" title="最大熵马尔可夫模型的定义"></a>最大熵马尔可夫模型的定义</h3><p>最大熵马尔可夫模型（Maximum-entropy Markov model，MEMM）由Andrew McCallum，Dayne Freitag和Fernando Pereira三人于2000年提出<sup><a href="#ref1">[1]</a></sup>。它结合了隐马尔可夫模型（HMM）和最大熵模型（MEM），被广泛应用于处理序列标注问题。文献<a href="#ref1">[1]</a>中认为，在HMM中存在两个问题：</p>
 <ul>
@@ -73,7 +73,7 @@ P(I|O)&=P(i_0=0,i_1,i_2,...,i_T|o_1,o_2,...,o_T)\\
 \sum_{i_t}P(i_t|i_{t-1},o_t)&=\sum_{i_t}\cfrac{1}{Z(o_t,i_{t-1})}\exp\left(\sum_{i=1}^K w_if_i(i_t,i_{t-1},o_t)\right) \\
 &=\sum_{i_t}\cfrac{1}{\sum\limits_{i_t}\exp\left(\sum_{i=1}^K w_if_i(i_t,i_{t-1},o_t)\right)}\exp\left(\sum_{i=1}^K w_if_i(i_t,i_{t-1},o_t)\right) \\
 &=1
-\end{aligned}</script><p>所以对于那些可转移状态少的状态来说，它转移到下一个状态的概率通常都会比那些可转移状态多的状态转到下一个状态的概率要高。比如上图中的状态1可以转移到状态1/2，状态2可以转移到状态1/2/3/4/5，那么状态1可转移的状态就比状态2可转移的状态要少，所以从状态1转移到状态1/2的单个概率通常都会比从状态2转移到状态1/2/3/4/5的单个概率要高。显然这是不符合实际情形的，因为我们并不要求每个状态的可转移状态个数相等，所以对于每个状态来说，只要它们是以同等自信程度转移到下一个状态，那么它们的转移概率就应该相等。比如上图中的时刻3到时刻4时，状态1转移到状态1/2的自信程度相等（0.5=0.5），同样状态2转移到状态1/2/3/4/5的自信程度也相等（0.2=0.2=0.2=0.2=0.2），那么它们的转移概率理应都是相等的，显然，进行局部归一化后它们的转移概率是不相等的，所以只需取消局部归一化或者进行全局归一化即可解决标注偏置问题。</p>
+\end{aligned}</script><p>所以对于那些可转移状态少的状态来说，它转移到下一个状态的概率通常都会比那些可转移状态多的状态转到下一个状态的概率要高。比如上图中的状态1可以转移到状态1/2，状态2可以转移到状态1/2/3/4/5，那么状态1可转移的状态就比状态2可转移的状态要少，所以从状态1转移到状态1/2的单个概率通常都会比从状态2转移到状态1/2/3/4/5的单个概率要高。显然这是不符合实际情形的，因为我们并不要求每个状态的可转移状态个数相等，所以对于每个状态来说，只要它们是以同等自信程度转移到下一个状态，那么它们的转移概率就应该相等。比如上图中的时刻3到时刻4时，状态1转移到状态1/2的自信程度相等（0.5=0.5），同样状态2转移到状态1/2/3/4/5的自信程度也相等（0.2=0.2=0.2=0.2=0.2），那么它们的转移概率理应都是相等的，显然进行局部归一化后它们的转移概率是不相等的，所以只需取消局部归一化或者换成全局归一化即可解决标注偏置问题。</p>
 <h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] Mccallum A, Freitag D, Pereira F. Maximum Entropy Markov Models for Information Extraction and Segmentation[J]. Icml, 2000:591—598.</span><br><span id="ref2">[2] Lafferty J, Mccallum A, Pereira F C N. Conditional Random Fields: Probabilistic Models for Segmenting and Labeling Sequence Data[J]. Proceedings of Icml, 2001, 3(2):282-289.</span></p>
 ]]></content>
     
