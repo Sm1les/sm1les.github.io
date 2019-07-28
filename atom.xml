@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sm1les.com/"/>
-  <updated>2019-07-28T00:34:34.355Z</updated>
+  <updated>2019-07-28T02:02:37.437Z</updated>
   <id>http://sm1les.com/</id>
   
   <author>
@@ -20,19 +20,20 @@
     <link href="http://sm1les.com/2019/07/26/maximum-entropy-markov-model/"/>
     <id>http://sm1les.com/2019/07/26/maximum-entropy-markov-model/</id>
     <published>2019-07-26T13:42:34.000Z</published>
-    <updated>2019-07-28T00:34:34.355Z</updated>
+    <updated>2019-07-28T02:02:37.437Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="最大熵马尔可夫模型的定义"><a href="#最大熵马尔可夫模型的定义" class="headerlink" title="最大熵马尔可夫模型的定义"></a>最大熵马尔可夫模型的定义</h3><p>最大熵马尔可夫模型（Maximum-entropy Markov model，MEMM）由Andrew McCallum，Dayne Freitag和Fernando Pereira三人于2000年提出<sup><a href="#ref1">[1]</a></sup>。它结合了隐马尔可夫模型（HMM）和最大熵模型（MEM），被广泛应用于处理序列标注问题。文献<a href="#ref1">[1]</a>中认为，在HMM中存在两个问题：</p>
+    <content type="html"><![CDATA[<p>最大熵马尔可夫模型（Maximum-entropy Markov model，MEMM）由Andrew McCallum，Dayne Freitag和Fernando Pereira三人于2000年提出<sup><a href="#ref1">[1]</a></sup>。它结合了隐马尔可夫模型（HMM）和最大熵模型（MEM），被广泛应用于处理序列标注问题。文献<a href="#ref1">[1]</a>认为在HMM中主要存在以下两个问题：</p>
 <ul>
-<li>在很多序列标注任务中，尤其当不能枚举观测序列时，需要用大量的特征来刻画观测序列。如在文本中识别一个未见的公司名字时，除了传统的单词识别方法以外，还需要用到很多特征信息，如大写字母、结尾词、词性、格式、在文本中的位置等。也就是说，我们需要用特征对观测序列进行参数化。</li>
-<li>在很多自然语言处理任务中，通常需要解决的问题是在已知观测序列的情况下求解状态序列，HMM采用生成式的联合概率模型，这种方法不适合处理用很多特征描述观测序列的情况。为此，MEMM直接采用判别式的条件概率模型$P(I|O)$，从而使观测序列可以用特征表示，借助最大熵框架进行特征选取。</li>
+<li>无法用特征对观测序列参数化：在很多序列标注任务中，尤其当不能枚举所有观测序列时，通常需要用大量的特征来刻画观测序列。比如在文本中识别一个未见过的公司名字时，通常需要用到很多特征信息，如大写字母、结尾词、词性、格式、在文本中的位置等；</li>
+<li>判别式模型比生成式模型更适合处理序列标注问题：HMM多被用在处理序列标注问题，序列标注问题的目标是求出状态相对于观测的条件概率$P(state|observation)$，而HMM是对状态和观测的联合概率$P(state,observation)$进行建模的生成式模型，相对于直接对$P(state|observation)$进行建模的判别式模型来说，显然判别式模型更适合处理序列标注问题。</li>
 </ul>
-<p>为了解决以上两个问题，MEMM在HMM的基础上做了两点改进：</p>
+<p>为了解决以上两个问题，MEMM在HMM的基础上做了如下改进：</p>
 <ul>
-<li>打破HMM的观测独立性假设：假设当前时刻的状态不仅依赖于前一时刻的状态也依赖于当前时刻的观测，从而导致当前时刻的观测和前一时刻的观测不再独立；</li>
-<li>采用最大熵分类器进行建模：对当前时刻的状态取值的概率用最大熵分类器进行建模；</li>
+<li>采用判别式模型：不对状态和观测的联合概率$P(state,observation)$进行建模，而是直接对状态相对于观测的条件概率$P(state|observation)$进行建模；</li>
+<li>打破观测独立性假设：由于是对$P(state|observation)$进行建模，所以此时状态和观测之间的依赖关系需要改变，为此，MEMM假设当前时刻的状态不仅依赖于前一时刻的状态也依赖于当前时刻的观测。显然，改变状态和观测之间的依赖关系以后，当前时刻的观测和前一时刻的观测不再独立，进而也就打破了观测独立性假设；</li>
+<li>采用最大熵模型进行建模：对当前时刻的状态取值的概率用最大熵模型进行建模，因此能够实现用特征对观测序列参数化；</li>
 </ul>
-<p>根据以上两点改进可知MEMM的定义如下：</p>
+<p>MEMM的具体定义如下：</p>
 <p><center>
 <img src="./memm.svg">
 </center><br>设$V$是所有可能的观测的集合，$Q$是所有可能的状态的集合：</p>
@@ -80,7 +81,7 @@ P(I|O)&=P(i_0=0,i_1,i_2,...,i_T|o_1,o_2,...,o_T)\\
     
     <summary type="html">
     
-      &lt;h3 id=&quot;最大熵马尔可夫模型的定义&quot;&gt;&lt;a href=&quot;#最大熵马尔可夫模型的定义&quot; class=&quot;headerlink&quot; title=&quot;最大熵马尔可夫模型的定义&quot;&gt;&lt;/a&gt;最大熵马尔可夫模型的定义&lt;/h3&gt;&lt;p&gt;最大熵马尔可夫模型（Maximum-entropy Mark
+      &lt;p&gt;最大熵马尔可夫模型（Maximum-entropy Markov model，MEMM）由Andrew McCallum，Dayne Freitag和Fernando Pereira三人于2000年提出&lt;sup&gt;&lt;a href=&quot;#ref1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt;。它
     
     </summary>
     
