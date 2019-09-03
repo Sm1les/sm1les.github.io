@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sm1les.com/"/>
-  <updated>2019-07-28T02:02:37.437Z</updated>
+  <updated>2019-09-03T11:40:54.941Z</updated>
   <id>http://sm1les.com/</id>
   
   <author>
@@ -16,13 +16,137 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>条件随机场（CRF）及其三个基本问题</title>
+    <link href="http://sm1les.com/2019/08/27/conditional-random-fields/"/>
+    <id>http://sm1les.com/2019/08/27/conditional-random-fields/</id>
+    <published>2019-08-27T11:41:56.000Z</published>
+    <updated>2019-09-03T11:40:54.941Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="条件随机场的定义-1"><a href="#条件随机场的定义-1" class="headerlink" title="条件随机场的定义[1]"></a>条件随机场的定义<sup><a href="#ref1">[1]</a></sup></h3><p>由于最大熵马尔可夫模型（MEMM）存在<a href="/2019/07/26/maximum-entropy-markov-model">标注偏置问题</a><sup><a href="#ref2">[2]</a></sup>，为此，Lafferty J, Mccallum A和Pereira F C N三人在2001年提出了一种线性链条件随机场（Conditional Random Fields，CRF）<sup><a href="#ref2">[2]</a></sup>模型，该模型拥有MEMM的所有优点，同时还不存在标注偏置问题。条件随机场的一般定义如下：<br>设$X$与$Y$是随机变量，$P(Y|X)$是在给定$X$的条件下$Y$的条件概率分布。若随机变量$Y$构成一个由无向图$G＝(V,E)$表示的马尔可夫随机场，即</p>
+<script type="math/tex; mode=display">P(Y_v|X,Y_w,w\neq v)=P(Y_v|X,Y_w,w\sim v)</script><p>对任意结点$v$成立，则称条件概率分布$P(Y|X)$为条件随机场。式中$w\sim v$表示在图$G＝(V,E)$中与结点$v$有边连接的所有结点$w$，$w\neq v$表示结点$v$以外的所有结点，$Y_v,Y_w$为结点$v,w$对应的随机变量。<br>在条件随机场的一般定义中并没有要求$X$和$Y$具有相同的图结构，但是现实中一般假设$X$和$Y$有相同的图结构，Lafferty J, Mccallum A和Pereira F C N三人提出的线性链条件随机场就作了此种假设。线性链条件随机场的定义如下：</p>
+<p><center>
+<img src="./crf.svg">
+</center><br>设$X=(x_1,x_2,…,x_n),Y=(y_1,y_2,…,y_n)$均为线性链表示的随机变量序列，若在给定随机量序列$X$的条件下，随机变量序列$Y$的条件概率分布$P(Y|X)$构成条件随机场，即满足马尔可夫性（在$i=1$和vn$时只考虑单边）</p>
+<script type="math/tex; mode=display">P(y_{i} | X, y_{1}, \cdots, y_{i-1},y_{i+1}, \cdots, y_{n})=P(y_{i} | X, y_{i-1}, y_{i+1}) \quad i=1,2,...,n</script><p>则称$P(Y|X)$为线性链条件随机场。线性链条件随机场通常用来对序列标注问题进行建模，在序列标注问题中，$X$可以看作观测序列，$Y$可以看做对应的状态序列。<br>根据线性链条件随机场的定义可知，此时由$Y$构成的马尔可夫随机场的最大团为相邻两个结点的集合，那么由Hammersley-Clifford定理可知，线性链条件随机场$P(Y|X)$的表达式可以写为如下形式</p>
+<script type="math/tex; mode=display">P(Y|X)=\frac{1}{Z(X)} \exp \left(\sum_{i, k} \lambda_{k} t_{k}\left(y_{i-1}, y_{i}, X, i\right)+\sum_{i, l} \mu_{i} s_{l}\left(y_{i}, X, i\right)\right)</script><p>其中，$Z(X)=\sum\limits_{Y} \exp \left(\sum\limits_{i, k} \lambda_{k} t_{k}\left(y_{i-1}, y_{i}, X, i\right)+\sum\limits_{i, l} \mu_{l} s_{l}\left(y_{i}, X, i\right)\right)$是规范化因子，求和是在所有可能的输出序列上进行的，$t_k$是定义在边上的特征函数，称为转移特征，依赖于当前和前一个位置，$s_l$是定义在结点上的特征函数，称为状态特征，依赖于当前位置。$t_k$和$s_l$都依赖于位置，是局部特征函数。线性链条件随机场完全由特征函数$t_k,s_l$和对应的权值$\lambda_{k},\mu_{i}$确定，通常特征函数$t_k,s_l$是事先人为设定好的，而$\lambda_{k},\mu_{i}$则是通过训练数据习得。观察上式易知，线性链条件随机场为判别式模型，同时也实现了用特征对观测序列参数化，而且状态转移概率采用的是全局归一化来计算，所以线性链条件随机场拥有MEMM的所有优点，而且还不存在标注偏置问题。</p>
+<h3 id="线性链条件随机场的向量化形式"><a href="#线性链条件随机场的向量化形式" class="headerlink" title="线性链条件随机场的向量化形式"></a>线性链条件随机场的向量化形式</h3><p>根据特征函数的性质可知，状态特征函数$s_l$可以看做是只提取当前位置特征的转移特征函数，也即$s_{l}\left(y_{i}, X, i\right)=s_{l}\left(y_{i-1},y_{i}, X, i\right)$。因此，$P(Y|X)$表达式中的转移特征和状态特征及其权值可以用统一的符号表示。设有$K_1$个转移特征，$K_2$个状态特征，$K=K_1+K_2$，序列长度为$n$，则$P(Y|X)$可以简写为</p>
+<script type="math/tex; mode=display">\begin{aligned}
+P(Y|X)&=\frac{1}{Z(X)} \exp \left(\sum_{i, k} \lambda_{k} t_{k}\left(y_{i-1}, y_{i}, X, i\right)+\sum_{i, l} \mu_{i} s_{l}\left(y_{i}, X, i\right)\right) \\
+&=\frac{1}{Z(X)} \exp \left(\sum_{i}\sum_{k=1}^{K_1} \lambda_{k} t_{k}\left(y_{i-1}, y_{i}, X, i\right)+\sum_{i}\sum_{l=1}^{K_2} \mu_{i} s_{l}\left(y_{i}, X, i\right)\right) \\
+&=\frac{1}{Z(X)} \exp \left(\sum_{i}\sum_{k=1}^{K_1} \lambda_{k} t_{k}\left(y_{i-1}, y_{i}, X, i\right)+\sum_{i}\sum_{l=1}^{K_2} \mu_{i} s_{l}\left(y_{i-1},y_{i}, X, i\right)\right) \\
+&=\frac{1}{Z(X)} \exp \left(\sum_{i}\sum_{k=1}^{K_1+K_2} w_{k} f_{k}\left(y_{i-1}, y_{i}, X, i\right)\right) \\
+&=\frac{1}{Z(X)} \exp \left(\sum_{i}\sum_{k=1}^{K} w_{k} f_{k}\left(y_{i-1}, y_{i}, X, i\right)\right) \\
+\end{aligned}</script><p>若令</p>
+<script type="math/tex; mode=display">f_k(Y,X)=\sum_{i} f_{k}\left(y_{i-1}, y_{i}, X, i\right) \quad k=1,2,...,K</script><script type="math/tex; mode=display">F(Y,X)=\left(f_1(Y,X),f_2(Y,X),...,f_K(Y,X)\right)\in \mathbb{R}^{K\times1}</script><script type="math/tex; mode=display">\boldsymbol w=\left(w_1,w_2,...,w_k\right)\in \mathbb{R}^{K\times1}</script><p>那么$P(Y|X)$可以进一步简写为如下向量化形式</p>
+<script type="math/tex; mode=display">\begin{aligned}
+P(Y|X)&=\frac{1}{Z(X)} \exp \left(\sum_{i}\sum_{k=1}^{K} w_{k} f_{k}\left(y_{i-1}, y_{i}, X, i\right)\right) \\
+&=\frac{1}{Z(X)} \exp \left(\sum_{k=1}^{K} w_{k} \sum_{i}f_{k}\left(y_{i-1}, y_{i}, X, i\right)\right) \\
+&=\cfrac{\exp \left(\boldsymbol w^TF(Y,X)\right)}{Z(X)}  \\
+\end{aligned}</script><p>其中$Z(X)=\sum\limits_{Y} \exp \left(\boldsymbol w^TF(Y,X)\right)$</p>
+<h3 id="线性链条件随机场的三个基本问题"><a href="#线性链条件随机场的三个基本问题" class="headerlink" title="线性链条件随机场的三个基本问题"></a>线性链条件随机场的三个基本问题</h3><ol>
+<li>概率计算问题：在给定模型参数$w_k(k=1,2,…,K)$、观测序列$X=(x_1,x_2,…,x_n)$和状态序列$Y=(y_1,y_2,…,y_n)$的条件下，计算条件概率$P(Y|X),P(y_i|X),P(y_{i-1},y_i|X)$以及一些数学期望；</li>
+<li>学习问题：在给定观测序列$X=(x_1,x_2,…,x_n)$和状态序列$Y=(y_1,y_2,…,y_n)$的条件下，估计模型参数$w_k(k=1,2,…,K)$，使得条件概率$P(Y|X)$达到最大；</li>
+<li>预测问题：也称为解码问题，已知模型参数$w_k(k=1,2,…,K)$和观测序列$X=(x_1,x_2,…,x_n)$，求条件概率$P(Y|X)$达到最大的状态序列$Y=(y_1,y_2,…,y_n)$，即给定观测序列，求最有可能的对应状态序列。<h3 id="概率计算问题"><a href="#概率计算问题" class="headerlink" title="概率计算问题"></a>概率计算问题</h3><h4 id="计算条件概率-P-Y-X"><a href="#计算条件概率-P-Y-X" class="headerlink" title="计算条件概率$P(Y|X)$"></a>计算条件概率$P(Y|X)$</h4>由$P(Y|X)$的表达式可知，要想计算出条件概率$P(Y|X)$则需要计算出给定状态序列$Y$的非规范化概率$\exp \left(\boldsymbol w^TF(Y,X)\right)$和规范化因子$Z(X)$，由于在已知观测序列$X$和模型参数$w_k(k=1,2,…,K)$的条件下，只要知道状态的取值范围，无论对应状态序列$Y$是否已知，均能求出规范化因子$Z(X)$，所以下面考虑对$\exp \left(\boldsymbol w^TF(Y,X)\right)$和$Z(X)$分别进行求解。首先考虑求解$Z(X)$：<br>设状态的取值范围为$Q=\{q_1,q_2,…,q_m\}$，将所有状态序列前后都各填充一个$y_0=start$和$y_{n+1}=stop$，由于对观测序列$X$的每一个位置$i=1,2,…,n+1$来说，$y_{i-1}$和$y_i$都有$m$种可能的取值，因此，对于每一个位置来说都可以定义一个$m\times m$的矩阵<script type="math/tex; mode=display">\mathbf{M}_i(X)=[M_i(y_{i-1},y_i|X)]=\left[ \begin{array}{cc}
+  M_1(q_1,q_1|X) & M_1(q_1,q_2|X) & ... & M_1(q_1,q_m|X) \\
+  M_1(q_2,q_1|X) & M_1(q_2,q_2|X) & ... & M_1(q_2,q_m|X) \\  
+  \vdots & \vdots & \ddots & \vdots \\
+  M_1(q_m,q_1|X) & M_1(q_m,q_2|X) & ... & M_1(q_m,q_m|X) \\  
+\end{array} \right]</script>其中$M_i(y_{i-1},y_i|X)=\exp\left(\sum\limits_{k=1}^{K} w_{k}f_{k}\left(y_{i-1}, y_{i}, X, i\right)\right)$。特别地，对于起始位置$i=1$和结束位置$i=n+1$的矩阵定义为<script type="math/tex; mode=display">\mathbf{M}_1(X)=[M_1(y_{0},y_1|X)]=\left[ \begin{array}{cc}
+  M_1(start,q_1|X) & M_1(start,q_2|X) & ... & M_1(start,q_m|X) \\
+  0 & 0 & ... & 0 \\  
+  \vdots & \vdots & \ddots & \vdots \\
+  0 & 0 & ... & 0 \\  
+\end{array} \right]</script><script type="math/tex; mode=display">\mathbf{M}_{n+1}(X)=[M_{n+1}(y_{n},y_{n+1}|X)]=\left[ \begin{array}{cc}
+  M_{n+1}(q_1,stop|X)=1 & 0 & ... & 0 \\
+  M_{n+1}(q_2,stop|X)=1 & 0 & ... & 0 \\  
+  \vdots & \vdots & \ddots & \vdots \\
+  M_{n+1}(q_m,stop|X)=1 & 0 & ... & 0 \\  
+\end{array} \right]</script>此时，$Z(X)$即为$\mathbf{M}_i(X)(i=1,2,…,n+1)$这$n+1$个矩阵的乘积的第1行第1列元素（具体例子参见<a href="#ref1">[1]</a>中例11.2），即<script type="math/tex; mode=display">Z(X)=\left[\prod_{i=1}^{n+1}\mathbf{M}_i(X)\right]_{(1,1)}</script>对于$\exp \left(\boldsymbol w^TF(Y,X)\right)$，在对应状态序列$Y$也已知的条件下，则可以通过$\mathbf{M}_i(X)(i=1,2,…,n+1)$这$n+1$个矩阵的适当元素的乘积来表示，即<script type="math/tex; mode=display">\begin{aligned}
+\exp \left(\boldsymbol w^TF(Y,X)\right)&=\exp \left(\sum_{k=1}^{K} w_{k} \sum_{i=1}^{n+1}f_{k}\left(y_{i-1}, y_{i}, X, i\right)\right) \\
+&=\exp \left(\sum_{i=1}^{n+1}\sum_{k=1}^{K} w_{k} f_{k}\left(y_{i-1}, y_{i}, X, i\right)\right) \\
+&=\prod_{i=1}^{n+1}\exp \left(\sum_{k=1}^{K} w_{k} f_{k}\left(y_{i-1}, y_{i}, X, i\right)\right) \\
+&=\prod_{i=1}^{n+1}M_i(y_{i-1},y_i|X)\\
+\end{aligned}</script><h4 id="计算条件概率-P-y-i-X-P-y-i-1-y-i-X"><a href="#计算条件概率-P-y-i-X-P-y-i-1-y-i-X" class="headerlink" title="计算条件概率$P(y_i|X),P(y_{i-1},y_i|X)$"></a>计算条件概率$P(y_i|X),P(y_{i-1},y_i|X)$</h4>对每个位置$i=1,2,…,n+1$定义前向向量$\boldsymbol{\alpha}_i(X)\in\mathbb{R}^{m\times 1}$：<script type="math/tex; mode=display">\boldsymbol{\alpha}_0(X)=\left[ \begin{array}{cc}
+  1 \\
+  0 \\  
+  \vdots \\
+  0 \\  
+\end{array} \right],
+\boldsymbol{\alpha}_i(X)=\left[ \begin{array}{cc}
+  \alpha_i(y_i=q_1|X) \\
+  \alpha_i(y_i=q_2|X) \\  
+  \vdots \\
+  \alpha_i(y_i=q_m|X) \\  
+\end{array} \right]</script>其中，$\alpha_i(y_i=q_j|X)(j=1,2,..,m)$表示在位置$i$的状态是$q_j$并且从1到$i$的状态序列的非规范化概率。根据前向向量的定义易得递推公式<script type="math/tex; mode=display">\boldsymbol{\alpha}_i(X)^T=\boldsymbol{\alpha}_{i-1}(X)^T[M_i(y_{i-1},y_i|X)]=\boldsymbol{\alpha}_{i-1}(X)^T\mathbf{M}_i(X)</script>同理，对每个位置$i=0,1,2,…,n$定义后向向量$\boldsymbol{\beta}_i(X)\in\mathbb{R}^{m\times 1}$：<script type="math/tex; mode=display">\boldsymbol{\beta}_i(X)=\left[ \begin{array}{cc}
+  \beta_i(y_i=q_1|X) \\
+  \beta_i(y_i=q_2|X) \\  
+  \vdots \\
+  \beta_i(y_i=q_m|X) \\  
+\end{array} \right],
+\boldsymbol{\beta}_{n+1}(X)=\left[ \begin{array}{cc}
+  1 \\
+  0 \\  
+  \vdots \\
+  0 \\  
+\end{array} \right]</script>其中，$\beta_i(y_i=q_j|X)(j=1,2,..,m)$表示在位置$i$的状态是$q_j$并且从$i+1$到最后的状态序列的非规范化概率。根据后向向量的定义易得递推公式<script type="math/tex; mode=display">\boldsymbol{\beta}_i(X)=[M_{i+1}(y_i,y_{i+1}|X)]\boldsymbol{\beta}_{i-1}(X)=\mathbf{M}_i(X)\boldsymbol{\beta}_{i-1}(X)</script>定义完前向向量和后向向量，接下来便可以很容易地计算出在位置$i$的状态是$q_j$的条件概率和在位置$i-1$是状态$q_j$在位置$i$是状态$q_k$的条件概率：<script type="math/tex; mode=display">\begin{aligned}
+P(y_i|X)&=P(y_i=q_j|X)\\
+&=\cfrac{\alpha_i(y_i=q_j|X)\beta_i(y_i=q_j|X)}{Z(X)}
+\end{aligned}</script><script type="math/tex; mode=display">\begin{aligned}
+P(y_{i-1},y_{i}|X)&=P(y_{i-1}=q_j,y_{i}=q_k|X)\\
+&=\cfrac{\alpha_{i-1}(y_{i-1}=q_j|X)M_{i}(q_j,q_k|X)\beta_i(y_i=q_k|X)}{Z(X)}
+\end{aligned}</script>其中<script type="math/tex; mode=display">Z(X)=\boldsymbol{\alpha}_n(X)^T\boldsymbol I=\boldsymbol{\alpha}_{n+1}(X)^T\boldsymbol I=\boldsymbol I^T\boldsymbol{\beta}_0(X) \quad \boldsymbol I=(1,...,1)\in\mathbb{R}^{m\times 1}</script><h4 id="计算期望值"><a href="#计算期望值" class="headerlink" title="计算期望值"></a>计算期望值</h4>利用前向向量和后向向量，可以计算特征函数关于联合分布$P(X,Y)$和条件分布$P(Y|X)$的数学期望。特征函数$f_k(Y,X)=\sum_{i=1}^n f_{k}\left(y_{i-1}, y_{i}, X, i\right)$关于条件分布$P(Y|X)$的数学期望是<script type="math/tex; mode=display">\begin{aligned}
+E_{P(Y|X)}[f_k(Y,X)]&=\sum_Y \left[P(Y|X)f_k(Y,X)\right] \\
+&=\sum_Y \left[P(Y|X)\sum_{i=1}^{n+1} f_{k}\left(y_{i-1}, y_{i}, X, i\right)\right] \\
+&=\sum_Y \left[P(Y|X)f_{k}\left(y_{0}, y_{1}, X, i\right)+...+P(Y|X)f_{k}\left(y_{n}, y_{n+1}, X, i\right)\right] \\
+&=\sum_Y P(Y|X)f_{k}\left(y_{0}, y_{1}, X, i\right)+...+\sum_Y P(Y|X)f_{k}\left(y_{n}, y_{n+1}, X, i\right) \\
+&=\sum_{y_2,...,y_{n+1}}\sum_{y_0,y_1} P(Y|X)f_{k}\left(y_{0}, y_{1}, X, i\right)+...+\sum_{y_0,...,y_{n-1}}\sum_{y_n,y_{n+1}} P(Y|X)f_{k}\left(y_{n}, y_{n+1}, X, i\right) \\
+&=\sum_{y_0,y_1}f_{k}\left(y_{0}, y_{1}, X, i\right)\sum_{y_2,...,y_{n+1}} P(Y|X)+...+\sum_{y_n,y_{n+1}}f_{k}\left(y_{n}, y_{n+1}, X, i\right)\sum_{y_0,...,y_{n-1}}P(Y|X) \\
+&=\sum_{y_0,y_1}f_{k}\left(y_{0}, y_{1}, X, i\right)P\left(y_{0},y_{1}|X\right)+...+\sum_{y_n,y_{n+1}}f_{k}\left(y_{n}, y_{n+1}, X, i\right)P\left(y_{n},y_{n+1}|X\right) \\
+&=\sum_{i=1}^{n+1}\sum_{j=1,k=1}^m \left[f_{k}\left(y_{i-1}=q_j, y_{i}=q_k, X, i\right)P\left(y_{i-1}=q_j,y_{i}=q_k|X\right) \right] \\
+&=\sum_{i=1}^{n+1}\sum_{j=1,k=1}^m \left[f_{k}\left(y_{i-1}=q_j, y_{i}=q_k, X, i\right)\cfrac{\alpha_{i-1}(y_{i-1}=q_j|X)M_{i}(q_j,q_k|X)\beta_i(y_i=q_k|X)}{Z(X)} \right] \\
+\end{aligned}</script>其中<script type="math/tex; mode=display">Z(X)=\boldsymbol{\alpha}_n(X)^T\boldsymbol I=\boldsymbol{\alpha}_{n+1}(X)^T\boldsymbol I=\boldsymbol I^T\boldsymbol{\beta}_0(X) \quad \boldsymbol I=(1,...,1)\in\mathbb{R}^{m\times 1}</script>假设经验分布为$\tilde{P}(X)$，则特征函数$f_k(Y,X)=\sum_{i=1}^n f_{k}\left(y_{i-1}, y_{i}, X, i\right)$关于联合分布$P(X,Y)$的数学期望是<script type="math/tex; mode=display">\begin{aligned}
+E_{P(X,Y)}[f_k(Y,X)]&=\sum_{X,Y} \left[P(X,Y)f_k(Y,X)\right] \\
+&=\sum_{X,Y} \left[\tilde{P}(X)P(Y|X)f_k(Y,X)\right] \\
+&=\sum_{X}\tilde{P}(X)\sum_{Y} \left[P(Y|X)f_k(Y,X)\right] \\
+&=\sum_{X}\tilde{P}(X)E_{P(Y|X)}[f_k(Y,X)] \\
+\end{aligned}</script>综上，对于在给定模型参数$w_k(k=1,2,…,K)$、观测序列$X=(x_1,x_2,…,x_n)$和状态序列$Y=(y_1,y_2,…,y_n)$的条件下，只需前向扫描计算和后向扫描计算一次$\boldsymbol{\alpha}_i(X)$和$\boldsymbol{\alpha}_i(X)$，规范化因子$Z(X)$和条件概率$P(y_i|X),P(y_{i-1},y_i|X)$以及一些数学期望都可以被计算出来。<h3 id="学习问题"><a href="#学习问题" class="headerlink" title="学习问题"></a>学习问题</h3>在给定观测序列$X=(x_1,x_2,…,x_n)$和对应状态序列$Y=(y_1,y_2,…,y_n)$的条件下，可以通过极大似然估计法来估计模型的参数。由于线性链条件随机场类似于最大熵模型，所以用于求解最大熵模型参数的GIS、IIS、梯度下降、牛顿法和拟牛顿法均可用于线性链条件随机场。<h3 id="预测问题"><a href="#预测问题" class="headerlink" title="预测问题"></a>预测问题</h3>线性链条件随机场的预测问题是在给定模型参数$w_k(k=1,2,…,K)$、观测序列$X=(x_1,x_2,…,x_n)$的条件下，求条件概率最大的状态序列$Y^*=(y_1^*,y_2^*,…,y_n^*)$，即对观测序列进行标注。线性链条件随机场解决预测问题所采用的算法和HMM和MEMM一样，采用的都是经典的维特比（Viterbi）算法。具体算法如下：<script type="math/tex; mode=display">\begin{aligned}
+Y^*&=\underset{Y}{\arg \max }P(Y|X)\\
+&=\underset{Y}{\arg \max }\cfrac{\exp \left(\boldsymbol w^TF(Y,X)\right)}{Z(X)} \\
+&=\underset{Y}{\arg \max }\exp \left(\boldsymbol w^TF(Y,X)\right) \\
+&=\underset{Y}{\arg \max }\left(\boldsymbol w^TF(Y,X)\right) \\
+\end{aligned}</script>于是，线性链条件随机场的预测问题转化为了求非规范化概率最大的最优路径问题，其中路径表示的是状态序列。为了求解最优路径，将上式作如下恒等变形<script type="math/tex; mode=display">\begin{aligned}
+Y^*&=\underset{Y}{\arg \max }\left(\boldsymbol w^TF(Y,X)\right) \\
+&=\underset{Y}{\arg \max }\left(\sum_{k=1}^{K} w_{k} \sum_{i}f_{k}\left(y_{i-1}, y_{i}, X, i\right)\right) \\
+&=\underset{Y}{\arg \max }\left(\sum_{i}\sum_{k=1}^{K} w_{k} f_{k}\left(y_{i-1}, y_{i}, X, i\right)\right) \\
+&=\underset{Y}{\arg \max }\left(\sum_{i}\boldsymbol w^TF_i(y_{i-1},y_i,X)\right) \\
+\end{aligned}</script>其中<script type="math/tex; mode=display">F_i(y_{i-1},y_i,X)=\left(f_1(y_{i-1},y_i,X,i),f_2(y_{i-1},y_i,X,i),..,f_K(y_{i-1},y_i,X,i)\right)\in \mathbb{R}^{K\times1}</script>首先求出位置1的各个标记$y_1=q_1,q_2,…,q_m$的非规范化概率<script type="math/tex; mode=display">\delta_1(j)=\boldsymbol w^TF_1(y_{0}=start,y_1=q_j,X)\quad j=1,2,...,m</script>接着由递推公式，求出到位置$i$的各个标记$l=1,2,…,m$的非规范化概率的最大值，同时记录非规范化概率最大值的路径<script type="math/tex; mode=display">\delta_i(l)=\underset{1\leq j\leq m}{\max }\{\delta_{i-1}(j)+\boldsymbol w^TF_i(y_{i-1}=q_j,y_i=q_l,X)\}\quad l=1,2,...,m</script><script type="math/tex; mode=display">\psi_i(l)=\underset{1\leq j\leq m}{\arg\max }\{\delta_{i-1}(j)+\boldsymbol w^TF_i(y_{i-1}=q_j,y_i=q_l,X)\}\quad l=1,2,...,m</script>直到$i=n$时终止。这时求得的非规范化概率的最大值为<script type="math/tex; mode=display">\underset{Y}{\max }\left(\boldsymbol w^TF(Y,X)\right)=\underset{1\leq j\leq m}{\max }\delta_{n}(j)</script>最优路径的终点为<script type="math/tex; mode=display">y_n^*=\underset{1\leq j\leq m}{\arg\max }\delta_{n}(j)</script>接着由最优路径的终点往回回溯<script type="math/tex; mode=display">y_i^*=\psi_{i+1}(y_{i+1}^*) \quad i=n-1,n-2,...,1</script>最终即可求得最优路径$Y^*=(y_1^*,y_2^*,…,y_n^*)$（具体例子参见<a href="#ref1">[1]</a>中例11.3）。</li>
+</ol>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span><br><span id="ref2">[2] Lafferty J, Mccallum A, Pereira F C N. Conditional Random Fields: Probabilistic Models for Segmenting and Labeling Sequence Data[J]. Proceedings of Icml, 2001.</span></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;条件随机场的定义-1&quot;&gt;&lt;a href=&quot;#条件随机场的定义-1&quot; class=&quot;headerlink&quot; title=&quot;条件随机场的定义[1]&quot;&gt;&lt;/a&gt;条件随机场的定义&lt;sup&gt;&lt;a href=&quot;#ref1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;&lt;p&gt;由于最大熵
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://sm1les.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="条件随机场" scheme="http://sm1les.com/tags/%E6%9D%A1%E4%BB%B6%E9%9A%8F%E6%9C%BA%E5%9C%BA/"/>
+    
+      <category term="CRF" scheme="http://sm1les.com/tags/CRF/"/>
+    
+  </entry>
+  
+  <entry>
     <title>最大熵马尔可夫模型（MEMM）及其三个基本问题</title>
     <link href="http://sm1les.com/2019/07/26/maximum-entropy-markov-model/"/>
     <id>http://sm1les.com/2019/07/26/maximum-entropy-markov-model/</id>
     <published>2019-07-26T13:42:34.000Z</published>
-    <updated>2019-07-28T02:02:37.437Z</updated>
+    <updated>2019-09-03T06:27:11.494Z</updated>
     
-    <content type="html"><![CDATA[<p>最大熵马尔可夫模型（Maximum-entropy Markov model，MEMM）由Andrew McCallum，Dayne Freitag和Fernando Pereira三人于2000年提出<sup><a href="#ref1">[1]</a></sup>。它结合了隐马尔可夫模型（HMM）和最大熵模型（MEM），被广泛应用于处理序列标注问题。文献<a href="#ref1">[1]</a>认为在HMM中主要存在以下两个问题：</p>
+    <content type="html"><![CDATA[<h3 id="最大熵马尔可夫模型的定义"><a href="#最大熵马尔可夫模型的定义" class="headerlink" title="最大熵马尔可夫模型的定义"></a>最大熵马尔可夫模型的定义</h3><p>最大熵马尔可夫模型（Maximum-entropy Markov model，MEMM）由Andrew McCallum，Dayne Freitag和Fernando Pereira三人于2000年提出<sup><a href="#ref1">[1]</a></sup>。它结合了隐马尔可夫模型（HMM）和最大熵模型（MEM），被广泛应用于处理序列标注问题。文献<a href="#ref1">[1]</a>认为在HMM中主要存在以下两个问题：</p>
 <ul>
 <li>无法用特征对观测序列参数化：在很多序列标注任务中，尤其当不能枚举所有观测序列时，通常需要用大量的特征来刻画观测序列。比如在文本中识别一个未见过的公司名字时，通常需要用到很多特征信息，如大写字母、结尾词、词性、格式、在文本中的位置等；</li>
 <li>判别式模型比生成式模型更适合处理序列标注问题：HMM多被用在处理序列标注问题，序列标注问题的目标是求出状态相对于观测的条件概率$P(state|observation)$，而HMM是对状态和观测的联合概率$P(state,observation)$进行建模的生成式模型，相对于直接对$P(state|observation)$进行建模的判别式模型来说，显然判别式模型更适合处理序列标注问题。</li>
@@ -44,19 +168,19 @@ P(I|O)&=P(i_1,i_2,...,i_T|o_1,o_2,...,o_T)\\
 &=P(i_1|o_1)\prod_{t=2}^TP(i_t|i_{t-1},o_t)\\
 &=P(i_1|o_1)\prod_{t=2}^T\cfrac{\exp\left(\sum_{k=1}^K w_kf_k(i_t,i_{t-1},o_t)\right)}{\sum\limits_{i_t}\exp\left(\sum_{k=1}^K w_kf_k(i_t,i_{t-1},o_t)\right)}\\
 &=P(i_1|o_1)\prod_{t=2}^T\cfrac{1}{Z(o_t,i_{t-1})}\exp\left(\sum_{k=1}^K w_kf_k(i_t,i_{t-1},o_t)\right)\\
-\end{aligned}</script><p>其中，$Z(o_t,i_{t-1}),f_k(i_t,i_{t-1},o_t),w_k$分别对应于最大熵模型中的归一化因子，特征函数和特征函数的权重。若在$i_1$前添加一个恒为常量0的状态$i_0=0$，则上式可化简为</p>
+\end{aligned}</script><p>其中，$Z(o_t,i_{t-1})=\sum\limits_{i_t}\exp\left(\sum_{k=1}^K w_kf_k(i_t,i_{t-1},o_t)\right),f_k(i_t,i_{t-1},o_t),w_k$分别对应于最大熵模型中的归一化因子，特征函数和特征函数的权重。若在$i_1$前添加一个恒为常量0的状态$i_0=0$，则上式可化简为</p>
 <script type="math/tex; mode=display">\begin{aligned}
 P(I|O)&=P(i_0=0,i_1,i_2,...,i_T|o_1,o_2,...,o_T)\\
 &=\prod_{t=1}^TP(i_t|i_{t-1},o_t)\\
 &=\prod_{t=1}^T\cfrac{1}{Z(o_t,i_{t-1})}\exp\left(\sum_{k=1}^K w_kf_k(i_t,i_{t-1},o_t)\right)\\
-\end{aligned}</script><h3 id="MEMM的三个基本问题"><a href="#MEMM的三个基本问题" class="headerlink" title="MEMM的三个基本问题"></a>MEMM的三个基本问题</h3><ol>
-<li>概率计算问题：在给定模型参数$w_k(k=1,2,…,K)$和观测序列$O=(o_1,o_2,…,o_T)$的条件下，计算状态序列$I=(i_1,i_2,…,i_T)$出现的概率，也即计算条件概率$P(I|O)$；</li>
+\end{aligned}</script><h3 id="最大熵马尔可夫模型的三个基本问题"><a href="#最大熵马尔可夫模型的三个基本问题" class="headerlink" title="最大熵马尔可夫模型的三个基本问题"></a>最大熵马尔可夫模型的三个基本问题</h3><ol>
+<li>概率计算问题：在给定模型参数$w_k(k=1,2,…,K)$、观测序列$O=(o_1,o_2,…,o_T)$和状态序列$I=(i_1,i_2,…,i_T)$的条件下，计算条件概率$P(I|O)$；</li>
 <li>学习问题：在给定观测序列$O=(o_1,o_2,…,o_T)$和状态序列$I=(i_1,i_2,…,i_T)$的条件下，估计模型参数$w_k(k=1,2,…,K)$，使得条件概率$P(I|O)$达到最大；</li>
-<li>预测问题：也称为解码问题，已知模型参数$w_k(k=1,2,…,K)$和观测序列$O=(o_1,o_2,…,o_T)$，求条件概率$P(I\vert O)$达到最大的状态序列$I=(i_1,i_2,…,i_T)$，即给定观测序列，求最有可能的对应的状态序列。</li>
+<li>预测问题：也称为解码问题，已知模型参数$w_k(k=1,2,…,K)$和观测序列$O=(o_1,o_2,…,o_T)$，求条件概率$P(I\vert O)$达到最大的状态序列$I=(i_1,i_2,…,i_T)$，即给定观测序列，求最有可能的对应状态序列。</li>
 </ol>
 <h3 id="概率计算问题"><a href="#概率计算问题" class="headerlink" title="概率计算问题"></a>概率计算问题</h3><p>由于MEMM属于判别式模型，而对于判别式模型来说，给定了模型参数$w_k(k=1,2,…,K)$和观测序列$O=(o_1,o_2,…,o_T)$，直接套用模型的定义即可计算出条件概率$P(I|O)$。</p>
 <h3 id="学习问题"><a href="#学习问题" class="headerlink" title="学习问题"></a>学习问题</h3><ul>
-<li>既有观测序列$O=(o_1,o_2,…,o_T)$也有状态序列$I=(i_1,i_2,…,i_T)$时：此时MEMM等同于最大熵模型，所以能用于估计最大熵模型参数的策略和算法均可用于MEMM；</li>
+<li>既有观测序列$O=(o_1,o_2,…,o_T)$也有状态序列$I=(i_1,i_2,…,i_T)$时：此时MEMM类似于最大熵模型，所以能用于估计最大熵模型参数的策略和算法均可用于MEMM；</li>
 <li>只有观测序列$O=(o_1,o_2,…,o_T)$而没有状态序列$I=(i_1,i_2,…,i_T)$时：此时MEMM是一个含有隐变量的模型，对于含有隐变量的模型，则可以使用EM算法对其进行参数估计。</li>
 </ul>
 <h3 id="预测问题"><a href="#预测问题" class="headerlink" title="预测问题"></a>预测问题</h3><p>HMM中用于解决预测问题的维特比（Viterbi）算法在MEMM中同样适用，具体算法如下：<br>定义在时刻$t$状态为$q_i$的所有单个路径$(i_1,i_2,…,i_t)$中概率最大值为</p>
@@ -76,12 +200,12 @@ P(I|O)&=P(i_0=0,i_1,i_2,...,i_T|o_1,o_2,...,o_T)\\
 &=\sum_{i_t}\cfrac{1}{\sum\limits_{i_t}\exp\left(\sum_{k=1}^K w_kf_k(i_t,i_{t-1},o_t)\right)}\exp\left(\sum_{k=1}^K w_kf_k(i_t,i_{t-1},o_t)\right) \\
 &=1
 \end{aligned}</script><p>所以对于那些可转移状态少的状态来说，它转移到下一个状态的概率通常都会比那些可转移状态多的状态转到下一个状态的概率要高。比如上图中的状态1可以转移到状态1/2，状态2可以转移到状态1/2/3/4/5，那么状态1可转移的状态就比状态2可转移的状态要少，所以从状态1转移到状态1/2的单个概率通常都会比从状态2转移到状态1/2/3/4/5的单个概率要高。显然这是不符合实际情形的，因为我们并不要求每个状态的可转移状态个数相等，所以对于每个状态来说，只要它们是以同等自信程度转移到下一个状态，那么它们的转移概率就应该相等。比如上图中的时刻3到时刻4时，状态1转移到状态1/2的自信程度相等（0.5=0.5），同样状态2转移到状态1/2/3/4/5的自信程度也相等（0.2=0.2=0.2=0.2=0.2），那么它们的转移概率理应都是相等的，显然进行局部归一化后它们的转移概率是不相等的，所以只需取消局部归一化或者换成全局归一化即可解决标注偏置问题。</p>
-<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] Mccallum A, Freitag D, Pereira F. Maximum Entropy Markov Models for Information Extraction and Segmentation[J]. Icml, 2000:591—598.</span><br><span id="ref2">[2] Lafferty J, Mccallum A, Pereira F C N. Conditional Random Fields: Probabilistic Models for Segmenting and Labeling Sequence Data[J]. Proceedings of Icml, 2001, 3(2):282-289.</span></p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] Mccallum A, Freitag D, Pereira F. Maximum Entropy Markov Models for Information Extraction and Segmentation[J]. Icml, 2000.</span><br><span id="ref2">[2] Lafferty J, Mccallum A, Pereira F C N. Conditional Random Fields: Probabilistic Models for Segmenting and Labeling Sequence Data[J]. Proceedings of Icml, 2001.</span></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;最大熵马尔可夫模型（Maximum-entropy Markov model，MEMM）由Andrew McCallum，Dayne Freitag和Fernando Pereira三人于2000年提出&lt;sup&gt;&lt;a href=&quot;#ref1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt;。它
+      &lt;h3 id=&quot;最大熵马尔可夫模型的定义&quot;&gt;&lt;a href=&quot;#最大熵马尔可夫模型的定义&quot; class=&quot;headerlink&quot; title=&quot;最大熵马尔可夫模型的定义&quot;&gt;&lt;/a&gt;最大熵马尔可夫模型的定义&lt;/h3&gt;&lt;p&gt;最大熵马尔可夫模型（Maximum-entropy Mark
     
     </summary>
     
@@ -99,7 +223,7 @@ P(I|O)&=P(i_0=0,i_1,i_2,...,i_T|o_1,o_2,...,o_T)\\
     <link href="http://sm1les.com/2019/04/10/hidden-markov-model/"/>
     <id>http://sm1les.com/2019/04/10/hidden-markov-model/</id>
     <published>2019-04-10T12:03:50.000Z</published>
-    <updated>2019-07-27T01:49:53.670Z</updated>
+    <updated>2019-09-03T11:35:48.343Z</updated>
     
     <content type="html"><![CDATA[<h3 id="隐马尔可夫模型的定义-1"><a href="#隐马尔可夫模型的定义-1" class="headerlink" title="隐马尔可夫模型的定义[1]"></a>隐马尔可夫模型的定义<sup><a href="#ref1">[1]</a></sup></h3><p>隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为<strong>状态序列</strong>；每个状态生成一个观测，而由此产生的观测的随机序列，称为<strong>观测序列</strong>，序列的每一个位置又可以看作是一个时刻。其形式定义如下：</p>
 <p><center>
@@ -118,7 +242,7 @@ P(I|O)&=P(i_0=0,i_1,i_2,...,i_T|o_1,o_2,...,o_T)\\
 <h3 id="隐马尔可夫模型的三个基本问题"><a href="#隐马尔可夫模型的三个基本问题" class="headerlink" title="隐马尔可夫模型的三个基本问题"></a>隐马尔可夫模型的三个基本问题</h3><ol>
 <li>概率计算问题：给定模型$\lambda=(A,B,\pi)$和观测序列$O=(o_1,o_2,…,o_T)$，计算在模型$\lambda$下观测序列$O$出现的概率$P(O\vert \lambda)$；</li>
 <li>学习问题：已知观测序列$O=(o_1,o_2,…,o_T)$，估计模型$\lambda=(A,B,\pi)$参数，使得在该模型下观测序列概率$P(O\vert \lambda)$最大，即用极大似然估计的方法估计参数；</li>
-<li>预测问题：也称为解码问题，已知模型$\lambda=(A,B,\pi)$和观测序列$O=(o_1,o_2,…,o_T)$，求对给定观测序列条件概率$P(I\vert O)$最大的状态序列$I=(i_1,i_2,…,i_T)$，即给定观测序列，求最有可能的对应的状态序列。</li>
+<li>预测问题：也称为解码问题，已知模型$\lambda=(A,B,\pi)$和观测序列$O=(o_1,o_2,…,o_T)$，求对给定观测序列条件概率$P(I\vert O)$最大的状态序列$I=(i_1,i_2,…,i_T)$，即给定观测序列，求最有可能的对应状态序列。</li>
 </ol>
 <h3 id="概率计算问题"><a href="#概率计算问题" class="headerlink" title="概率计算问题"></a>概率计算问题</h3><h5 id="直接计算法"><a href="#直接计算法" class="headerlink" title="直接计算法"></a>直接计算法</h5><p>对于求$P(O\vert \lambda)$最直接的方法就是按照概率公式直接计算，即：</p>
 <script type="math/tex; mode=display">\begin{aligned}
@@ -222,7 +346,7 @@ P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
 \delta_3(i)&=\max\limits_{1\leq j\leq N}[\delta_2(j)a_{ji}]b_{io_3} \\
 \end{aligned}</script><p>依次此类推可得如下递推公式：</p>
 <script type="math/tex; mode=display">\delta_{t}(i)=\max\limits_{1\leq j\leq N}[\delta_{t-1}(j)a_{ji}]b_{io_t}</script><p>同时再定义在时刻$t$状态为$q_i$的所有单个路径$(i_1,i_2,…,i_t)$中概率最大的路径的第$t-1$个结点为</p>
-<script type="math/tex; mode=display">\psi_t(i)=\arg\max\limits_{1\leq j\leq N}[\delta_{t-1}(j)a_{ji}]</script><p>因此，取$i_T^*=\arg\max\limits_{i}[\delta_T(i)]$，则$i_{T-1}^*=\psi_T(i_T^*),i_{T-2}^*=\psi_{T-1}(i_{T-1}^*),…,i_1^*=\psi_2(i_2^*)$，具体例子参见<a href="#ref1">[1]</a>第10章例10.3。</p>
+<script type="math/tex; mode=display">\psi_t(i)=\arg\max\limits_{1\leq j\leq N}[\delta_{t-1}(j)a_{ji}]</script><p>因此，取$i_T^*=\arg\max\limits_{1\leq i\leq N}[\delta_T(i)]$，则$i_{T-1}^*=\psi_T(i_T^*),i_{T-2}^*=\psi_{T-1}(i_{T-1}^*),…,i_1^*=\psi_2(i_2^*)$，具体例子参见<a href="#ref1">[1]</a>第10章例10.3。</p>
 <h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span></p>
 ]]></content>
     

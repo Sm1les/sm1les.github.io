@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://sm1les.com/2019/04/10/hidden-markov-model/hmm.svg">
 <meta property="og:image" content="http://sm1les.com/2019/04/10/hidden-markov-model/hmm-forward.svg">
 <meta property="og:image" content="http://sm1les.com/2019/04/10/hidden-markov-model/hmm-backward.svg">
-<meta property="og:updated_time" content="2019-07-27T01:49:53.670Z">
+<meta property="og:updated_time" content="2019-09-03T11:35:48.343Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（HMM）及其三个基本问题">
 <meta name="twitter:description" content="隐马尔可夫模型的定义[1]隐马尔可夫模型（Hidden Markov Model，HMM）是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为状态序列；每个状态生成一个观测，而由此产生的观测的随机序列，称为观测序列，序列的每一个位置又可以看作是一个时刻。其形式定义如下：   $Q">
@@ -104,7 +104,7 @@
 <h3 id="隐马尔可夫模型的三个基本问题"><a href="#隐马尔可夫模型的三个基本问题" class="headerlink" title="隐马尔可夫模型的三个基本问题"></a>隐马尔可夫模型的三个基本问题</h3><ol>
 <li>概率计算问题：给定模型$\lambda=(A,B,\pi)$和观测序列$O=(o_1,o_2,…,o_T)$，计算在模型$\lambda$下观测序列$O$出现的概率$P(O\vert \lambda)$；</li>
 <li>学习问题：已知观测序列$O=(o_1,o_2,…,o_T)$，估计模型$\lambda=(A,B,\pi)$参数，使得在该模型下观测序列概率$P(O\vert \lambda)$最大，即用极大似然估计的方法估计参数；</li>
-<li>预测问题：也称为解码问题，已知模型$\lambda=(A,B,\pi)$和观测序列$O=(o_1,o_2,…,o_T)$，求对给定观测序列条件概率$P(I\vert O)$最大的状态序列$I=(i_1,i_2,…,i_T)$，即给定观测序列，求最有可能的对应的状态序列。</li>
+<li>预测问题：也称为解码问题，已知模型$\lambda=(A,B,\pi)$和观测序列$O=(o_1,o_2,…,o_T)$，求对给定观测序列条件概率$P(I\vert O)$最大的状态序列$I=(i_1,i_2,…,i_T)$，即给定观测序列，求最有可能的对应状态序列。</li>
 </ol>
 <h3 id="概率计算问题"><a href="#概率计算问题" class="headerlink" title="概率计算问题"></a>概率计算问题</h3><h5 id="直接计算法"><a href="#直接计算法" class="headerlink" title="直接计算法"></a>直接计算法</h5><p>对于求$P(O\vert \lambda)$最直接的方法就是按照概率公式直接计算，即：</p>
 <script type="math/tex; mode=display">\begin{aligned}
@@ -208,7 +208,7 @@ P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
 \delta_3(i)&=\max\limits_{1\leq j\leq N}[\delta_2(j)a_{ji}]b_{io_3} \\
 \end{aligned}</script><p>依次此类推可得如下递推公式：</p>
 <script type="math/tex; mode=display">\delta_{t}(i)=\max\limits_{1\leq j\leq N}[\delta_{t-1}(j)a_{ji}]b_{io_t}</script><p>同时再定义在时刻$t$状态为$q_i$的所有单个路径$(i_1,i_2,…,i_t)$中概率最大的路径的第$t-1$个结点为</p>
-<script type="math/tex; mode=display">\psi_t(i)=\arg\max\limits_{1\leq j\leq N}[\delta_{t-1}(j)a_{ji}]</script><p>因此，取$i_T^*=\arg\max\limits_{i}[\delta_T(i)]$，则$i_{T-1}^*=\psi_T(i_T^*),i_{T-2}^*=\psi_{T-1}(i_{T-1}^*),…,i_1^*=\psi_2(i_2^*)$，具体例子参见<a href="#ref1">[1]</a>第10章例10.3。</p>
+<script type="math/tex; mode=display">\psi_t(i)=\arg\max\limits_{1\leq j\leq N}[\delta_{t-1}(j)a_{ji}]</script><p>因此，取$i_T^*=\arg\max\limits_{1\leq i\leq N}[\delta_T(i)]$，则$i_{T-1}^*=\psi_T(i_T^*),i_{T-2}^*=\psi_{T-1}(i_{T-1}^*),…,i_1^*=\psi_2(i_2^*)$，具体例子参见<a href="#ref1">[1]</a>第10章例10.3。</p>
 <h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><span id="ref1">[1] 李航.《统计学习方法》</span></p>
 
       
@@ -235,7 +235,7 @@ P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
         <li>
           <span class="label">更新日期:</span>
           <a href="/2019/04/10/hidden-markov-model/" class="article-date">
-  <time datetime="2019-07-27T01:49:53.670Z" itemprop="dateUpdated">2019-07-27</time>
+  <time datetime="2019-09-03T11:35:48.343Z" itemprop="dateUpdated">2019-09-03</time>
 </a>
 
         </li>
