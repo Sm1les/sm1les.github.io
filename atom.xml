@@ -806,7 +806,7 @@ P(\boldsymbol{w}) &= \prod_{i=1}^{d}P(w_i)=\prod_{i=1}^{d}\cfrac{1}{\sqrt{2\pi}\
     <link href="http://sm1les.com/2018/12/11/lagrange-duality/"/>
     <id>http://sm1les.com/2018/12/11/lagrange-duality/</id>
     <published>2018-12-11T07:36:48.000Z</published>
-    <updated>2019-10-12T12:09:42.623Z</updated>
+    <updated>2019-10-12T13:28:09.354Z</updated>
     
     <content type="html"><![CDATA[<p>对于一般地约束优化问题：</p>
 <script type="math/tex; mode=display">\begin{array}{ll}
@@ -876,7 +876,7 @@ g_i(\boldsymbol x^*)\leq0\\
 </li>
 </ul>
 <p>综合上述最后两条性质可知：若主问题（A.1）为非凸优化问题，KKT条件是强对偶性成立的必要条件，若主问题（A.1）为凸优化问题，那么KKT条件即为强对偶性成立的<strong>充要条件</strong>。</p>
-<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王书宁 译.《凸优化》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Strong_duality#Sufficient_conditions" target="_blank" rel="noopener">Strong duality</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank" rel="noopener">Slater’s condition</a></span><br><span id="ref4">[4] <a href="https://inst.eecs.berkeley.edu/~ee227a/fa10/login/l_dual_strong.html" target="_blank" rel="noopener">Strong Duality - EECS</a></span></p>
+<h3 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h3><p><span id="ref1">[1] 王书宁 译.《凸优化》</span><br><span id="ref2">[2] <a href="https://en.wikipedia.org/wiki/Strong_duality#Sufficient_conditions" target="_blank" rel="noopener">Strong duality</a></span><br><span id="ref3">[3] <a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank" rel="noopener">Slater’s condition</a></span></p>
 ]]></content>
     
     <summary type="html">
