@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Sm1les&#39;s blog">
 <meta property="og:description" content="对于一般地约束优化问题： \begin{array}{ll} {\min } &amp; {f(\boldsymbol x)} \qquad\qquad\qquad\qquad\qquad\qquad (A.1)\\  {\text {s.t.}} &amp; {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\  {} &amp; {h_{j}(\boldsymb">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-12T11:36:43.661Z">
+<meta property="og:updated_time" content="2019-10-12T12:09:42.623Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="拉格朗日对偶函数及对偶问题">
 <meta name="twitter:description" content="对于一般地约束优化问题： \begin{array}{ll} {\min } &amp; {f(\boldsymbol x)} \qquad\qquad\qquad\qquad\qquad\qquad (A.1)\\  {\text {s.t.}} &amp; {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\  {} &amp; {h_{j}(\boldsymb">
@@ -106,7 +106,7 @@
 </li>
 <li><p>当主问题（A.1）满足某些<strong>充分条件（sufficient conditions）</strong><sup><a href="#ref2">[2]</a></sup>时，强对偶性成立。常见的充分条件有<strong>Slater条件</strong><sup><a href="#ref3">[3]</a></sup>：“若主问题是凸优化问题，且可行集$\tilde{D}$中存在一点能使得<strong>所有</strong>不等式约束的不等号成立，则强对偶性成立”（证明参见<a href="#ref1">[1]</a> § 5.3.2）。Slater条件也是KKT条件中的约束限制条件之一；</p>
 </li>
-<li><p>Slater条件的“弱化”形式（weak form of Slater’s condition）<sup><a href="#ref4">[4]</a></sup>：“若主问题是凸优化问题，前$k$个不等式约束为<strong>仿射函数</strong>，可行集$\tilde{D}$中存在一点能使得第$k+1$至第$m$个不等式约束的不等号成立，则强对偶性成立”。也就是说当不等式约束中有仿射函数时，不要求可行集$\tilde{D}$中存在一点使得这些仿射不等式的不等号成立。</p>
+<li><p>Slater条件的“弱化”形式（参见<a href="#ref1">[1]</a> § 5.2.3）：“若主问题是凸优化问题，前$k$个不等式约束为<strong>仿射函数</strong>，可行集$\tilde{D}$中存在一点能使得第$k+1$至第$m$个不等式约束的不等号成立，则强对偶性成立”。也就是说当不等式约束中有仿射函数时，不要求可行集$\tilde{D}$中存在一点使得这些仿射不等式的不等号成立。</p>
 </li>
 <li><p>若拉格朗日函数$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$是<strong>关于$\boldsymbol x$一阶偏导数连续的凸函数</strong>，则其对偶函数的表达式求解过程如下：先对$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$关于$\boldsymbol x$求导并令导数等于0，得到一个$\boldsymbol x$关于$\boldsymbol \mu$和$\boldsymbol \lambda$的表达式$\boldsymbol x=\Phi (\boldsymbol \mu,\boldsymbol \lambda)$，然后将其带回到$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$中即可得仅含$\boldsymbol \mu$和$\boldsymbol \lambda$的对偶函数$L \left ( \Phi (\boldsymbol \mu,\boldsymbol \lambda),\boldsymbol \mu,\boldsymbol \lambda \right ) =\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$，例<a href="#ref1">[1]</a> § 5.2.4和SVM的对偶函数求解。</p>
 </li>
@@ -177,7 +177,7 @@ g_i(\boldsymbol x^*)\leq0\\
         <li>
           <span class="label">更新日期:</span>
           <a href="/2018/12/11/lagrange-duality/" class="article-date">
-  <time datetime="2019-10-12T11:36:43.661Z" itemprop="dateUpdated">2019-10-12</time>
+  <time datetime="2019-10-12T12:09:42.623Z" itemprop="dateUpdated">2019-10-12</time>
 </a>
 
         </li>
