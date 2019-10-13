@@ -806,14 +806,14 @@ P(\boldsymbol{w}) &= \prod_{i=1}^{d}P(w_i)=\prod_{i=1}^{d}\cfrac{1}{\sqrt{2\pi}\
     <link href="http://sm1les.com/2018/12/11/lagrange-duality/"/>
     <id>http://sm1les.com/2018/12/11/lagrange-duality/</id>
     <published>2018-12-11T07:36:48.000Z</published>
-    <updated>2019-10-12T13:28:09.354Z</updated>
+    <updated>2019-10-13T08:22:56.109Z</updated>
     
     <content type="html"><![CDATA[<p>对于一般地约束优化问题：</p>
 <script type="math/tex; mode=display">\begin{array}{ll}
 {\min } & {f(\boldsymbol x)} \qquad\qquad\qquad\qquad\qquad\qquad (A.1)\\ 
 {\text {s.t.}} & {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\ 
 {} & {h_{j}(\boldsymbol x)=0 \quad(j=1, \ldots, n)}
-\end{array}</script><p>其中，自变量$\boldsymbol x\in \mathbb{R}^n$。设优化问题（A.1）的定义域为$D=\boldsymbol{dom}  f \cap \bigcap\limits_{i=1}^{m}\boldsymbol{dom}  g_i \cap \bigcap\limits_{j=1}^{n}\boldsymbol{dom}  h_j $，可行集为$\tilde{D}=\{\boldsymbol x|\boldsymbol x\in D,g_i(\boldsymbol x) \leq 0,h_j(\boldsymbol x) = 0\}$，最优值为$p^*=\min\{f(\tilde{\boldsymbol x})\}$。由拉格朗日函数的定义可知优化问题（A.1）的拉格朗日函数为</p>
+\end{array}</script><p>其中，自变量$\boldsymbol x\in \mathbb{R}^k$。设优化问题（A.1）的定义域为$D=\boldsymbol{dom}  f \cap \bigcap\limits_{i=1}^{m}\boldsymbol{dom}  g_i \cap \bigcap\limits_{j=1}^{n}\boldsymbol{dom}  h_j $，可行集为$\tilde{D}=\{\boldsymbol x|\boldsymbol x\in D,g_i(\boldsymbol x) \leq 0,h_j(\boldsymbol x) = 0\}$，最优值为$p^*=\min\{f(\tilde{\boldsymbol x})\}$。由拉格朗日函数的定义可知优化问题（A.1）的拉格朗日函数为</p>
 <script type="math/tex; mode=display">L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{n}\lambda_j h_j(\boldsymbol x)</script><p>其中$\boldsymbol \mu=(\mu_1,\mu_2,…,\mu_m)^T,\boldsymbol \lambda=(\lambda_1,\lambda_2,…,\lambda_n)^T$为拉格朗日乘子向量。</p>
 <h3 id="拉格朗日对偶函数"><a href="#拉格朗日对偶函数" class="headerlink" title="拉格朗日对偶函数"></a>拉格朗日对偶函数</h3><p>定义优化问题（A.1）的拉格朗日对偶函数$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$为$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$关于$\boldsymbol x$的下确界，也即</p>
 <script type="math/tex; mode=display">\Gamma (\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D}L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)=\mathop{\inf}_{\boldsymbol x∈D} \left( f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i g_i(\boldsymbol x)+\sum_{j=1}^{n}\lambda_j h_j(\boldsymbol x) \right)</script><p>对偶函数$\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$有如下重要性质：</p>
@@ -831,9 +831,7 @@ P(\boldsymbol{w}) &= \prod_{i=1}^{d}P(w_i)=\prod_{i=1}^{d}\cfrac{1}{\sqrt{2\pi}\
 </li>
 <li><p>当主问题（A.1）满足某些<strong>充分条件（sufficient conditions）</strong><sup><a href="#ref2">[2]</a></sup>时，强对偶性成立。常见的充分条件有<strong>Slater条件</strong><sup><a href="#ref3">[3]</a></sup>：“若主问题是凸优化问题，且可行集$\tilde{D}$中存在一点能使得<strong>所有</strong>不等式约束的不等号成立，则强对偶性成立”（证明参见<a href="#ref1">[1]</a> § 5.3.2）。Slater条件也是KKT条件中的约束限制条件之一；</p>
 </li>
-<li><p>Slater条件的“弱化”形式（参见<a href="#ref1">[1]</a> § 5.2.3）：“若主问题是凸优化问题，前$k$个不等式约束为<strong>仿射函数</strong>，可行集$\tilde{D}$中存在一点能使得第$k+1$至第$m$个不等式约束的不等号成立，则强对偶性成立”。也就是说当不等式约束中有仿射函数时，不要求可行集$\tilde{D}$中存在一点使得这些仿射不等式的不等号成立。</p>
-</li>
-<li><p>若拉格朗日函数$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$是<strong>关于$\boldsymbol x$一阶偏导数连续的凸函数</strong>，则其对偶函数的表达式求解过程如下：先对$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$关于$\boldsymbol x$求导并令导数等于0，得到一个$\boldsymbol x$关于$\boldsymbol \mu$和$\boldsymbol \lambda$的表达式$\boldsymbol x=\Phi (\boldsymbol \mu,\boldsymbol \lambda)$，然后将其带回到$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$中即可得仅含$\boldsymbol \mu$和$\boldsymbol \lambda$的对偶函数$L \left ( \Phi (\boldsymbol \mu,\boldsymbol \lambda),\boldsymbol \mu,\boldsymbol \lambda \right ) =\Gamma (\boldsymbol \mu,\boldsymbol \lambda)$，例<a href="#ref1">[1]</a> § 5.2.4和SVM的对偶函数求解。</p>
+<li><p>Slater条件的“弱化”形式（参见<a href="#ref1">[1]</a> § 5.2.3）：“若主问题是凸优化问题，前$k$个不等式约束为<strong>仿射函数</strong>，可行集$\tilde{D}$中存在一点能使得第$k+1$至第$m$个不等式约束的不等号成立，则强对偶性成立”。也就是说当不等式约束中有仿射函数时，不要求可行集$\tilde{D}$中存在一点使得这些仿射不等式的不等号成立；</p>
 </li>
 <li><p>设$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$一阶偏导连续，$\boldsymbol x^*,(\boldsymbol \mu^*,\boldsymbol \lambda^*)$分别为主问题（A.1）（注：此时并不要求为凸优化问题）和对偶问题（B.1）的最优解，若强对偶性成立，则$\boldsymbol x^*,\boldsymbol \mu^*,\boldsymbol \lambda^*$一定满足KKT条件，也就是说KK条件是强对偶性成立的必要条件；<br>【证明】：因为$\boldsymbol x^*,(\boldsymbol \mu^*,\boldsymbol \lambda^*)$分别为主问题（A.1）和对偶问题（B.1）的最优解，且此时强对偶性成立，那么</p>
 <script type="math/tex; mode=display">\begin{aligned}
@@ -872,7 +870,7 @@ g_i(\boldsymbol x^*)\leq0\\
 &=f(\boldsymbol x^*)+\sum_{i=1}^{m}\mu_i^* g_i(\boldsymbol x^*)+\sum_{j=1}^{n}\lambda_j^* h_j(\boldsymbol x^*) &(B.6.3)\\
 &=f(\boldsymbol x^*)&(B.6.4)
 \end{aligned}</script><p>其中，（B.6.1）是由$\Gamma(\boldsymbol \mu,\boldsymbol \lambda)$的定义推得；（B.6.2）是由</p>
-<script type="math/tex; mode=display">\mathop{\inf}_{\boldsymbol x∈D} \left( f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i^* g_i(\boldsymbol x^*)+\sum_{j=1}^{n}\lambda_j^* h_j(\boldsymbol x) \right)=\min\{L(\boldsymbol x ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )\}=L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )</script><p>推得；（B.6.3）是由$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$的定义推得；（B.6.4）是由（B.5.2）和（B.5.5）推得。因此，由（B.6）可知，$\boldsymbol x^*$和$(\boldsymbol \mu^*,\boldsymbol \lambda^*)$是主问题（A.1）和对偶问题（B.1）的最优解，且强对偶性成立，证毕。</p>
+<script type="math/tex; mode=display">\mathop{\inf}_{\boldsymbol x∈D} \left( f(\boldsymbol x)+\sum_{i=1}^{m}\mu_i^* g_i(\boldsymbol x^*)+\sum_{j=1}^{n}\lambda_j^* h_j(\boldsymbol x) \right)=\min\{L(\boldsymbol x ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )\}=L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )</script><p>推得；（B.6.3）是由$L(\boldsymbol x,\boldsymbol \mu,\boldsymbol \lambda)$的定义推得；（B.6.4）是由（B.5.2）和（B.5.5）推得。因此，根据上述对偶函数的第二条性质可知，当$\boldsymbol \mu \succeq 0$时，能找到$\boldsymbol x^*\in \tilde{D}$和$(\boldsymbol \mu^*,\boldsymbol \lambda^*)$使得$\Gamma(\boldsymbol \mu^*,\boldsymbol \lambda^*)=f(\boldsymbol x^*)$成立，那么此时强对偶性成立，且$\boldsymbol x^*$和$(\boldsymbol \mu^*,\boldsymbol \lambda^*)$是主问题（A.1）和对偶问题（B.1）的最优解，证毕。</p>
 </li>
 </ul>
 <p>综合上述最后两条性质可知：若主问题（A.1）为非凸优化问题，KKT条件是强对偶性成立的必要条件，若主问题（A.1）为凸优化问题，那么KKT条件即为强对偶性成立的<strong>充要条件</strong>。</p>
