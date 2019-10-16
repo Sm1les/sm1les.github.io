@@ -394,7 +394,7 @@ P(O\vert\bar{\lambda})+\eta\cdot 1&=0 \\
     <link href="http://sm1les.com/2019/03/13/expectation-maximization/"/>
     <id>http://sm1les.com/2019/03/13/expectation-maximization/</id>
     <published>2019-03-13T07:51:10.000Z</published>
-    <updated>2019-07-22T01:59:19.471Z</updated>
+    <updated>2019-10-16T05:25:56.919Z</updated>
     
     <content type="html"><![CDATA[<p>EM算法有两种常见的推导方式，一种是李航老师在《统计学习方法》里面给出的，另一种是吴恩达老师在CS229课上讲到的，两种推导方式各有千秋，但都殊途同归，下面对这两种推导方式进行一个总结。由于两种推导方式里都用到了一个经典的不等式——Jensen不等式<sup><a href="#ref1">[1]</a></sup>，所以下面先铺垫一下Jensen不等式。Jensen不等式的定义如下：<br>若$f$是<strong>凸函数</strong>，则</p>
 <script type="math/tex; mode=display">f\left(t x_1 + (1-t)x_2\right)\leq tf(x_1)+(1-t)f(x_2)</script><p>其中$t\in [0,1]$，若将$x$推广到$n$个时同样成立，即</p>
@@ -447,34 +447,29 @@ LL(\theta) &=\sum_{i=1}^{m} \ln p(x_i; \theta) \\
 <script type="math/tex; mode=display">\sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=E_{z_i}\left[\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\right]</script><p>那么由Jensen不等式可得</p>
 <script type="math/tex; mode=display">\ln\left(E_{z_i}\left[\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\right]\right)\geq E_{z_i}\left[\ln\left(\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\right)\right]</script><script type="math/tex; mode=display">\ln\sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\geq \sum_{z_i} Q_i(z_i)\ln\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}</script><p>将此式代入$LL(\theta)$可得</p>
 <script type="math/tex; mode=display">\begin{aligned} 
-LL(\theta) &=\sum_{i=1}^{m} \ln \sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)} \\
+LL(\theta) &=\sum_{i=1}^{m} \ln \sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)} \qquad(A.1)\\
 &\geq \sum_{i=1}^{m}\sum_{z_i} Q_i(z_i)\ln\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}
-\end{aligned}</script><p>若令$B(\theta)=\sum\limits_{i=1}^{m}\sum\limits_{z_i} Q_i(z_i)\ln\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}$，则此时$B(\theta)$为$LL(\theta)$的下界函数，因此想要极大化$LL(\theta)$可以通过极大化$B(\theta)$来间接极大化$LL(\theta)$，然而对于$B(\theta)$而言，$LL(\theta)$就是其上界，所以极大化$B(\theta)$最理想的状态就是使其等于$LL(\theta)$。根据Jensen不等式的性质可知，当且仅当$\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}$恒等于某个<strong>常量</strong>$c$时，不等式才能取到等号，也即</p>
-<script type="math/tex; mode=display">\begin{aligned} 
-LL(\theta)&=\sum_{i=1}^{m} \ln \sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\qquad(A.1)\\
-&=\sum_{i=1}^{m}\sum_{z_i} Q_i(z_i)\ln\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}\\
-&=B(\theta) \\
-&s.t.\quad\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=c
-\end{aligned}</script><p>因此，任意选取满足$\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=c$的$Q_i(z_i)$都能使得$B(\theta)$达到最大值，由于$Q_i(z_i)$是$z_i$的概率质量函数，所以$Q_i(z_i)$同时也满足约束$0\leq Q_i(z_i)\leq 1,\sum\limits_{z_i} Q_i(z_i)=1$，那么可以推得</p>
-<script type="math/tex; mode=display">\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=c</script><script type="math/tex; mode=display">p(x_i, z_i; \theta)=c\cdot Q_i(z_i)</script><script type="math/tex; mode=display">\sum_{z_i}p(x_i, z_i; \theta)=c\cdot \sum_{z_i}Q_i(z_i)</script><script type="math/tex; mode=display">\sum_{z_i}p(x_i, z_i; \theta)=c</script><script type="math/tex; mode=display">\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=\sum_{z_i}p(x_i, z_i; \theta)</script><script type="math/tex; mode=display">Q_i(z_i)=\cfrac{p(x_i, z_i; \theta)}{\sum\limits_{z_i}p(x_i, z_i; \theta)}=\cfrac{p(x_i, z_i; \theta)}{p(x_i; \theta)}=p(z_i|x_i; \theta)</script><p>所以，当且仅当$Q_i(z_i)=p(z_i|x_i; \theta)$时$B(\theta)$取到最大值。若将$Q_i(z_i)=p(z_i|x_i; \theta)$代回$LL(\theta)$可以推得如下结论</p>
+\end{aligned}</script><p>若令$B(\theta)=\sum\limits_{i=1}^{m}\sum\limits_{z_i} Q_i(z_i)\ln\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}$，则此时$B(\theta)$为$LL(\theta)$的下界函数，那么这个下界函数所能构成的最优下界是多少？也即$B(\theta)$的最大值是多少？显然，$B(\theta)$是$LL(\theta)$的下界函数，那么$LL(\theta)$就是其上界函数，所以如果能使得$B(\theta)=LL(\theta)$，那么此时的$B(\theta)$就取到了最大值。根据Jensen不等式的性质可知，如果能使得$\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}$恒等于某个<strong>常量</strong>$c$，大于等于号便可以取到等号。因此，只需任意选取满足$\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=c$的$Q_i(z_i)$就能使得$B(\theta)$达到最大值。由于$Q_i(z_i)$是$z_i$的概率质量函数，所以$Q_i(z_i)$同时也满足约束$0\leq Q_i(z_i)\leq 1,\sum\limits_{z_i} Q_i(z_i)=1$，那么结合$Q_i(z_i)$的所有约束可以推得</p>
+<script type="math/tex; mode=display">\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=c</script><script type="math/tex; mode=display">p(x_i, z_i; \theta)=c\cdot Q_i(z_i)</script><script type="math/tex; mode=display">\sum_{z_i}p(x_i, z_i; \theta)=c\cdot \sum_{z_i}Q_i(z_i)</script><script type="math/tex; mode=display">\sum_{z_i}p(x_i, z_i; \theta)=c</script><script type="math/tex; mode=display">\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}=\sum_{z_i}p(x_i, z_i; \theta)</script><script type="math/tex; mode=display">Q_i(z_i)=\cfrac{p(x_i, z_i; \theta)}{\sum\limits_{z_i}p(x_i, z_i; \theta)}=\cfrac{p(x_i, z_i; \theta)}{p(x_i; \theta)}=p(z_i|x_i; \theta)</script><p>所以，当且仅当$Q_i(z_i)=p(z_i|x_i; \theta)$时$B(\theta)$取到最大值，将$Q_i(z_i)=p(z_i|x_i; \theta)$代回$LL(\theta)$和$B(\theta)$可以推得</p>
 <script type="math/tex; mode=display">\begin{aligned} 
 LL(\theta) &=\sum_{i=1}^{m} \ln \sum_{z_i} Q_i(z_i)\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)} &\qquad(A.2.1)\\
 &=\sum_{i=1}^{m} \ln \sum_{z_i}p(z_i|x_i; \theta)\cfrac{p(x_i, z_i; \theta)}{p(z_i|x_i; \theta)} &\qquad(A.2.2)\\
 &=\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta)\ln\cfrac{p(x_i, z_i; \theta)}{p(z_i|x_i; \theta)}&\qquad(A.2.3)\\
 &=\max\{B(\theta)\} &\qquad(A.2.4)\\
-&\geq B(\theta)&\qquad(A.2.5)\\
-&=\sum\limits_{i=1}^{m}\sum\limits_{z_i} Q_i(z_i)\ln\cfrac{p(x_i, z_i; \theta)}{Q_i(z_i)}&\qquad(A.2.6)
-\end{aligned}</script><p>其中，（A.2.3）由（A.1）推得。假设<strong>已知</strong>第$t$次迭代的参数为$\theta^{(t)}$，而第$t+1$次迭代的参数$\theta^{(t+1)}$通过如下方式求得</p>
+\end{aligned}</script><p>其中，（A.2.3）是（A.1）中不等号取等号时的情形。由以上推导可知，对数似然函数$LL(\theta)$等价于其下界函数的最大值$\max\{B(\theta)\}$，所以要想极大化$LL(\theta)$可以通过极大化$\max\{B(\theta)\}$来间接极大化$LL(\theta)$，因此，下面考虑如何极大化$\max\{B(\theta)\}$。假设<strong>已知</strong>第$t$次迭代的参数为$\theta^{(t)}$，而第$t+1$次迭代的参数$\theta^{(t+1)}$通过如下方式求得</p>
 <script type="math/tex; mode=display">\begin{aligned} 
-\theta^{(t+1)}&=\arg\max_{\theta}\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i;\theta^{(t)})\ln\cfrac{p(x_i, z_i; \theta)}{p(z_i|x_i; \theta^{(t)})} \qquad(A.3) \\
+\theta^{(t+1)}&=\arg\max_{\theta}\max\{B(\theta)\} \qquad\qquad\qquad\qquad\qquad(A.3) \\
+&=\arg\max_{\theta}\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i;\theta^{(t)})\ln\cfrac{p(x_i, z_i; \theta)}{p(z_i|x_i; \theta^{(t)})} \\
 &=\arg\max_{\theta}\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i;\theta^{(t)})\ln p(x_i, z_i; \theta)
-\end{aligned}</script><p>那么可以推得</p>
+\end{aligned}</script><p>将$\theta^{(t+1)}$代入$LL(\theta^{(t+1)})$则可以进一步推得</p>
 <script type="math/tex; mode=display">\begin{aligned} 
-LL(\theta^{(t+1)}) &=\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta^{(t+1)})\ln\cfrac{p(x_i, z_i; \theta^{(t+1)})}{p(z_i|x_i; \theta^{(t+1)})} &\qquad(A.4.1)\\
-&\geq \sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta^{(t)})\ln\cfrac{p(x_i, z_i; \theta^{(t+1)})}{p(z_i|x_i; \theta^{(t)})} &\qquad(A.4.2)\\
-&\geq \sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta^{(t)})\ln\cfrac{p(x_i, z_i; \theta^{(t)})}{p(z_i|x_i; \theta^{(t)})} &\qquad(A.4.3)\\
-&=LL(\theta^{(t)})&\qquad(A.4.4)
-\end{aligned}</script><p>其中，（A.4.1）由（A.2）推得；（A.4.2）由（A.2）推得；（A.4.3）由（A.3）推得；（A.4.4）由（A.2）推得。所以，若令</p>
+LL(\theta^{(t+1)}) &=\max\{B(\theta^{(t+1)})\} &\qquad(A.4.1) \\
+&=\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta^{(t+1)})\ln\cfrac{p(x_i, z_i; \theta^{(t+1)})}{p(z_i|x_i; \theta^{(t+1)})} &\qquad(A.4.2)\\
+&\geq \sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta^{(t)})\ln\cfrac{p(x_i, z_i; \theta^{(t+1)})}{p(z_i|x_i; \theta^{(t)})} &\qquad(A.4.3)\\
+&\geq \sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta^{(t)})\ln\cfrac{p(x_i, z_i; \theta^{(t)})}{p(z_i|x_i; \theta^{(t)})} &\qquad(A.4.4)\\
+&=\max\{B(\theta^{(t)})\} &\qquad(A.4.5) \\
+&=LL(\theta^{(t)})&\qquad(A.4.6)
+\end{aligned}</script><p>其中，（A.4.1）和（A.4.2）由（A.2）推得；（A.4.3）由（A.1）推得；（A.4.4）由（A.3）推得；（A.4.5）和（A.4.6）由（A.2）推得。显然，若令</p>
 <script type="math/tex; mode=display">Q(\theta,\theta^{(t)})=\sum_{i=1}^{m}\sum_{z_i} p(z_i|x_i; \theta^{(t)})\ln p(x_i, z_i; \theta)</script><p>那么由（A.4）可知，凡是能使得$Q(\theta,\theta^{(t)})$达到极大的$\theta^{(t+1)}$一定能使得$LL(\theta^{(t+1)})\geq LL(\theta^{(t)})$。综上所述即可总结出EM算法的“E步”和“M步”分别为：</p>
 <p><strong>E步：</strong>令$Q_i(z_i)=p(z_i|x_i; \theta)$并写出$Q(\theta,\theta^{(t)})$；</p>
 <p><strong>M步：</strong>求使得$Q(\theta,\theta^{(t)})$到达极大的$\theta^{(t+1)}$。</p>
