@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sm1les.com/"/>
-  <updated>2019-09-03T11:46:44.326Z</updated>
+  <updated>2019-10-22T05:12:04.141Z</updated>
   <id>http://sm1les.com/</id>
   
   <author>
@@ -20,13 +20,13 @@
     <link href="http://sm1les.com/2019/08/27/conditional-random-fields/"/>
     <id>http://sm1les.com/2019/08/27/conditional-random-fields/</id>
     <published>2019-08-27T11:41:56.000Z</published>
-    <updated>2019-09-03T11:46:44.326Z</updated>
+    <updated>2019-10-22T05:12:04.141Z</updated>
     
     <content type="html"><![CDATA[<h3 id="条件随机场的定义-1"><a href="#条件随机场的定义-1" class="headerlink" title="条件随机场的定义[1]"></a>条件随机场的定义<sup><a href="#ref1">[1]</a></sup></h3><p>由于最大熵马尔可夫模型（MEMM）存在<a href="/2019/07/26/maximum-entropy-markov-model">标注偏置问题</a><sup><a href="#ref2">[2]</a></sup>，为此，Lafferty J, Mccallum A和Pereira F C N三人在2001年提出了一种线性链条件随机场（Conditional Random Fields，CRF）<sup><a href="#ref2">[2]</a></sup>模型，该模型拥有MEMM的所有优点，同时还不存在标注偏置问题。条件随机场的一般定义如下：<br>设$X$与$Y$是随机变量，$P(Y|X)$是在给定$X$的条件下$Y$的条件概率分布。若随机变量$Y$构成一个由无向图$G＝(V,E)$表示的马尔可夫随机场，即</p>
 <script type="math/tex; mode=display">P(Y_v|X,Y_w,w\neq v)=P(Y_v|X,Y_w,w\sim v)</script><p>对任意结点$v$成立，则称条件概率分布$P(Y|X)$为条件随机场。式中$w\sim v$表示在图$G＝(V,E)$中与结点$v$有边连接的所有结点$w$，$w\neq v$表示结点$v$以外的所有结点，$Y_v,Y_w$为结点$v,w$对应的随机变量。<br>在条件随机场的一般定义中并没有要求$X$和$Y$具有相同的图结构，但是现实中一般假设$X$和$Y$有相同的图结构，Lafferty J, Mccallum A和Pereira F C N三人提出的线性链条件随机场就作了此种假设。线性链条件随机场的定义如下：</p>
 <p><center>
 <img src="./crf.svg">
-</center><br>设$X=(x_1,x_2,…,x_n),Y=(y_1,y_2,…,y_n)$均为线性链表示的随机变量序列，若在给定随机量序列$X$的条件下，随机变量序列$Y$的条件概率分布$P(Y|X)$构成条件随机场，即满足马尔可夫性（在$i=1$和vn$时只考虑单边）</p>
+</center><br>设$X=(x_1,x_2,…,x_n),Y=(y_1,y_2,…,y_n)$均为线性链表示的随机变量序列，若在给定随机量序列$X$的条件下，随机变量序列$Y$的条件概率分布$P(Y|X)$构成条件随机场，即满足马尔可夫性（在$i=1$和$n$时只考虑单边）</p>
 <script type="math/tex; mode=display">P(y_{i} | X, y_{1}, \cdots, y_{i-1},y_{i+1}, \cdots, y_{n})=P(y_{i} | X, y_{i-1}, y_{i+1}) \quad i=1,2,...,n</script><p>则称$P(Y|X)$为线性链条件随机场。线性链条件随机场通常用来对序列标注问题进行建模，在序列标注问题中，$X$可以看作观测序列，$Y$可以看做对应的状态序列。<br>根据线性链条件随机场的定义可知，此时由$Y$构成的马尔可夫随机场的最大团为相邻两个结点的集合，那么由Hammersley-Clifford定理可知，线性链条件随机场$P(Y|X)$的表达式可以写为如下形式</p>
 <script type="math/tex; mode=display">P(Y|X)=\frac{1}{Z(X)} \exp \left(\sum_{i, k} \lambda_{k} t_{k}\left(y_{i-1}, y_{i}, X, i\right)+\sum_{i, l} \mu_{i} s_{l}\left(y_{i}, X, i\right)\right)</script><p>其中，$Z(X)=\sum\limits_{Y} \exp \left(\sum\limits_{i, k} \lambda_{k} t_{k}\left(y_{i-1}, y_{i}, X, i\right)+\sum\limits_{i, l} \mu_{l} s_{l}\left(y_{i}, X, i\right)\right)$是规范化因子，求和是在所有可能的输出序列上进行的，$t_k$是定义在边上的特征函数，称为转移特征，依赖于当前和前一个位置，$s_l$是定义在结点上的特征函数，称为状态特征，依赖于当前位置。$t_k$和$s_l$都依赖于位置，是局部特征函数。线性链条件随机场完全由特征函数$t_k,s_l$和对应的权值$\lambda_{k},\mu_{i}$确定，通常特征函数$t_k,s_l$是事先人为设定好的，而$\lambda_{k},\mu_{i}$则是通过训练数据习得。观察上式易知，线性链条件随机场为判别式模型，同时也实现了用特征对观测序列参数化，而且状态转移概率采用的是全局归一化来计算，所以线性链条件随机场拥有MEMM的所有优点，而且还不存在标注偏置问题。</p>
 <h3 id="线性链条件随机场的向量化形式"><a href="#线性链条件随机场的向量化形式" class="headerlink" title="线性链条件随机场的向量化形式"></a>线性链条件随机场的向量化形式</h3><p>根据特征函数的性质可知，状态特征函数$s_l$可以看做是只提取当前位置特征的转移特征函数，也即$s_{l}\left(y_{i}, X, i\right)=s_{l}\left(y_{i-1},y_{i}, X, i\right)$。因此，$P(Y|X)$表达式中的转移特征和状态特征及其权值可以用统一的符号表示。设有$K_1$个转移特征，$K_2$个状态特征，$K=K_1+K_2$，序列长度为$n$，则$P(Y|X)$可以简写为</p>
