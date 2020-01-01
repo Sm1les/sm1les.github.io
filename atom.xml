@@ -900,7 +900,7 @@ g_i(\boldsymbol x^*)\leq0\\
     <link href="http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/"/>
     <id>http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/</id>
     <published>2018-12-08T09:03:27.000Z</published>
-    <updated>2019-10-21T13:09:04.957Z</updated>
+    <updated>2020-01-01T13:42:41.774Z</updated>
     
     <content type="html"><![CDATA[<p>对于一般地约束优化问题</p>
 <script type="math/tex; mode=display">\begin{array}{ll}
@@ -910,7 +910,7 @@ g_i(\boldsymbol x^*)\leq0\\
 \end{array}</script><p>其中，自变量$\boldsymbol x\in \mathbb{R}^n$。设$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$具有连续的一阶偏导数，$\boldsymbol x^*$是优化问题的局部可行解。若在$\boldsymbol x^*$处<strong>约束限制条件（constraint qualifications or regularity conditions）</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref2">[2]</a></sup>成立，则一定存在$\boldsymbol \mu^*=(\mu_1^*,\mu_2^*,…,\mu_m^*)^T,\boldsymbol \lambda^*=(\lambda_1^*,\lambda_2^*,…,\lambda_n^*)^T,$使得</p>
 <script type="math/tex; mode=display">\left\{
 \begin{aligned}
-& \nabla_{\boldsymbol x} L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )=\nabla f(\boldsymbol  x^* )+\sum_{i=1}^{m}\mu_i^* \nabla g_i(\boldsymbol x^* )+\sum_{j=1}^{n}\lambda_j^* \nabla h_j(\boldsymbol x^*)=0 &(1) \\
+& \nabla_{\boldsymbol x} L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )+\nabla f(\boldsymbol  x^* )+\sum_{i=1}^{m}\mu_i^* \nabla g_i(\boldsymbol x^* )+\sum_{j=1}^{n}\lambda_j^* \nabla h_j(\boldsymbol x^*)=0 &(1) \\
 & h_j(\boldsymbol x^*)=0 &(2) \\
 & g_i(\boldsymbol x^*) \leq 0 &(3) \\
 & \mu_i^* \geq 0 &(4)\\
