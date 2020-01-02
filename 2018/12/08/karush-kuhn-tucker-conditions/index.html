@@ -14,7 +14,7 @@
 <meta property="og:description" content="对于一般地约束优化问题 \begin{array}{ll} {\min } &amp; {f(\boldsymbol x)} \\  {\text {s.t.}} &amp; {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\  {} &amp; {h_{j}(\boldsymbol x)=0 \quad(j=1, \ldots, n)} \end{array}其">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://sm1les.com/2018/12/08/karush-kuhn-tucker-conditions/Inequality_constraint_diagram.png">
-<meta property="og:updated_time" content="2020-01-01T13:42:41.774Z">
+<meta property="og:updated_time" content="2020-01-02T04:59:06.571Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KKT条件（Karush–Kuhn–Tucker conditions）">
 <meta name="twitter:description" content="对于一般地约束优化问题 \begin{array}{ll} {\min } &amp; {f(\boldsymbol x)} \\  {\text {s.t.}} &amp; {g_{i}(\boldsymbol x) \leq 0 \quad(i=1, \ldots, m)} \\  {} &amp; {h_{j}(\boldsymbol x)=0 \quad(j=1, \ldots, n)} \end{array}其">
@@ -93,7 +93,7 @@
 \end{array}</script><p>其中，自变量$\boldsymbol x\in \mathbb{R}^n$。设$f(\boldsymbol x),g_i(\boldsymbol x),h_j(\boldsymbol x)$具有连续的一阶偏导数，$\boldsymbol x^*$是优化问题的局部可行解。若在$\boldsymbol x^*$处<strong>约束限制条件（constraint qualifications or regularity conditions）</strong><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref2">[2]</a></sup>成立，则一定存在$\boldsymbol \mu^*=(\mu_1^*,\mu_2^*,…,\mu_m^*)^T,\boldsymbol \lambda^*=(\lambda_1^*,\lambda_2^*,…,\lambda_n^*)^T,$使得</p>
 <script type="math/tex; mode=display">\left\{
 \begin{aligned}
-& \nabla_{\boldsymbol x} L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )+\nabla f(\boldsymbol  x^* )+\sum_{i=1}^{m}\mu_i^* \nabla g_i(\boldsymbol x^* )+\sum_{j=1}^{n}\lambda_j^* \nabla h_j(\boldsymbol x^*)=0 &(1) \\
+& \nabla_{\boldsymbol x} L(\boldsymbol x^* ,\boldsymbol \mu^* ,\boldsymbol \lambda^* )=\nabla f(\boldsymbol  x^* )+\sum_{i=1}^{m}\mu_i^* \nabla g_i(\boldsymbol x^* )+\sum_{j=1}^{n}\lambda_j^* \nabla h_j(\boldsymbol x^*)=0 &(1) \\
 & h_j(\boldsymbol x^*)=0 &(2) \\
 & g_i(\boldsymbol x^*) \leq 0 &(3) \\
 & \mu_i^* \geq 0 &(4)\\
@@ -141,7 +141,7 @@
         <li>
           <span class="label">更新日期:</span>
           <a href="/2018/12/08/karush-kuhn-tucker-conditions/" class="article-date">
-  <time datetime="2020-01-01T13:42:41.774Z" itemprop="dateUpdated">2020-01-01</time>
+  <time datetime="2020-01-02T04:59:06.571Z" itemprop="dateUpdated">2020-01-02</time>
 </a>
 
         </li>
